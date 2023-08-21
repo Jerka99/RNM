@@ -1,0 +1,253 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui;
+}
+
+header {
+  display: flex;
+  background: cornflowerblue;
+  border-bottom: solid 1px black;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header form {
+  width: 220px;
+  margin: 0 5px;
+}
+
+#users-list {
+  background: white;
+  position: absolute;
+  width: 220px;
+  max-height: 250px;
+  overflow-y: auto;
+  border: solid 1px black;
+  border-radius: 3px;
+  box-shadow: 0px 40px 101px 0px rgba(0, 0, 255, 0.2);
+}
+
+#users-list div {
+  display: flex;
+  margin: 18px 0px 0px;
+  padding: 1px 5px;
+  border-bottom: solid 1px black;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#users-list div p {
+  margin: 0;
+}
+
+#users-list div button {
+  background: inherit;
+  border: none;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+header nav li {
+  list-style-type: none;
+  margin: 10px 15px;
+  cursor: pointer;
+}
+
+header nav li a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.form-holder {
+  position: relative;
+  max-width: 360px;
+  width: 90%;
+  border: solid 1px black;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.form-holder h3 + h3 {
+  position: absolute;
+  top: 0px;
+  right: 25px;
+  cursor: pointer;
+}
+
+.form-holder a {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+}
+
+#login form button,
+#register form button {
+  background: black;
+  color: white;
+  width: 65px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#search-button {
+  background: inherit;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transform: translate(0px, 4px);
+}
+
+.users-search {
+  width: 0px;
+  visibility: hidden;
+  transition: opacity 0.3s, width 0.5s, visibility 0.3s;
+  opacity: 0;
+}
+
+.users-search.active {
+  width: 180px;
+  visibility: visible;
+  opacity: 1;
+}
+
+#register form div {
+  display: grid;
+  position: relative;
+  margin: 0 0 20px;
+}
+
+#register form div span {
+  color: red;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  font-family: system-ui;
+  font-size: 14px;
+}
+
+.input.active {
+  border-color: red;
+}
+
+#login,
+#register {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#login .form-holder {
+  height: 320px;
+  max-width: 300px;
+}
+
+#login form {
+  display: flex;
+  flex-direction: column;
+}
+
+#login h1 {
+  position: absolute;
+  right: 15px;
+  font-size: 20px;
+  color: red;
+  bottom: 30px;
+}
+
+#login form input {
+  margin-bottom: 25px;
+}
+
+#spinner-holder {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+#spinner {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(0%, 100%);
+}
+
+#spinner div {
+  position: absolute;
+  content: "";
+  width: 70%;
+  display: block;
+  height: 70%;
+  border: solid 15px cornflowerblue;
+  border-color: cornflowerblue transparent transparent transparent;
+  border-radius: 50%;
+  animation: animate 2s cubic-bezier(0.49, 0, 0.54, 1) infinite;
+}
+
+#spinner :nth-child(1) {
+  animation-delay: -0.5s;
+}
+#spinner :nth-child(3) {
+  animation-delay: -0s;
+  rotate: 172deg;
+  border: solid 20px white;
+  border-color: white transparent transparent transparent;
+  width: 73%;
+  height: 73%;
+}
+#spinner :nth-child(2) {
+  animation-delay: -0.7s;
+  border: solid 15px cornflowerblue;
+  border-color: cornflowerblue transparent transparent transparent;
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#chat {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  align-items: flex-end;
+  gap: 5px;
+}
