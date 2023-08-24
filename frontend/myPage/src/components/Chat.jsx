@@ -12,13 +12,13 @@ const Chat = ({recipient}) => {
   }
 
  
-  const createMessageBody = (msg) => {
+  const createMessageBody = ({sender, msg}) => {
 
     const message = {
       time: Math.floor(Date.now() / 1000),
       message: msg,
       receiver: recipient.user,
-      sender: user.email,
+      sender: sender,
     };
     return message;
   };
@@ -37,14 +37,14 @@ const Chat = ({recipient}) => {
       .then((data) => setMessagesList(data));
   }, [recipient.user]);
 
-console.log('recipient',recipient)
+
   useEffect(() => {
-    console.log("SOOCCKJEETTTT");
+
     const temp = recipient.user;
     socket.off("private message")
     socket.on("private message", (data) => {console.log('recipient2',temp ,data.sender, data.msg)
       
-        temp == data.sender && setMessagesList((prev) => [...prev, createMessageBody(data.msg)]);
+        temp == data.sender && setMessagesList((prev) => [...prev, createMessageBody(data)]);
     });
   }, [socket, recipient]);
 
@@ -75,7 +75,7 @@ console.log('recipient',recipient)
             msg: message,
           });
         }
-        setMessagesList((prev) => [...prev, createMessageBody(message)]);
+        setMessagesList((prev) => [...prev, createMessageBody({sender:user.email, msg:message})]);
         setMessage("");
       }
 

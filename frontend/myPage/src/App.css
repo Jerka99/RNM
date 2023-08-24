@@ -267,14 +267,23 @@ header nav li a {
   height: 35px;
 }
 
-#messages-list{
+#messages-list {
   max-height: 210px;
   overflow: auto;
   width: 100%;
+  padding: 0 10px;
 }
 
 #messages-list #sender{
 
+}
+
+#messages-list #recipient {
+  right: 0;
+  position: relative;
+  margin: 0 0 0 auto;
+  width: fit-content;
+  max-width: 129px;
 }
 
 
