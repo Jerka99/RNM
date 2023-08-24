@@ -3,23 +3,27 @@ import { useContextComp } from "./MyContext";
 
 const UserInList = ({ element, user }) => {
   const [invitation, toggleInvitation] = useState(element.status);
-  const { socket } = useContextComp();
+  const { socket, getFriends, onlineUsers } = useContextComp();
 
   useEffect(() => {
     socket.on("invitation", (data) => {
+      console.log("data.msg", data.msg);
       element.email == data.user && toggleInvitation(data.msg);
+      console.log(data.friendsListUpdate);
+      data.friendsListUpdate && getFriends();
     });
   }, [socket]);
 
-  const Broadcast = (message, recipient) => {
+  const Broadcast = (message, friendsListUpdate) => {
     socket.emit("invitation", {
+      friendsListUpdate: friendsListUpdate,
       user: user.email,
-      to: recipient,
+      to: onlineUsers[element.email]?.userId,
       msg: message,
     });
   };
 
-  const addFriendFun = (accepted, status) => {
+  const addFriendFun = (accepted, status, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
       method: invitation == null ? "POST" : "PATCH",
       headers: { "Content-Type": "application/json" }, //important!
@@ -34,14 +38,16 @@ const UserInList = ({ element, user }) => {
       .then((data) => {
         console.log(data),
           data.accepted
-            ? (toggleInvitation("friends"),
-              Broadcast("friends", element.userId))
-            : (toggleInvitation(0), Broadcast("true", element.userId));
+            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate)) //accept decline
+            : (toggleInvitation(0), Broadcast("true", friendsListUpdate)); //send invitation
       })
-      .catch((err) => console.error("err", err));
+      .catch((err) => console.error("err", err))
+      .finally(() => {
+        accepted == true && status == true && getFriends();
+      });
   };
 
-  const deleteFriendReqInv = () => {
+  const deleteFriendReqInv = (boolean, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }, //important!
@@ -54,18 +60,21 @@ const UserInList = ({ element, user }) => {
       .then((data) => console.log(data))
       .catch((err) => console.error("err", err))
       .finally(() => {
-        toggleInvitation(null), Broadcast(null, element.userId);
+        toggleInvitation(null);
+        Broadcast(null, friendsListUpdate);
+        element.accepted = 0;
+        boolean && getFriends();
       });
   };
-  console.log(invitation);
+  console.log("invitation", invitation);
   return (
     <div key={element.email}>
       <p>{`${element.name} ${element.secondname}`}</p>
-      {element.accepted == 1 || invitation == "friends" ? (
+      {(invitation == 1 && element.accepted == 1) || invitation == "friends" ? (
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv(element.email);
+            deleteFriendReqInv(true, true);
           }}
         >
           Remove Friend
@@ -74,7 +83,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            addFriendFun(false, true);
+            addFriendFun(false, true, false);
           }}
         >
           Add
@@ -83,7 +92,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv();
+            deleteFriendReqInv(false, false);
           }}
         >
           Cancel
@@ -93,7 +102,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              addFriendFun(true, null);
+              addFriendFun(true, true, true);
             }}
           >
             Accept
@@ -101,7 +110,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              deleteFriendReqInv();
+              deleteFriendReqInv(true, false);
             }}
           >
             Decline

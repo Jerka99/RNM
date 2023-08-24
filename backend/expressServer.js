@@ -6,6 +6,8 @@ const userRoute = require("./routes/users");
 const loginRoute = require("./routes/login");
 const signupRoute = require("./routes/signup");
 const relationsRoute = require("./routes/relations");
+const friendsRoute = require("./routes/friends")
+const messagesRoute = require("./routes/messages")
 const { Server } = require("socket.io");
 const {
   sessionMiddleware,
@@ -33,6 +35,9 @@ app.use("/users", userRoute);
 app.use("/", loginRoute);
 app.use("/signup", signupRoute);
 app.use("/relations", relationsRoute);
+app.use("/friends", friendsRoute);
+app.use("/messages", messagesRoute);
+
 
 io.use(wrap(sessionMiddleware));
 io.use(authorizeUser);
@@ -56,15 +61,16 @@ io.on("connect", (socket) => {
   }
   socket.emit("users", users);
 
-  // console.log(users, socket.id);
+  console.log(users, socket.id);
+  
   socket.broadcast.emit("user connected", {
     userId: socket.id,
     user: socket.user.name + " " + socket.user.secondname,
     email: socket.user.email,
   });
 
-  socket.on("private message", (data) => {
-    socket.to(data.to).emit("private message", data.msg);
+  socket.on("private message", (data) => {console.log("data",data)
+    socket.to(data.to).emit("private message", ({msg:data.msg, sender:data.sender}));
   });
 
   socket.on("invitation", (data) => {
@@ -77,7 +83,4 @@ io.on("connect", (socket) => {
   });
 });
 
-//   const token = socket.handshake.auth.token;
-//   console.log('socket.handshake',token)
-//   next()
-// });
+

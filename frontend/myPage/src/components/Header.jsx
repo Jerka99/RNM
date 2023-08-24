@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 const Header = () => {
-  const { setUser, user } = useContextComp();
+  const { setUser, user, socket } = useContextComp();
   const navigate = useNavigate();
 
   const logOutFun = () => {
@@ -17,7 +17,7 @@ const Header = () => {
         console.log(data), setUser(""), navigate("/");
       })
       .catch((err) => console.error(err))
-      .finally(() => location.reload());
+      .finally(() => socket.disconnect());
   };
 
 

@@ -4,14 +4,14 @@ import { useContextComp } from "./MyContext";
 import UserInList from "./UserInList";
 
 const SearchBar = () => {
-  const { user, socket, onlineInObject } = useContextComp();
+  const { user, socket, onlineUsers } = useContextComp();
   const [toggleInput, setToggleInput] = useState(false);
   const [usersList, setUsersList] = useState([]);
   const ref = useRef(null);
 
   const searchUsers = (e) => {
     e.preventDefault();
-    e.target.value == "" && setUsersList([]);
+    e.target.value.trim() == "" && setUsersList([]);
     e.target.value.trim() &&
       fetch("http://localhost:4000/users", {
         method: "POST",
@@ -20,15 +20,14 @@ const SearchBar = () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           setUsersList(data);
         })
         .catch((err) => console.error(err));
   };
 
-  console.log("usersList", usersList);
-
   const uniqueUsersFun = (arr) => {
-    let uniqueEl = [];
+    const uniqueEl = [];
     const checkEl = (x) => {
       const found = uniqueEl.some((e) => e.email === x);
       return found;
@@ -36,7 +35,7 @@ const SearchBar = () => {
 
     arr.forEach((element) => {
       if (!checkEl(element.email)) {
-        element.userId = onlineInObject[element.email]?.userId;
+        element.userId = onlineUsers[element.email]?.userId;
         uniqueEl.push(element);
       }
     });

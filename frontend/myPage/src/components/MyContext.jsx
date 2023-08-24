@@ -19,49 +19,65 @@ const MyContextComp = ({ children }) => {
   const [user, setUser] = useState({ name: "", secondname: "", email: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [onlineInObject, setOnlineInObject] = useState({});
-  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState({});
+  const [friendsList, setFriendsList] = useState({});
+  console.log("MyContext");
 
-  console.log('MyContext')
+  const getFriends = () => {
+    setFriendsList({});
+    fetch("http://localhost:4000/friends", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }, //important!
+      body: JSON.stringify([user.email]),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("DATA", data);
+        data.forEach((element) => {
+          setFriendsList((prev) => ({
+            ...prev,
+            [element.email]: {
+              ...element,
+              userId: onlineUsers[element.email]?.userId ?? "offline",
+            },
+          }));
+        });
+      });
+  };
 
   useEffect(() => {
-    socket.on("private message", (data) => {
-      console.log("data", data);
-    });
+    Object.values(onlineUsers).length > 0 && getFriends();
+  }, [onlineUsers]);
+
+  useEffect(() => {
 
     socket.on("remove user", (data) => {
       setOnlineUsers((prev) => {
-        let newArr = [...prev];
-        prev.forEach((el, i) => {
+        const newObj = { ...prev };
+        Object.values(prev).forEach((el) => {
           if (el.userId == data) {
-            newArr.splice(i, 1);
+            delete newObj[el.email];
           }
         });
-        return [...newArr];
+        return { ...newObj };
       });
     });
 
     socket.on("users", (data) => {
       //gets users logged before you
-      setOnlineInObject(data)
-      Object.values(data).forEach((element) => {
-        console.log("data2", data);
-        setOnlineUsers((prev) => [...prev, element]);
-      });
+      setOnlineUsers(data);
     });
 
     socket.on("user connected", (data) => {
       //on refresh and login user gets new socket id and this is trigered
-      setOnlineInObject(prev => ({...prev, [data.email]:data}))
-      setOnlineUsers((prev) => {
-        return [...prev, data];
-      });
+      setOnlineUsers((prev) => ({ ...prev, [data.email]: data }));
     });
   }, [socket]);
 
   useEffect(() => {
-    setMessage("");
+    location.href == "http://localhost:5173/login" && setMessage("");
   }, [location.href]);
+
   useEffect(() => {
     setLoading(true);
     fetch("http://localhost:4000/login", {
@@ -98,14 +114,25 @@ const MyContextComp = ({ children }) => {
               email: data[0].email,
             }),
             navigate("/home")),
-            socket.connect();
+          socket.connect();
       })
       .catch((err) => console.error(err));
   };
-  console.log("user", user);
 
   return (
-    <MyContext.Provider value={{ logIn, setUser, user, message, loading, socket, onlineUsers, onlineInObject }}>
+    <MyContext.Provider
+      value={{
+        logIn,
+        setUser,
+        user,
+        message,
+        loading,
+        socket,
+        onlineUsers,
+        friendsList,
+        getFriends,
+      }}
+    >
       {children}
     </MyContext.Provider>
   );

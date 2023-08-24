@@ -2,13 +2,13 @@ import React from 'react'
 import { useContextComp } from './MyContext'
 import { Navigate, Outlet } from 'react-router'
 import Loading from './Loading'
-import Chat from './Chat'
+import ChatHolder from './ChatHolder'
 
 const Protected = () => {
   const {user, loading} = useContextComp()
   
   return (
-      loading ? <Loading /> : user.email ? (<><Outlet/><Chat /></>) : <Navigate to="/login"/> 
+      loading ? <Loading /> : user.email ? (<><Outlet/><ChatHolder /></>) : <Navigate to="/login"/> 
   )
 }
 
