@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import { useContextComp } from './MyContext';
 
-const Chat = ({recipient, el}) => {
+const Chat = ({recipient}) => {
     const [message, setMessage] = useState("");
     const [messagesList, setMessagesList] = useState([{}]);
     const lastmsg = useRef();
@@ -98,7 +98,7 @@ console.log('recipient',recipient)
       })}{" "}
       <div ref={lastmsg} id="bottom"></div>
     </div>
-    <p>{`${recipient.user} ${recipient.id}`}</p>
+    <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p>
     <textarea
       type="text"
       autoComplete="off"
