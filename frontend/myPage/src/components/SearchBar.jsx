@@ -4,8 +4,7 @@ import { useContextComp } from "./MyContext";
 import UserInList from "./UserInList";
 
 const SearchBar = () => {
-  const { user, socket, onlineUsers } = useContextComp();
-  const [toggleInput, setToggleInput] = useState(false);
+  const { user, socket, onlineUsers, toggleInput, setToggleInput } = useContextComp();
   const [usersList, setUsersList] = useState([]);
   const ref = useRef(null);
 

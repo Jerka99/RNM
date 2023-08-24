@@ -1,17 +1,17 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { useContextComp } from "./MyContext";
+import { useContextComp } from "../MyContext";
 import FriendFromListInChat from "./FriendFromListInChat";
 import Chat from "./Chat";
 
 const ChatHolder = () => {
-  const { socket, friendsList, user } = useContextComp();
+  const { socket, friendsList, user, setToggleInput } = useContextComp();
   const [recipient, setRecipient] = useState({ user: "", id: "" });
-
   console.log("CHATholder", recipient);
 
   return (
-    <div>
+    <div id="myChat" onClick={()=>setToggleInput(false)}>
       <div id="friends-list">
+        <h1>Friends list</h1>
         {Object.values(friendsList).map((el) => {
           return (
             <FriendFromListInChat
@@ -22,7 +22,7 @@ const ChatHolder = () => {
           );
         })}
       </div>
-      {recipient.user && <Chat recipient={recipient} />}
+      {recipient.user && <Chat recipient={recipient} setRecipient={setRecipient}/>}
     </div>
   );
 };

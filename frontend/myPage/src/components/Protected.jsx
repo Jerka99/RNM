@@ -2,7 +2,7 @@ import React from 'react'
 import { useContextComp } from './MyContext'
 import { Navigate, Outlet } from 'react-router'
 import Loading from './Loading'
-import ChatHolder from './ChatHolder'
+import ChatHolder from '../components/Chat/ChatHolder'
 
 const Protected = () => {
   const {user, loading} = useContextComp()

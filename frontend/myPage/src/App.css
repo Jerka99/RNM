@@ -23,6 +23,7 @@ header form {
 #users-list {
   background: white;
   position: absolute;
+  z-index: 1;
   width: 220px;
   max-height: 250px;
   overflow-y: auto;
@@ -241,51 +242,133 @@ header nav li a {
   }
 }
 
+#myChat{
+  height: calc(100vh - 173px);
+}
+
+#chat-with {
+  display: flex;
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  color: white;
+  padding: 9px;
+  background: cornflowerblue;
+  border-bottom: solid 2px black;
+}
+
+#chat-with p + p{
+  position: absolute;
+  right: 15px;
+  top: 5px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 #chat {
   display: flex;
   flex-direction: column;
   position: fixed;
   width: calc(100% - 250px);
   border: solid 1px black;
-  bottom: 10px;
+  bottom: 0px;
   right: 250px;
   align-items: flex-end;
   gap: 5px;
+  height: calc(100% - 42px);
+  background: white;
 }
 
-#chat textarea{
+#chat textarea {
   width: calc(100% - 65px);
   height: 33px;
   resize: none;
   position: absolute;
   bottom: 0;
   left: 0;
+  font-family: unset;
+  font-size: 18px;
 }
 
-#chat textarea + button{
+#chat textarea + button {
   width: 65px;
   height: 35px;
+  position: absolute;
+  bottom: 0;
 }
 
 #messages-list {
-  max-height: 210px;
+  max-height: calc(100% - 117px);
   overflow: auto;
   width: 100%;
   padding: 0 10px;
 }
 
-#messages-list #sender{
 
-}
-
-#messages-list #recipient {
-  right: 0;
-  position: relative;
-  margin: 0 0 0 auto;
+#messages-list div p{
   width: fit-content;
-  max-width: 129px;
+  max-width: 45%;
+  word-break: break-word;
+  padding: 5px 7px;
+  cursor: pointer;
 }
 
+#messages-list #sender p{
+  background: powderblue;
+  right: 0;
+  margin: 2px 0 2px auto;
+  position: relative;
+  border-radius: 5px 0px 5px 5px;
+}
+
+#messages-list #sender small {
+  right: 0;
+  margin: 2px 0 2px auto;
+  position: relative;
+  width: fit-content;
+}
+
+
+.time{
+  display: none;
+}
+
+.time.active{
+display: block;
+}
+
+#messages-list #sender p::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid powderblue;
+  border-top: 10px solid transparent;
+  display: inline-block;
+  transform: rotate(315deg);
+}
+
+#messages-list #recipient p{
+  margin: 2px 0 2px ;
+  background: lightgrey;
+  position: relative;
+  border-radius: 0px 5px 5px 5px;
+}
+
+#messages-list #recipient p::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -6px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid lightgrey;
+  border-top: 10px solid transparent;
+  display: inline-block;
+  transform: rotate(45deg);
+}
 
 #friends-list {
   width: 250px;
@@ -293,7 +376,7 @@ header nav li a {
   bottom: 0;
   right: 0;
   position: fixed;
-  height: 500px;
+  height: calc(100% - 42px);
   overflow-y: auto;
   border: solid 1px black;
 }
@@ -305,14 +388,30 @@ header nav li a {
   border-radius: 50%;
 }
 
-.friend.online{
-background: green;
+.friend.online {
+  background: green;
 }
 
-#friends-list > div{
-border-bottom: solid 1px black;
+#friends-list > div {
+  border-bottom: solid 1px black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 7px;
+  cursor: pointer;
 }
 
-#friends-list > div p{
+#friends-list h1{
+  background: cornflowerblue;
+  margin: 0;
+  padding: 35px 0px 7px 3px;
+  height: 73px;
+  font-size: 26px;
+  border-bottom: solid 2px black;
+  color: white;
+}
+
+#friends-list > div p {
   margin: 10px 0;
-  }
+}
+

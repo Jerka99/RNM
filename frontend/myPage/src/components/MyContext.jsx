@@ -21,6 +21,8 @@ const MyContextComp = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [onlineUsers, setOnlineUsers] = useState({});
   const [friendsList, setFriendsList] = useState({});
+  const [toggleInput, setToggleInput] = useState(false);
+
   console.log("MyContext");
 
   const getFriends = () => {
@@ -131,6 +133,8 @@ const MyContextComp = ({ children }) => {
         onlineUsers,
         friendsList,
         getFriends,
+        toggleInput,
+        setToggleInput
       }}
     >
       {children}

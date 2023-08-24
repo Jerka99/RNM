@@ -10,7 +10,7 @@ router.post("/", (req, res) => {
     VALUES = Object.values(req.body);
     VALUES.push(VALUES[0], VALUES[1])
     sql =
-      "SELECT sender, receiver, message, time FROM messages WHERE (sender = ? AND receiver = ?) OR (receiver = ? AND sender = ?)";
+      "SELECT sender, receiver, message, time FROM messages WHERE (sender = ? AND receiver = ?) OR (receiver = ? AND sender = ?) ORDER BY time ASC";
   } else {
     const { epoch, message, recipientEmail, sender } = req.body;
     VALUES.push(sender, recipientEmail, message, epoch)
