@@ -3,7 +3,6 @@ import { useContextComp } from "../MyContext";
 import { AiOutlineClose } from "react-icons/ai";
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
-import { useDebounce } from 'use-debounce';
 
 const Chat = ({ recipient, setRecipient }) => {
   const [message, setMessage] = useState("");
@@ -11,7 +10,6 @@ const Chat = ({ recipient, setRecipient }) => {
   const [typing, setTyping] = useState({boolean:false, sender:""});
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
-  // const [value] = useDebounce(typing, 1000);
 
   function toBottom() {
     lastmsg.current.scrollIntoView();

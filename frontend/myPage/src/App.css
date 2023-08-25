@@ -447,3 +447,49 @@ display: block;
   margin: 10px 0;
 }
 
+@media only screen and (max-width:600px) {
+  #friends-list {
+    width: 100%;
+    z-index: 1;
+}
+#chat {
+  width: 100%;
+  right: 0;
+  z-index: 2;
+}
+#root > div{
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: flex-start;
+  width: calc(200% - 0px);
+  padding: 0 5px;
+}
+
+
+header form {
+  width: auto;
+  display: flex;
+  margin: 0 5px 0 0;
+  align-items: center;
+  position: relative;
+}
+
+.users-search.active {
+  width: calc(100vw - 42px);
+}
+
+header nav {
+  margin-left: calc(100vw - 136px);
+}
+
+#users-list {
+  top: 24px;
+  width: calc(100% - 32px);
+  z-index: 3;
+}
+
+
+}
