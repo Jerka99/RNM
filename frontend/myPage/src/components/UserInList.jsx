@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useContextComp } from "./MyContext";
+import capitalize from "../functions/capitalize";
 
 const UserInList = ({ element, user }) => {
   const [invitation, toggleInvitation] = useState(element.status);
@@ -69,7 +70,7 @@ const UserInList = ({ element, user }) => {
   console.log("invitation", invitation);
   return (
     <div key={element.email}>
-      <p>{`${element.name} ${element.secondname}`}</p>
+      <p>{`${capitalize(element.name)} ${capitalize(element.secondname)}`}</p>
       {(invitation == 1 && element.accepted == 1) || invitation == "friends" ? (
         <button
           onClick={(e) => {
@@ -98,7 +99,7 @@ const UserInList = ({ element, user }) => {
           Cancel
         </button>
       ) : (
-        <>
+        <div>
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -115,7 +116,7 @@ const UserInList = ({ element, user }) => {
           >
             Decline
           </button>
-        </>
+        </div>
       )}
     </div>
   );

@@ -7,6 +7,10 @@ body {
   font-family: system-ui;
 }
 
+#home{
+  overflow: hidden;
+}
+
 header {
   display: flex;
   background: cornflowerblue;
@@ -24,7 +28,7 @@ header form {
   background: white;
   position: absolute;
   z-index: 1;
-  width: 220px;
+  width: 300px;
   max-height: 250px;
   overflow-y: auto;
   border: solid 1px black;
@@ -32,9 +36,10 @@ header form {
   box-shadow: 0px 40px 101px 0px rgba(0, 0, 255, 0.2);
 }
 
-#users-list div {
+#users-list > div {
   display: flex;
-  margin: 18px 0px 0px;
+  position: relative;
+  margin: 0px 0px 0px;
   padding: 1px 5px;
   border-bottom: solid 1px black;
   align-items: center;
@@ -42,16 +47,26 @@ header form {
 }
 
 #users-list div p {
-  margin: 0;
+  margin: 35px 0 1px;
+  font-weight: 500;
 }
 
 #users-list div button {
-  background: inherit;
+  background: cornflowerblue;
   border: none;
-  font-size: 17px;
+  box-shadow: 0px 0px 7px 0px gray;
+  color: white;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 7px;
   font-weight: bold;
   cursor: pointer;
-  padding: 0;
+}
+
+#users-list div button:hover{
+  box-shadow: 0px 0px 7px 0px black;
+  color: gray;
 }
 
 header nav {
@@ -76,7 +91,7 @@ header nav li a {
   position: relative;
   max-width: 360px;
   width: 90%;
-  border: solid 1px black;
+  box-shadow: 0px 0px 7px 0px darkgray;
   border-radius: 5px;
   padding: 15px;
 }
@@ -242,8 +257,12 @@ header nav li a {
   }
 }
 
-#myChat{
-  height: calc(100vh - 173px);
+#myChat {
+  position: absolute;
+  top: 42px;
+  height: calc(100vh - 42px);
+  width: 100%;
+  border-bottom: solid 2px black;
 }
 
 #chat-with {
@@ -255,9 +274,15 @@ header nav li a {
   padding: 9px;
   background: cornflowerblue;
   border-bottom: solid 2px black;
+  align-items: center;
+  height: 73px;
 }
 
-#chat-with p + p{
+#chat-with p + small {
+  margin: 4px 10px 2px;
+}
+
+#chat-with #close{
   position: absolute;
   right: 15px;
   top: 5px;
@@ -268,14 +293,14 @@ header nav li a {
 #chat {
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: absolute;
   width: calc(100% - 250px);
   border: solid 1px black;
   bottom: 0px;
   right: 250px;
   align-items: flex-end;
   gap: 5px;
-  height: calc(100% - 42px);
+  height: 100%;
   background: white;
 }
 
@@ -295,7 +320,13 @@ header nav li a {
   height: 35px;
   position: absolute;
   bottom: 0;
+  background: cornflowerblue;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  border: solid 1px black;
 }
+
 
 #messages-list {
   max-height: calc(100% - 117px);
@@ -375,10 +406,11 @@ display: block;
   float: right;
   bottom: 0;
   right: 0;
-  position: fixed;
-  height: calc(100% - 42px);
+  position: absolute;
+  height: 100%;
   overflow-y: auto;
   border: solid 1px black;
+  background: white;
 }
 
 .friend {

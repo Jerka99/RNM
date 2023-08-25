@@ -3,12 +3,15 @@ import { useContextComp } from "../MyContext";
 import { AiOutlineClose } from "react-icons/ai";
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
+import { useDebounce } from 'use-debounce';
 
 const Chat = ({ recipient, setRecipient }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
+  const [typing, setTyping] = useState({boolean:false, sender:""});
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
+  // const [value] = useDebounce(typing, 1000);
 
   function toBottom() {
     lastmsg.current.scrollIntoView();
@@ -25,8 +28,8 @@ const Chat = ({ recipient, setRecipient }) => {
   };
 
   useEffect(() => {
-    console.log("1");
     setMessagesList([{}]);
+    setMessage("")
     fetch("http://localhost:4000/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
@@ -48,7 +51,20 @@ const Chat = ({ recipient, setRecipient }) => {
       temp == data.sender &&
         setMessagesList((prev) => [...prev, createMessageBody(data)]);
     });
+    let idTimer
+    socket.on("typing", (data) => {
+      clearTimeout(idTimer)
+      setTyping({boolean:true, sender:data.sender});
+      idTimer = setTimeout(() => {
+        setTyping({boolean:false, sender:data.sender});
+      }, 1000);
+      
+      
+  });
+    
   }, [socket, recipient]);
+
+  // console.log(value)
 
   useEffect(() => {
     toBottom();
@@ -90,21 +106,23 @@ const Chat = ({ recipient, setRecipient }) => {
       sendMessage(e);
     }
   };
-
+  console.log(socket);
   return (
     <form id="chat" onSubmit={sendMessage}>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
         )}`}</p>
-        <p onClick={() => setRecipient({ user: "", id: "" })}>
+        {(recipient.user == typing.sender && typing.boolean) ? <small>typing...</small> : friendsList[recipient.user]?.userId != "offline" && (
+          <small>online</small>
+        )}
+        <p id="close" onClick={() => setRecipient({ user: "", id: "" })}>
           <AiOutlineClose />
         </p>
       </div>
       <div id="messages-list">
         {messagesList.map((el, i) => {
-          return <MessageLine key={parseInt(el.time) + i} el={el} i={i}/>
-
+          return <MessageLine key={parseInt(el.time) + i} el={el} i={i} />;
         })}{" "}
         <div ref={lastmsg} id="bottom"></div>
       </div>
@@ -115,6 +133,10 @@ const Chat = ({ recipient, setRecipient }) => {
         autoComplete="off"
         value={message}
         onChange={(e) => {
+          socket.emit("typing", {
+            sender: user.email,
+            to: friendsList[recipient.user]?.userId,
+          });
           setMessage(e.target.value);
         }}
       />

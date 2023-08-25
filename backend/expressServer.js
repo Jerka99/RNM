@@ -77,6 +77,10 @@ io.on("connect", (socket) => {
     socket.to(data.to).emit("invitation", data);
   });
 
+  socket.on("typing", (data) => {console.log("typinngm",data.to)
+    socket.to(data.to).emit("typing", data);
+  });
+
   socket.on("disconnect", () => {
     io.emit("remove user", socket.id);
     console.log("user disconnected" ,socket.id);
