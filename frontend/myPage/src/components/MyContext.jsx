@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:4000", {
@@ -25,8 +25,9 @@ const MyContextComp = ({ children }) => {
 
   console.log("MyContext");
 
-  const getFriends = () => {
-    setFriendsList({});
+
+  const getFriends = (x) => {
+    x == 'delete' && setFriendsList({});
     fetch("http://localhost:4000/friends", {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
@@ -46,6 +47,8 @@ const MyContextComp = ({ children }) => {
         });
       });
   };
+
+  console.log("ONLINEUSERS", onlineUsers)
 
   useEffect(() => {
     Object.values(onlineUsers).length > 0 && getFriends();
@@ -120,6 +123,7 @@ const MyContextComp = ({ children }) => {
       })
       .catch((err) => console.error(err));
   };
+
 
   return (
     <MyContext.Provider

@@ -61,6 +61,7 @@ io.on("connect", (socket) => {
   }
   socket.emit("users", users);
 
+
   console.log(users, socket.id);
   
   socket.broadcast.emit("user connected", {
@@ -73,8 +74,8 @@ io.on("connect", (socket) => {
     socket.to(data.to).emit("private message", ({msg:data.msg, sender:data.sender}));
   });
 
-  socket.on("invitation", (data) => {
-    socket.to(data.to).emit("invitation", data);
+  socket.on("invitation", (data) => {console.log('kome', Object.keys(Object.fromEntries(io.of("/").sockets)))
+    socket.to(users[data.receiver]?.userId).emit("invitation", data);
   });
 
   socket.on("typing", (data) => {console.log("typinngm",data.to)

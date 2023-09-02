@@ -55,7 +55,7 @@ const Chat = ({ recipient, setRecipient }) => {
       setTyping({boolean:true, sender:data.sender});
       idTimer = setTimeout(() => {
         setTyping({boolean:false, sender:data.sender});
-      }, 1000);
+      }, 700);
       
       
   });

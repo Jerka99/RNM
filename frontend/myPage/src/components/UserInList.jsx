@@ -10,16 +10,15 @@ const UserInList = ({ element, user }) => {
     socket.on("invitation", (data) => {
       console.log("data.msg", data.msg);
       element.email == data.user && toggleInvitation(data.msg);
-      console.log(data.friendsListUpdate);
-      data.friendsListUpdate && getFriends();
+      console.log("XXXXXXXXXXXX",data.friendsListUpdate);
+      data.friendsListUpdate && getFriends('delete');
     });
   }, [socket]);
 
-  const Broadcast = (message, friendsListUpdate) => {
+  const Broadcast = (message, friendsListUpdate, receiver) => {
     socket.emit("invitation", {
       friendsListUpdate: friendsListUpdate,
-      user: user.email,
-      to: onlineUsers[element.email]?.userId,
+      receiver: receiver,
       msg: message,
     });
   };
@@ -39,8 +38,8 @@ const UserInList = ({ element, user }) => {
       .then((data) => {
         console.log(data),
           data.accepted
-            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate)) //accept decline
-            : (toggleInvitation(0), Broadcast("true", friendsListUpdate)); //send invitation
+            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate, element.email)) //accept decline
+            : (toggleInvitation(0), Broadcast("true", friendsListUpdate, element.email)); //send invitation
       })
       .catch((err) => console.error("err", err))
       .finally(() => {
@@ -48,7 +47,7 @@ const UserInList = ({ element, user }) => {
       });
   };
 
-  const deleteFriendReqInv = (boolean, friendsListUpdate) => {
+  const deleteFriendReqInv = (boolean, friendsListUpdate, x) => {
     fetch("http://localhost:4000/relations", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }, //important!
@@ -62,9 +61,9 @@ const UserInList = ({ element, user }) => {
       .catch((err) => console.error("err", err))
       .finally(() => {
         toggleInvitation(null);
-        Broadcast(null, friendsListUpdate);
+        Broadcast(null, friendsListUpdate, element.email);
         element.accepted = 0;
-        boolean && getFriends();
+        boolean && getFriends(x);
       });
   };
   console.log("invitation", invitation);
@@ -75,7 +74,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv(true, true);
+            deleteFriendReqInv(true, true, 'delete');
           }}
         >
           Remove Friend

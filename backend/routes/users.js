@@ -6,7 +6,7 @@ const router = express.Router();
 const connection = require("../database");
 
 router.post("/", (req, res) => {
-console.log(req.body)
+
   const sql = `WITH previous_query as (SELECT * FROM relations limit 0)
   SELECT name, secondname, email, receiver, sender, status, accepted FROM (
   SELECT * FROM usersbase 

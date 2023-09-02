@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
 
   connection.query(sql, VALUES, (err, data) => {
     if (err) console.log(err);
-console.log(data)
+// console.log(data)
     return res.send(data);
   });
 });

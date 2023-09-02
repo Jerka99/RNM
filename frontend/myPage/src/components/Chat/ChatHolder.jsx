@@ -4,7 +4,7 @@ import FriendFromListInChat from "./FriendFromListInChat";
 import Chat from "./Chat";
 
 const ChatHolder = () => {
-  const { socket, friendsList, user, setToggleInput, toggleInput } = useContextComp();
+  const { friendsList, setToggleInput, toggleInput } = useContextComp();
   const [recipient, setRecipient] = useState({ user: "", id: "" });
   console.log("CHATholder", recipient);
 
