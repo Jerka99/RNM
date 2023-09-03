@@ -53,7 +53,8 @@ io.on("connect", (socket) => {
     if (!boolean) {
       users[unique] = {
         userId: id,
-        user: user.user.name + " " + user.user.secondname,
+        name: socket.user.name,
+        secondname: socket.user.secondname,
         email: user.user.email,
       };
     }
