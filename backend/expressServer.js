@@ -63,17 +63,19 @@ io.on("connect", (socket) => {
 
   console.log(users, socket.id);
 
-  socket.broadcast.emit("user connected", {
-    userId: socket.id,
-    name: socket.user.name,
-    secondname: socket.user.secondname,
-    email: socket.user.email,
+  socket.on("friend connected", (data) => {console.log('frienddd',data)
+    socket
+      .to(users[data.to]?.userId)
+      .emit("friend connected", {
+        name: users[data.sender]?.name,
+        secondname: users[data.sender]?.secondname,
+        email: users[data.sender]?.email, });
   });
 
   socket.on("private message", (data) => {
     console.log("data", data);
     socket
-      .to(data.to)
+      .to(users[data.to]?.userId)
       .emit("private message", { msg: data.msg, sender: data.sender });
   });
 
@@ -84,7 +86,7 @@ io.on("connect", (socket) => {
 
   socket.on("typing", (data) => {
     console.log("typinngm", data.to);
-    socket.to(data.to).emit("typing", data);
+    socket.to(users[data.to]?.userId).emit("typing", data);
   });
 
   socket.on("disconnect", () => {

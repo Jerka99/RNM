@@ -86,7 +86,7 @@ const Chat = ({ recipient, setRecipient }) => {
         .then((data) => console.log(data));
       socket.emit("private message", {
         sender: user.email,
-        to: friendsList[recipient.user]?.userId,
+        to: friendsList[recipient.user].email,
         msg: message,
       });
 
@@ -133,7 +133,7 @@ const Chat = ({ recipient, setRecipient }) => {
         onChange={(e) => {
           socket.emit("typing", {
             sender: user.email,
-            to: friendsList[recipient.user]?.userId,
+            to: friendsList[recipient.user].email,
           });
           setMessage(e.target.value);
         }}

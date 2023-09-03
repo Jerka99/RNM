@@ -42,6 +42,10 @@ const MyContextComp = ({ children }) => {
       .then((data) => {
         console.log("DATA", data);
         data.forEach((element) => {
+          socket.emit('friend connected',{
+            sender:user.email,
+            to:element.email
+          })
           setFriendsList((prev) => ({
             ...prev,
             [element.email]: {
@@ -50,12 +54,11 @@ const MyContextComp = ({ children }) => {
             },
           }));
         });
-      });
+      })
   };
 
   useEffect(() => {
-    getFriends();
-    user.email && socket.connect();
+    user.email && socket.connect() && getFriends();
   }, [user]);
 
   const updateFriendsList = (data, todo) =>{
@@ -94,33 +97,35 @@ const MyContextComp = ({ children }) => {
   }, [socket]);
 
   useEffect(() => {
+    let tempFriends = friendsList
     socket.on("remove user", (data) => {
       setFriendsList((prev) => {
         const newObj = { ...prev };
-        Object.values(prev).forEach((el) => {
+        Object.values(prev).forEach((el) => {console.log("dddddddDEDDDDDDDDDDDDDDDDDDDD",el, data)
           if (el.userId == data) {
             newObj[el.email].userId = 'offline'
           }
-        });console.log("NEWOBJ",newObj)
-        return { ...newObj };
+        });console.log("DEDDDDDDDDDDDDDDDDDDDD",newObj)
+        return newObj;
       });
     });
-    socket.on("users", (data) => {console.log("QQQQQQQQQQQQQQQQQQQ",data)
+    socket.on("users", (data) => {
       //gets users logged before you
+      tempFriends = friendsList
       Object.keys(data).forEach(el=>{
-        if(Object.keys(friendsList).includes(el)){
-          setFriendsList(prev => {
+        if(Object.keys(tempFriends).includes(el)){
+          setFriendsList(prev => {console.log('data, el', data, el)
             const newObj = { ...prev };
             newObj[el].userId = data[el].userId
             return newObj;
           })
         }
-      })
-    });
-      socket.on("user connected", (data) => {
+      })});
+
+      socket.on("friend connected", (data) => {
         //on refresh and login user gets new socket id and this is trigered
-        console.log(data, Object.keys(friendsList))
-        Object.keys(friendsList).includes(data.email) && setFriendsList((prev) => ({
+        console.log(data, Object.keys(tempFriends))
+        setFriendsList((prev) => ({
           ...prev,
           [data.email]: {
             ...data,
@@ -128,7 +133,7 @@ const MyContextComp = ({ children }) => {
           },
         }));
       });
-  }, [socket, friendsList]);
+  }, [friendsList]);
 
   console.log('friendsList', friendsList)
 
@@ -186,7 +191,6 @@ const MyContextComp = ({ children }) => {
         socket,
         updateFriendsList,
         friendsList,
-        getFriends,
         toggleInput,
         setToggleInput,
       }}
