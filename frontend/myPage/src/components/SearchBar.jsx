@@ -4,7 +4,7 @@ import { useContextComp } from "./MyContext";
 import UserInList from "./UserInList";
 
 const SearchBar = () => {
-  const { user, socket, onlineUsers, toggleInput, setToggleInput } = useContextComp();
+  const { user, toggleInput, setToggleInput } = useContextComp();
   const [usersList, setUsersList] = useState([]);
   const ref = useRef(null);
 
@@ -34,7 +34,6 @@ const SearchBar = () => {
 
     arr.forEach((element) => {
       if (!checkEl(element.email)) {
-        element.userId = onlineUsers[element.email]?.userId;
         uniqueEl.push(element);
       }
     });
