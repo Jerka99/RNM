@@ -6,8 +6,8 @@ const userRoute = require("./routes/users");
 const loginRoute = require("./routes/login");
 const signupRoute = require("./routes/signup");
 const relationsRoute = require("./routes/relations");
-const friendsRoute = require("./routes/friends")
-const messagesRoute = require("./routes/messages")
+const friendsRoute = require("./routes/friends");
+const messagesRoute = require("./routes/messages");
 const { Server } = require("socket.io");
 const {
   sessionMiddleware,
@@ -38,13 +38,12 @@ app.use("/relations", relationsRoute);
 app.use("/friends", friendsRoute);
 app.use("/messages", messagesRoute);
 
-
 io.use(wrap(sessionMiddleware));
 io.use(authorizeUser);
 
-io.on("connect", (socket) => {
-  const users = {};
+const users = {};
 
+io.on("connect", (socket) => {
   for (let [id, user] of io.of("/").sockets) {
     //finds all online on server
     let boolean = Object.values(users).find((el) => {
@@ -61,31 +60,38 @@ io.on("connect", (socket) => {
   }
   socket.emit("users", users);
 
-
   console.log(users, socket.id);
-  
+
   socket.broadcast.emit("user connected", {
     userId: socket.id,
-    user: socket.user.name + " " + socket.user.secondname,
+    name: socket.user.name,
+    secondname: socket.user.secondname,
     email: socket.user.email,
   });
 
-  socket.on("private message", (data) => {console.log("data",data)
-    socket.to(data.to).emit("private message", ({msg:data.msg, sender:data.sender}));
+  socket.on("private message", (data) => {
+    console.log("data", data);
+    socket
+      .to(data.to)
+      .emit("private message", { msg: data.msg, sender: data.sender });
   });
 
-  socket.on("invitation", (data) => {console.log('kome', Object.keys(Object.fromEntries(io.of("/").sockets)))
+  socket.on("invitation", (data) => {
+    console.log(users[data.receiver]?.userId, data);
     socket.to(users[data.receiver]?.userId).emit("invitation", data);
   });
 
-  socket.on("typing", (data) => {console.log("typinngm",data.to)
+  socket.on("typing", (data) => {
+    console.log("typinngm", data.to);
     socket.to(data.to).emit("typing", data);
   });
 
   socket.on("disconnect", () => {
     io.emit("remove user", socket.id);
-    console.log("user disconnected" ,socket.id);
+    Object.values(users).forEach((el) => {
+      console.log(el, socket.id);
+      if (el.userId == socket.id) delete users[el.email];
+    });
+    console.log("user disconnected", socket.id);
   });
 });
-
-

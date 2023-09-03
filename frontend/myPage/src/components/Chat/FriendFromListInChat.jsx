@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import capitalize from "../../functions/capitalize"
 const FriendFromList = ({el, setRecipient}) => {
 
-
+console.log('el',el)
   return (
     <div key={el.email} onClick={() => setRecipient({user:el.email, id:el.userId})}>
     <p>{`${capitalize(el.name)} ${capitalize(el.secondname)}`}</p>

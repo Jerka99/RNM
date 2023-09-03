@@ -4,24 +4,26 @@ import capitalize from "../functions/capitalize";
 
 const UserInList = ({ element, user }) => {
   const [invitation, toggleInvitation] = useState(element.status);
-  const { socket, getFriends, onlineUsers } = useContextComp();
+  const { socket, updateFriendsList } = useContextComp();
 
   useEffect(() => {
     socket.on("invitation", (data) => {
-      console.log("data.msg", data.msg);
       element.email == data.user && toggleInvitation(data.msg);
-      console.log("XXXXXXXXXXXX",data.friendsListUpdate);
-      data.friendsListUpdate && getFriends('delete');
     });
   }, [socket]);
 
   const Broadcast = (message, friendsListUpdate, receiver) => {
     socket.emit("invitation", {
       friendsListUpdate: friendsListUpdate,
+      user: user.email,
+      name: user.name,
+      secondname: user.secondname,
       receiver: receiver,
       msg: message,
     });
   };
+
+  console.log(socket)
 
   const addFriendFun = (accepted, status, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
@@ -43,11 +45,11 @@ const UserInList = ({ element, user }) => {
       })
       .catch((err) => console.error("err", err))
       .finally(() => {
-        accepted == true && status == true && getFriends();
+        friendsListUpdate == 'accept' && updateFriendsList(element, 'accept');
       });
   };
 
-  const deleteFriendReqInv = (boolean, friendsListUpdate, x) => {
+  const deleteFriendReqInv = (friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }, //important!
@@ -63,7 +65,7 @@ const UserInList = ({ element, user }) => {
         toggleInvitation(null);
         Broadcast(null, friendsListUpdate, element.email);
         element.accepted = 0;
-        boolean && getFriends(x);
+        friendsListUpdate == 'delete' && updateFriendsList(element, 'delete');
       });
   };
   console.log("invitation", invitation);
@@ -74,7 +76,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv(true, true, 'delete');
+            deleteFriendReqInv('delete');
           }}
         >
           Remove Friend
@@ -83,7 +85,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            addFriendFun(false, true, false);
+            addFriendFun(false, true, 'add');
           }}
         >
           Add
@@ -92,7 +94,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv(false, false);
+            deleteFriendReqInv('cancel');
           }}
         >
           Cancel
@@ -102,7 +104,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              addFriendFun(true, true, true);
+              addFriendFun(true, true, 'accept');
             }}
           >
             Accept
@@ -110,7 +112,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              deleteFriendReqInv(true, false);
+              deleteFriendReqInv('decline');
             }}
           >
             Decline
