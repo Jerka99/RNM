@@ -4,26 +4,25 @@ import capitalize from "../functions/capitalize";
 
 const UserInList = ({ element, user }) => {
   const [invitation, toggleInvitation] = useState(element.status);
-  const { socket, updateFriendsList } = useContextComp();
+  const { socket, getFriends, onlineUsers } = useContextComp();
 
   useEffect(() => {
     socket.on("invitation", (data) => {
+      console.log("data.msg", data.msg);
       element.email == data.user && toggleInvitation(data.msg);
+      console.log(data.friendsListUpdate);
+      data.friendsListUpdate && getFriends();
     });
   }, [socket]);
 
-  const Broadcast = (message, friendsListUpdate, receiver) => {
+  const Broadcast = (message, friendsListUpdate) => {
     socket.emit("invitation", {
       friendsListUpdate: friendsListUpdate,
       user: user.email,
-      name: user.name,
-      secondname: user.secondname,
-      receiver: receiver,
+      to: onlineUsers[element.email]?.userId,
       msg: message,
     });
   };
-
-  console.log(socket)
 
   const addFriendFun = (accepted, status, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
@@ -40,16 +39,16 @@ const UserInList = ({ element, user }) => {
       .then((data) => {
         console.log(data),
           data.accepted
-            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate, element.email)) //accept decline
-            : (toggleInvitation(0), Broadcast("true", friendsListUpdate, element.email)); //send invitation
+            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate)) //accept decline
+            : (toggleInvitation(0), Broadcast("true", friendsListUpdate)); //send invitation
       })
       .catch((err) => console.error("err", err))
       .finally(() => {
-        friendsListUpdate == 'accept' && updateFriendsList(element, 'accept');
+        accepted == true && status == true && getFriends();
       });
   };
 
-  const deleteFriendReqInv = (friendsListUpdate) => {
+  const deleteFriendReqInv = (boolean, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }, //important!
@@ -63,9 +62,9 @@ const UserInList = ({ element, user }) => {
       .catch((err) => console.error("err", err))
       .finally(() => {
         toggleInvitation(null);
-        Broadcast(null, friendsListUpdate, element.email);
+        Broadcast(null, friendsListUpdate);
         element.accepted = 0;
-        friendsListUpdate == 'delete' && updateFriendsList(element, 'delete');
+        boolean && getFriends();
       });
   };
   console.log("invitation", invitation);
@@ -76,7 +75,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv('delete');
+            deleteFriendReqInv(true, true);
           }}
         >
           Remove Friend
@@ -85,7 +84,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            addFriendFun(false, true, 'add');
+            addFriendFun(false, true, false);
           }}
         >
           Add
@@ -94,7 +93,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv('cancel');
+            deleteFriendReqInv(false, false);
           }}
         >
           Cancel
@@ -104,7 +103,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              addFriendFun(true, true, 'accept');
+              addFriendFun(true, true, true);
             }}
           >
             Accept
@@ -112,7 +111,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              deleteFriendReqInv('decline');
+              deleteFriendReqInv(true, false);
             }}
           >
             Decline
