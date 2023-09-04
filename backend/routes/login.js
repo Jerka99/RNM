@@ -28,7 +28,7 @@ router.get("/login", (req, res) => {
   router.post("/login", (req, res) => {
 
     const [email, password] = Object.values(req.body);
-    const sql = `SELECT * FROM usersbase WHERE email = "${email}";`;
+    const sql = `SELECT * FROM userstable WHERE email = "${email}";`;
   
     connection.query(sql, (err, data) => {
       if (err) {

@@ -11,7 +11,7 @@ const saltRounds = 10;
 router.post("/", Object.values(expressvalidation), (req, res) => {
     const errors = validationResult(req);
     const sql =
-      "INSERT INTO usersbase (`email`, `password`, `name`, `secondname`) VALUES (?)";
+      "INSERT INTO userstable (`email`, `password`, `name`, `secondname`) VALUES (?)";
     const { passwordConfirmation, ...rest } = req.body;
   
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
