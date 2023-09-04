@@ -27,20 +27,7 @@ const SearchBar = () => {
 
   useEffect(() => searchUsers(), [userName]);
 
-  const uniqueUsersFun = (arr) => {
-    const uniqueEl = [];
-    const checkEl = (x) => {
-      const found = uniqueEl.some((e) => e.email === x);
-      return found;
-    };
-
-    arr.forEach((element) => {
-      if (!checkEl(element.email)) {
-        uniqueEl.push(element);
-      }
-    });
-    return uniqueEl;
-  };
+ 
 
   return (
     <form>
@@ -68,7 +55,7 @@ const SearchBar = () => {
       </button>
       {usersList.length > 0 && toggleInput && (
         <div id="users-list">
-          {uniqueUsersFun(usersList).map((element) => {
+          {usersList.map((element) => {
             return (
               <UserInList
                 key={element.email}

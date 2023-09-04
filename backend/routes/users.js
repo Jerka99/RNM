@@ -5,6 +5,21 @@ const router = express.Router();
 //    UNION SELECT name, secondname, email, receiver, sender, status FROM usersbase LEFT JOIN relations ON usersbase.email = relations.sender WHERE (name LIKE "%${req.body[0]}%" OR secondname LIKE "%${req.body[0]}%") AND email != '${req.body[1]}' AND sender IS NULL 
 const connection = require("../database");
 
+const uniqueUsersFun = (arr) => {
+  const uniqueEl = [];
+  const checkEl = (x) => {
+    const found = uniqueEl.some((e) => e.email === x);
+    return found;
+  };
+
+  arr.forEach((element) => {
+    if (!checkEl(element.email)) {
+      uniqueEl.push(element);
+    }
+  });
+  return uniqueEl;
+};
+
 router.post("/", (req, res) => {
 
   const sql = `WITH previous_query as (SELECT * FROM relations limit 0)
@@ -18,7 +33,7 @@ router.post("/", (req, res) => {
   connection.query(sql, (err, data) => {
     if (err) console.log(err);
 
-    return res.send(data);
+    return res.send(uniqueUsersFun(data));
   });
 });
 
