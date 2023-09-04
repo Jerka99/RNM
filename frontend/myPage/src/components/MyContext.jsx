@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:4000", {
@@ -19,14 +26,12 @@ const MyContextComp = ({ children }) => {
   const [user, setUser] = useState({ name: "", secondname: "", email: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [onlineUsers, setOnlineUsers] = useState({});
   const [friendsList, setFriendsList] = useState({});
   const [toggleInput, setToggleInput] = useState(false);
 
   console.log("MyContext");
 
   const getFriends = () => {
-    setFriendsList({});
     fetch("http://localhost:4000/friends", {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
@@ -40,7 +45,7 @@ const MyContextComp = ({ children }) => {
             ...prev,
             [element.email]: {
               ...element,
-              userId: onlineUsers[element.email]?.userId ?? "offline",
+              // userId: onlineUsers[element.email]?.userId ?? "offline",
             },
           }));
         });
@@ -48,34 +53,53 @@ const MyContextComp = ({ children }) => {
   };
 
   useEffect(() => {
-    Object.values(onlineUsers).length > 0 && getFriends();
-  }, [onlineUsers]);
+    user.email && socket.connect();
+    getFriends();
+  }, [user]);
+
+
+  const updateFriendsList = (data, todo) => {
+    const { email, name, secondname, user } = data;
+    todo == "accept" &&
+      setFriendsList((prev) => ({
+        ...prev,
+        [email]: {
+          name: name,
+          secondname: secondname,
+          email: email,
+        },
+      }));
+
+    todo == "delete" &&
+      setFriendsList((prev) => {
+        const obj = { ...prev };
+        delete obj[email];
+        return obj;
+      });
+  };
 
   useEffect(() => {
-
-    socket.on("remove user", (data) => {
-      setOnlineUsers((prev) => {
-        const newObj = { ...prev };
-        Object.values(prev).forEach((el) => {
-          if (el.userId == data) {
-            delete newObj[el.email];
-          }
+    socket.on("invitation", (data) => {
+      data.friendsListUpdate == "delete" &&
+        setFriendsList((prev) => {
+          const obj = { ...prev };
+          delete obj[data.user];
+          return obj;
         });
-        return { ...newObj };
-      });
-    });
 
-    socket.on("users", (data) => {
-      //gets users logged before you
-      setOnlineUsers(data);
-    });
-
-    socket.on("user connected", (data) => {
-      //on refresh and login user gets new socket id and this is trigered
-      setOnlineUsers((prev) => ({ ...prev, [data.email]: data }));
+      data.friendsListUpdate == "accept" &&
+        setFriendsList((prev) => ({
+          ...prev,
+          [data.user]: {
+            name: data.name,
+            secondname: data.secondname,
+            email: data.user,
+          },
+        }));
     });
   }, [socket]);
 
+  
   useEffect(() => {
     location.href == "http://localhost:5173/login" && setMessage("");
   }, [location.href]);
@@ -89,7 +113,6 @@ const MyContextComp = ({ children }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.loggedIn == true) {
-          socket.connect();
           const { name, secondname, email } = data?.user[0];
           setUser({ name: name, secondname: secondname, email: email }),
             navigate("/home");
@@ -115,8 +138,7 @@ const MyContextComp = ({ children }) => {
               secondname: data[0].secondname,
               email: data[0].email,
             }),
-            navigate("/home")),
-          socket.connect();
+            navigate("/home"));
       })
       .catch((err) => console.error(err));
   };
@@ -130,11 +152,12 @@ const MyContextComp = ({ children }) => {
         message,
         loading,
         socket,
-        onlineUsers,
+        updateFriendsList,
         friendsList,
         getFriends,
         toggleInput,
-        setToggleInput
+        setToggleInput,
+        setFriendsList
       }}
     >
       {children}

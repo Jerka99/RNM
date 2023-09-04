@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useContextComp } from "./MyContext";
+import { useContextComp } from "../MyContext";
 
 const SignIn = () => {
 

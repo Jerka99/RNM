@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useContextComp } from "./MyContext";
-import capitalize from "../functions/capitalize";
+import { useContextComp } from "../MyContext";
+import capitalize from "../../functions/capitalize";
 
 const UserInList = ({ element, user }) => {
   const [invitation, toggleInvitation] = useState(element.status);
-  const { socket, getFriends, onlineUsers } = useContextComp();
+  const { socket, updateFriendsList } = useContextComp();
 
   useEffect(() => {
     socket.on("invitation", (data) => {
-      console.log("data.msg", data.msg);
       element.email == data.user && toggleInvitation(data.msg);
-      console.log(data.friendsListUpdate);
-      data.friendsListUpdate && getFriends();
     });
   }, [socket]);
 
-  const Broadcast = (message, friendsListUpdate) => {
+
+  const Broadcast = (message, friendsListUpdate, receiver) => {
     socket.emit("invitation", {
       friendsListUpdate: friendsListUpdate,
       user: user.email,
-      to: onlineUsers[element.email]?.userId,
+      name: user.name,
+      secondname: user.secondname,
+      receiver: receiver,
       msg: message,
     });
   };
+
+  console.log('invitation',invitation , element.email, element.status)
 
   const addFriendFun = (accepted, status, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
@@ -39,16 +41,16 @@ const UserInList = ({ element, user }) => {
       .then((data) => {
         console.log(data),
           data.accepted
-            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate)) //accept decline
-            : (toggleInvitation(0), Broadcast("true", friendsListUpdate)); //send invitation
+            ? (toggleInvitation("friends"), Broadcast("friends", friendsListUpdate, element.email)) //accept decline
+            : (toggleInvitation(0), Broadcast("true", friendsListUpdate, element.email)); //send invitation
       })
       .catch((err) => console.error("err", err))
       .finally(() => {
-        accepted == true && status == true && getFriends();
+        friendsListUpdate == 'accept' && updateFriendsList(element, 'accept');
       });
   };
 
-  const deleteFriendReqInv = (boolean, friendsListUpdate) => {
+  const deleteFriendReqInv = (friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }, //important!
@@ -62,9 +64,9 @@ const UserInList = ({ element, user }) => {
       .catch((err) => console.error("err", err))
       .finally(() => {
         toggleInvitation(null);
-        Broadcast(null, friendsListUpdate);
+        Broadcast(null, friendsListUpdate, element.email);
         element.accepted = 0;
-        boolean && getFriends();
+        friendsListUpdate == 'delete' && updateFriendsList(element, 'delete');
       });
   };
   console.log("invitation", invitation);
@@ -75,7 +77,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv(true, true);
+            deleteFriendReqInv('delete');
           }}
         >
           Remove Friend
@@ -84,7 +86,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            addFriendFun(false, true, false);
+            addFriendFun(false, true, 'add');
           }}
         >
           Add
@@ -93,7 +95,7 @@ const UserInList = ({ element, user }) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            deleteFriendReqInv(false, false);
+            deleteFriendReqInv('cancel');
           }}
         >
           Cancel
@@ -103,7 +105,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              addFriendFun(true, true, true);
+              addFriendFun(true, true, 'accept');
             }}
           >
             Accept
@@ -111,7 +113,7 @@ const UserInList = ({ element, user }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              deleteFriendReqInv(true, false);
+              deleteFriendReqInv('decline');
             }}
           >
             Decline

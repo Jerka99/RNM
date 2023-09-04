@@ -1,6 +1,6 @@
 import "./App.css";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import SignIn from "./components/sign-In-Up/SignIn";
+import SignUp from "./components/sign-In-Up/SignUp";
 import { Route, Routes, BrowserRouter, Outlet } from "react-router-dom";
 import Home from "./components/Home";
 import MyContextComp, { useContextComp } from "./components/MyContext";
