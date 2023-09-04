@@ -63,13 +63,10 @@ io.on("connect", (socket) => {
 
   console.log(users, socket.id);
 
-  socket.on("friend connected", (data) => {console.log('frienddd',data)
-    socket
-      .to(users[data.to]?.userId)
-      .emit("friend connected", {
-        name: users[data.sender]?.name,
-        secondname: users[data.sender]?.secondname,
-        email: users[data.sender]?.email, });
+  socket.broadcast.emit("user connected", {
+    userId: socket.id,
+    user: socket.user.name + " " + socket.user.secondname,
+    email: socket.user.email,
   });
 
   socket.on("private message", (data) => {

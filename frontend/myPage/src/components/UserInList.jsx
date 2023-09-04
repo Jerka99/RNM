@@ -23,7 +23,7 @@ const UserInList = ({ element, user }) => {
     });
   };
 
-  console.log(socket)
+  console.log('invitation',invitation , element.email, element.status)
 
   const addFriendFun = (accepted, status, friendsListUpdate) => {
     fetch("http://localhost:4000/relations", {
