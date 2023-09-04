@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useContextComp } from "./MyContext";
-import capitalize from "../functions/capitalize";
+import { useContextComp } from "../MyContext";
+import capitalize from "../../functions/capitalize";
 
 const UserInList = ({ element, user }) => {
   const [invitation, toggleInvitation] = useState(element.status);
@@ -11,6 +11,7 @@ const UserInList = ({ element, user }) => {
       element.email == data.user && toggleInvitation(data.msg);
     });
   }, [socket]);
+
 
   const Broadcast = (message, friendsListUpdate, receiver) => {
     socket.emit("invitation", {

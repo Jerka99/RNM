@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useContextComp } from "./MyContext";
 import { Link, useNavigate } from "react-router-dom";
-import SearchBar from "./SearchBar";
+import SearchBar from "./searchUsers/SearchBar";
 
 const Header = () => {
-  const { setUser, user, socket } = useContextComp();
+  const { setUser, user, socket, setFriendsList } = useContextComp();
   const navigate = useNavigate();
 
   const logOutFun = () => {
@@ -17,7 +17,7 @@ const Header = () => {
         console.log(data), setUser(""), navigate("/");
       })
       .catch((err) => console.error(err))
-      .finally(() => socket.disconnect());
+      .finally(() => {setFriendsList({}),socket.disconnect()});
   };
 
 

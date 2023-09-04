@@ -157,6 +157,7 @@ const MyContextComp = ({ children }) => {
         getFriends,
         toggleInput,
         setToggleInput,
+        setFriendsList
       }}
     >
       {children}

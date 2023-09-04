@@ -8,7 +8,6 @@ const ChatHolder = () => {
   const [recipient, setRecipient] = useState({ user: "", id: "" });
   const [onlineUsers, setOnlineUsers] = useState({});
 
-  console.log("CHATholder", friendsList);
 
   useEffect(() => {
     socket.on("remove user", (data) => {
@@ -35,21 +34,30 @@ const ChatHolder = () => {
   }, [socket]);
 
   return (
-    <div id="myChat" onClick={()=>toggleInput && setToggleInput(false)}>
+    <div id="myChat" onClick={() => toggleInput && setToggleInput(false)}>
       <div id="friends-list">
         <h1>Friends list</h1>
         {Object.values(friendsList).map((el) => {
           return (
-            <FriendFromListInChat
+            <div
               key={el.email}
-              el={el}
-              setRecipient={setRecipient}
-              onlineUsers={onlineUsers[el.email]?.userId ?? 'offline'}
-            />
+              onClick={() => {setRecipient({ user: el.email, id: el.userId })}}
+            >
+              <FriendFromListInChat
+                el={el}
+                onlineUsers={onlineUsers[el.email]?.userId ?? "offline"}
+              />
+            </div>
           );
         })}
       </div>
-      {recipient.user && <Chat recipient={recipient} setRecipient={setRecipient}/>}
+      {recipient.user && (
+        <Chat
+          recipient={recipient}
+          setRecipient={setRecipient}
+          onlineUsers={onlineUsers}
+        />
+      )}
     </div>
   );
 };
