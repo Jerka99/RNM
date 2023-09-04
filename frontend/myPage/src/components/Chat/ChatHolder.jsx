@@ -4,9 +4,34 @@ import FriendFromListInChat from "./FriendFromListInChat";
 import Chat from "./Chat";
 
 const ChatHolder = () => {
-  const { socket, friendsList, user, setToggleInput, toggleInput } = useContextComp();
+  const { friendsList, setToggleInput, toggleInput, socket } = useContextComp();
   const [recipient, setRecipient] = useState({ user: "", id: "" });
-  console.log("CHATholder", recipient);
+  const [onlineUsers, setOnlineUsers] = useState({});
+
+
+  useEffect(() => {
+    socket.on("remove user", (data) => {
+      setOnlineUsers((prev) => {
+        const newObj = { ...prev };
+        Object.values(prev).forEach((el) => {
+          if (el.userId == data) {
+            delete newObj[el.email];
+          }
+        });
+        return { ...newObj };
+      });
+    });
+
+    socket.on("users", (data) => {
+      //gets users logged before you
+      setOnlineUsers(data);
+    });
+
+    socket.on("user connected", (data) => {
+      //on refresh and login user gets new socket id and this is trigered
+      setOnlineUsers((prev) => ({ ...prev, [data.email]: data }));
+    });
+  }, [socket]);
 
   return (
     <div id="myChat" onClick={() => toggleInput && setToggleInput(false)}>
