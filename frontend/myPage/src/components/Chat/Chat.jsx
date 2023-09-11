@@ -8,6 +8,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({boolean:false, sender:""});
+  const [newHeight, setNewHeight] = useState('')
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
 
@@ -103,9 +104,11 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       sendMessage(e);
     }
   };
+  console.log(window.visualViewport.height)
 
   return (
     <form id="chat" onSubmit={sendMessage}>
+      <div>{newHeight}</div>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
@@ -126,6 +129,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
         onKeyDown={onEnterPress}
+        onTouchStart={()=>setNewHeight(window.visualViewport.height)}
         type="text"
         autoComplete="off"
         value={message}
