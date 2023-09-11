@@ -336,7 +336,7 @@ header nav li a {
   top: 42px;
   height: calc(100vh - 42px);
   width: 100%;
-  border-bottom: solid 2px black;
+  box-shadow: 0px 0px 0px 1px black;
 }
 
 #chat-with {
