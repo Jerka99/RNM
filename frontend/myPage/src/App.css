@@ -44,6 +44,7 @@ header {
 }
 
 #loggedin-header {
+  height: 43px;
   border-bottom: solid 1px black;
 }
 
