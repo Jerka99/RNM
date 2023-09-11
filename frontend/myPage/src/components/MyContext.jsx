@@ -8,7 +8,7 @@ import {
 } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:4000", {
+const socket = io(`${import.meta.env.VITE_BASE_URL}`, {
   autoConnect: false,
   withCredentials: true, // bez ovoga u sessionu ne mogu naci usera
 });
@@ -32,7 +32,7 @@ const MyContextComp = ({ children }) => {
   console.log("MyContext");
 
   const getFriends = () => {
-    fetch("http://localhost:4000/friends", {
+    fetch(`${import.meta.env.VITE_BASE_URL}/friends`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify([user.email]),
@@ -101,12 +101,12 @@ const MyContextComp = ({ children }) => {
 
   
   useEffect(() => {
-    location.href == "http://localhost:5173/login" && setMessage("");
+    location.href == `${import.meta.env.VITE_BASE_URL}/login` && setMessage("");
   }, [location.href]);
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:4000/login", {
+    fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
       credentials: "include", // could also try 'same-origin'
       headers: { "Content-Type": "application/json" }, //important!
     })
@@ -123,7 +123,7 @@ const MyContextComp = ({ children }) => {
   }, []);
 
   const logIn = (userInfo) => {
-    fetch("http://localhost:4000/login", {
+    fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
       credentials: "include", // could also try 'same-origin'
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!

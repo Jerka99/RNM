@@ -29,7 +29,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   useEffect(() => {
     setMessagesList([{}]);
     setMessage("")
-    fetch("http://localhost:4000/messages", {
+    fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify({
@@ -71,7 +71,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     e.preventDefault();
 
     if (message.trim().length > 0) {
-      fetch("http://localhost:4000/messages", {
+      fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }, //important!
         body: JSON.stringify({

@@ -48,7 +48,7 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:4000/signup", {
+    fetch(`${import.meta.env.VITE_BASE_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify(userInfo),

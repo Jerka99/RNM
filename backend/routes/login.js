@@ -11,8 +11,17 @@ router.use(cookieParser());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/logout", (req, res)=>{
+
+  const sql = `DELETE FROM sessions WHERE session_id = '${req.sessionID}';`;
   res.clearCookie("userId");
-  res.send({message:"You re logged out"});  
+  connection.query(sql, (err, data) => {
+    if(err){
+      res.send({ err: err });
+    }
+    else{
+      res.send({message:"You re logged out", data});  
+    }
+  })
 })
 
 router.get("/login", (req, res) => {
