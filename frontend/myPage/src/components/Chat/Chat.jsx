@@ -8,6 +8,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({boolean:false, sender:""});
+  const [newHeight, setNewHeight] = useState(window.visualViewport.height)
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
 
@@ -25,6 +26,15 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     };
     return message;
   };
+  let resizeWindow = () => {
+    setNewHeight(window.innerHeight);
+  };
+
+  useEffect(()=>{
+    resizeWindow();
+    window.addEventListener("resize", resizeWindow);
+    return () => window.removeEventListener("resize", resizeWindow);
+  },[])
 
   useEffect(() => {
     setMessagesList([{}]);
@@ -103,9 +113,10 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       sendMessage(e);
     }
   };
+  console.log(window.visualViewport.height)
 
   return (
-    <form id="chat" onSubmit={sendMessage}>
+    <form id="chat" style={{height:newHeight}} onSubmit={sendMessage}>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
