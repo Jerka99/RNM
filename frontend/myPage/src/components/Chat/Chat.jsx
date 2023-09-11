@@ -140,6 +140,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
         type="text"
         autoComplete="off"
         value={message}
+        placeholder={newHeight}
         onChange={(e) => {
           socket.emit("typing", {
             sender: user.email,
