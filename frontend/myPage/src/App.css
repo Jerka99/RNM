@@ -1,6 +1,14 @@
 * {
   box-sizing: border-box;
 }
+#root > div {
+  background: cornflowerblue;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+}
 
 body {
   margin: 0;
@@ -9,13 +17,19 @@ body {
 
 #home {
   overflow: hidden;
+  background: white;
+  height: calc(100% - 42px);
 }
 
 header {
   display: flex;
-  background: cornflowerblue;
   justify-content: space-between;
   align-items: center;
+}
+
+#login-header{
+  height: 100%;
+
 }
 
 #loggedin-header {
@@ -73,7 +87,6 @@ header form {
 }
 
 header .nav-login {
-  height: 100vh;
   font-size: 75px;
   gap: 80px 0;
   margin: 0 50%;
@@ -535,7 +548,7 @@ header nav li a {
 }
 
 header .nav-login.active {
-  transform: translate(-50%, 100%);
+  transform: translate(-50%, 100vh);
 }
 
 header .nav-login {
