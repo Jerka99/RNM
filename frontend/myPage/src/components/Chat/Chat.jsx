@@ -27,9 +27,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     return message;
   };
   let resizeWindow = () => {
-    setTimeout(() => {
-      setNewHeight(window.innerHeight);
-    }, 1000);
+      setNewHeight(window.visualViewport.height);
     
   };
 
