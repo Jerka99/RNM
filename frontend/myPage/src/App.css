@@ -379,6 +379,7 @@ header nav li a {
   align-items: flex-end;
   gap: 5px;
   height: 100%;
+  height: -webkit-fill-available;
   background: white;
 }
 
