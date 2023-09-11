@@ -555,6 +555,15 @@ header .nav-login {
 
 @media only screen and (max-width: 600px) {
 
+  #chat-with {
+    position: fixed;
+    z-index: 1;
+  }
+
+  #messages-list {
+    max-height: calc(100% - 39px);
+}
+
   #friends-list {
     width: 100%;
     z-index: 1;
