@@ -598,6 +598,7 @@ header .nav-login {
   #chat {
     width: 100%;
     height: -webkit-fill-available;
+    overflow: hidden;
     top: -41px;
     right: 0;
     z-index: 2;
