@@ -105,7 +105,11 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     }
   };
   console.log(window.visualViewport.height)
-
+const changeHeight = () =>{
+  setTimeout(() => {
+  setNewHeight(window.visualViewport.height)
+}, 400);
+}
   return (
     <form id="chat" style={{height:`${newHeight}`}} onSubmit={sendMessage}>
       <div id="chat-with">
@@ -128,7 +132,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
         onKeyDown={onEnterPress}
-        onTouchStart={()=>setTimeout(setNewHeight(window.visualViewport.height),400)}
+        onTouchStart={()=>changeHeight()}
         type="text"
         autoComplete="off"
         value={message}
