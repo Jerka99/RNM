@@ -581,10 +581,10 @@ header .nav-login {
 @media only screen and (max-width: 600px) {
 
   #chat-with {
-    position: sticky;
+    position: relative;
     z-index: 1;
-    top: 0;
-  }
+    top: 0px;
+}
 
   #messages-list {
     height: calc(100% - 126px);
