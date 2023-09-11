@@ -106,8 +106,15 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
   console.log(window.visualViewport.height)
 
+  const heightChanger = () =>{
+    setTimeout(() => {
+      setNewHeight(window.visualViewport.height)
+    }, 1000);
+    
+  }
+
   return (
-    <form onResize={()=>setNewHeight(window.visualViewport.height)} id="chat" onSubmit={sendMessage}>
+    <form id="chat" onSubmit={sendMessage}>
       <div>{newHeight}</div>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
@@ -129,7 +136,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
         onKeyDown={onEnterPress}
-        // onTouchStart={()=>setNewHeight(window.visualViewport.height)}
+        onTouchStart={()=>heightChanger()}
         type="text"
         autoComplete="off"
         value={message}
