@@ -552,14 +552,8 @@ header .nav-login {
   position: inherit;
 }
 }
-html{
-  height: -webkit-fill-available;
-}
-@media only screen and (max-width: 600px) {
 
-  #chat{
-    height: -webkit-fill-available;
-  }
+@media only screen and (max-width: 600px) {
 
   #chat-with {
     position: sticky;
@@ -577,7 +571,7 @@ html{
   }
   #chat {
     width: 100%;
-    height: 100vh;
+    height: calc(100% + 42px);
     right: 0;
     z-index: 2;
   }

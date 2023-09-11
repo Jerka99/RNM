@@ -8,7 +8,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({boolean:false, sender:""});
-  const [newHeight, setNewHeight] = useState('')
+  const [newHeight, setNewHeight] = useState('calc(100% + 42px)');
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
 
@@ -106,16 +106,8 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
   console.log(window.visualViewport.height)
 
-  const heightChanger = () =>{
-    const currentHeight = window.visualViewport.height
-    setTimeout(() => {
-      setNewHeight(currentHeight - window.visualViewport.height)
-    }, 1000);
-    
-  }
-
   return (
-    <form id="chat" onSubmit={sendMessage}>
+    <form id="chat" style={{height:`${newHeight}`}} onSubmit={sendMessage}>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
@@ -127,7 +119,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           <BsArrowLeft />
         </p>
       </div>
-      <div id="messages-list" style={{height:`calc(${newHeight}px - 126px)`}}>
+      <div id="messages-list">
         {messagesList.map((el, i) => {
           return <MessageLine key={parseInt(el.time) + i} el={el} i={i} />;
         })}{" "}
@@ -136,7 +128,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
         onKeyDown={onEnterPress}
-        onTouchStart={()=>heightChanger()}
+        onTouchStart={()=>setTimeout(setNewHeight(window.visualViewport.height))}
         type="text"
         autoComplete="off"
         value={message}
