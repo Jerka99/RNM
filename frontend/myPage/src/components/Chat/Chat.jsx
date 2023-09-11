@@ -124,7 +124,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
         <div ref={lastmsg} id="bottom"></div>
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
-      <div><textarea
+      <div id="sticky-block"><textarea
         onKeyDown={onEnterPress}
         type="text"
         autoComplete="off"
