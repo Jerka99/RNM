@@ -107,7 +107,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   console.log(window.visualViewport.height)
 
   return (
-    <form id="chat" onSubmit={sendMessage}>
+    <form onResize={()=>setNewHeight(window.visualViewport.height)} id="chat" onSubmit={sendMessage}>
       <div>{newHeight}</div>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
