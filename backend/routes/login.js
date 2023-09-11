@@ -47,7 +47,7 @@ router.get("/login", (req, res) => {
         if (data.length > 0) {
           bcrypt.compare(password, data[0].password, (herror, response) => {
             if (response) {
-              console.log("CHECK SESSION ON LOGIN", req.session.user)
+              console.log("CHECK SESSION ON LOGIN", data)
               req.session.user = data;
               res.send(data);
             } else {
