@@ -107,15 +107,15 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   console.log(window.visualViewport.height)
 
   const heightChanger = () =>{
+    const currentHeight = window.visualViewport.height
     setTimeout(() => {
-      setNewHeight(window.visualViewport.height)
+      setNewHeight(currentHeight - window.visualViewport.height)
     }, 1000);
     
   }
 
   return (
     <form id="chat" onSubmit={sendMessage}>
-      <div>{newHeight}</div>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
@@ -127,7 +127,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           <BsArrowLeft />
         </p>
       </div>
-      <div id="messages-list">
+      <div id="messages-list" style={{height:`calc(${newHeight}px - 126px)`}}>
         {messagesList.map((el, i) => {
           return <MessageLine key={parseInt(el.time) + i} el={el} i={i} />;
         })}{" "}

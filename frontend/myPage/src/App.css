@@ -568,7 +568,7 @@ html{
   }
 
   #messages-list {
-    max-height: calc(100% - 39px);
+    height: calc(100% - 126px);
 }
 
   #friends-list {
