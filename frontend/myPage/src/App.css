@@ -597,7 +597,7 @@ header .nav-login {
   }
   #chat {
     width: 100%;
-    height: calc(100% + 42px);
+    top: -41px;
     right: 0;
     z-index: 2;
   }
