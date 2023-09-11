@@ -7,16 +7,19 @@ body {
   font-family: system-ui;
 }
 
-#home{
+#home {
   overflow: hidden;
 }
 
 header {
   display: flex;
   background: cornflowerblue;
-  border-bottom: solid 1px black;
   justify-content: space-between;
   align-items: center;
+}
+
+#loggedin-header {
+  border-bottom: solid 1px black;
 }
 
 header form {
@@ -64,12 +67,29 @@ header form {
   cursor: pointer;
 }
 
-#users-list div button:hover{
+#users-list div button:hover {
   box-shadow: 0px 0px 7px 0px black;
   color: gray;
 }
 
-header nav {
+header .nav-login {
+  height: 100vh;
+  font-size: 75px;
+  gap: 80px 0;
+  margin: 0 50%;
+  transform: translate(-50%, 0px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+header .nav-login.active {
+  transform: translate(-145%, 0px);
+}
+
+header .nav-loggedin {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -90,9 +110,12 @@ header nav li a {
 .form-holder {
   position: relative;
   max-width: 360px;
-  width: 90%;
-  box-shadow: 0px 0px 7px 0px darkgray;
+  width: 100%;
+  background: cornflowerblue;
+  color: white;
+  box-shadow: 0px 0px 7px 0px white;
   border-radius: 5px;
+  border: solid 2px white;
   padding: 15px;
 }
 
@@ -107,14 +130,17 @@ header nav li a {
   position: absolute;
   right: 15px;
   bottom: 15px;
+  color: white;
 }
 
-#login form button,
-#register form button {
-  background: black;
-  color: white;
+ .form-holder button,
+ .form-holder button {
+  background: white;
+  color: cornflowerblue;
   width: 65px;
   border-radius: 10px;
+  border: solid 2px cornflowerblue;
+  box-shadow: 0px 0px 1px 1px white;
   cursor: pointer;
 }
 
@@ -147,12 +173,28 @@ header nav li a {
 }
 
 #register form div span {
-  color: red;
+  color: white;
+  background: red;
+  border-radius: 6px;
+  padding: 2px 4px;
   position: absolute;
-  right: 0;
-  top: 40px;
+  width: 175px;
+  left: 335px;
+  top: 20px;
   font-family: system-ui;
   font-size: 14px;
+}
+
+
+#register form div span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: -9px;
+  border-bottom: 11px solid transparent;
+  border-left: solid 12px transparent;
+  border-top: solid 12px red;
 }
 
 .input.active {
@@ -161,11 +203,12 @@ header nav li a {
 
 #login,
 #register {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.8);
+  width: 300px;
   height: 100%;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: -100%;
+  transform: translate(-10%, 0px);
+  margin: 0 50%;
   z-index: 1;
   transition: all 0.3s ease-in-out;
   display: flex;
@@ -174,9 +217,16 @@ header nav li a {
   align-items: center;
 }
 
+#register.active,
+#login.active {
+  top: 0px;
+}
+
 #login .form-holder {
   height: 320px;
+  color: white;
   max-width: 300px;
+  width: 100%;
 }
 
 #login form {
@@ -198,7 +248,7 @@ header nav li a {
 
 #spinner-holder {
   position: fixed;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255);
   width: 100%;
   height: 100%;
   top: 0;
@@ -282,7 +332,7 @@ header nav li a {
   margin: 4px 10px 2px;
 }
 
-#chat-with #close{
+#chat-with #close {
   position: absolute;
   right: 15px;
   top: 5px;
@@ -327,7 +377,6 @@ header nav li a {
   border: solid 1px black;
 }
 
-
 #messages-list {
   max-height: calc(100% - 117px);
   overflow: auto;
@@ -335,8 +384,7 @@ header nav li a {
   padding: 0 10px;
 }
 
-
-#messages-list div p{
+#messages-list div p {
   width: fit-content;
   max-width: 45%;
   word-break: break-word;
@@ -344,7 +392,7 @@ header nav li a {
   cursor: pointer;
 }
 
-#messages-list #sender p{
+#messages-list #sender p {
   background: powderblue;
   right: 0;
   margin: 2px 0 2px auto;
@@ -359,13 +407,12 @@ header nav li a {
   width: fit-content;
 }
 
-
-.time{
+.time {
   display: none;
 }
 
-.time.active{
-display: block;
+.time.active {
+  display: block;
 }
 
 #messages-list #sender p::after {
@@ -381,8 +428,8 @@ display: block;
   transform: rotate(315deg);
 }
 
-#messages-list #recipient p{
-  margin: 2px 0 2px ;
+#messages-list #recipient p {
+  margin: 2px 0 2px;
   background: lightgrey;
   position: relative;
   border-radius: 0px 5px 5px 5px;
@@ -433,7 +480,7 @@ display: block;
   cursor: pointer;
 }
 
-#friends-list h1{
+#friends-list h1 {
   background: cornflowerblue;
   margin: 0;
   padding: 35px 0px 7px 3px;
@@ -447,50 +494,119 @@ display: block;
   margin: 10px 0;
 }
 
-@media only screen and (max-width:600px) {
+@media only screen and (max-width: 1000px) {
+  header .nav-login {
+    font-size: 50px;
+    gap: 35px 0;
+  }
+  .input.active {
+    z-index: 1;
+}
+  #register form div span {
+    padding: 2px 4px 0;
+    width: 100%;
+    left: 0px;
+    top: 37px;
+    z-index: 0;
+}
+  
+  #register form div span::after {
+    display: none;
+  }
+
+  #login form button, #register form button {
+    position: relative;
+    top: 2px;
+}
+}
+
+@media only screen and (max-width: 800px) {
+
+header {
+  overflow: hidden;
+}
+
+#login, #register {
+  transform: translate(-50%, 0px);
+  width: 100%;
+}
+
+header .nav-login.active {
+  transform: translate(-50%, 100%);
+}
+
+header .nav-login {
+  font-size: 30px;
+  gap: 35px 0;
+}
+
+.form-holder {
+  overflow: auto;
+}
+
+.form-holder a {
+  float: right;
+  position: inherit;
+}
+}
+
+@media only screen and (max-width: 600px) {
+
   #friends-list {
     width: 100%;
     z-index: 1;
+  }
+  #chat {
+    width: 100%;
+    right: 0;
+    z-index: 2;
+  }
+  #root > div {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  #loggedin-header {
+    width: calc(200% - 0px);
+  }
+  header {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 5px;
+  }
+
+  header form {
+    width: auto;
+    display: flex;
+    margin: 0 5px 0 0;
+    align-items: center;
+    position: relative;
+  }
+
+  .users-search.active {
+    width: calc(100vw - 42px);
+  }
+
+  header .nav-loggedin {
+    margin-left: calc(100vw - 136px);
+  }
+
+  #users-list {
+    top: 24px;
+    width: calc(100% - 32px);
+    z-index: 3;
+  }
 }
-#chat {
+
+@media only screen and (max-width: 400px){
+  #login .form-holder {
+    height: 100%;
+    width: 100%;
+    max-width: none;
+}
+.form-holder{
+  height: 100%;
   width: 100%;
-  right: 0;
-  z-index: 2;
+  max-width: none;
 }
-#root > div {
-  overflow: hidden;
-  height: 100vh;
-}
-
-header {
-  display: flex;
-  justify-content: flex-start;
-  width: calc(200% - 0px);
-  padding: 0 5px;
-}
-
-
-header form {
-  width: auto;
-  display: flex;
-  margin: 0 5px 0 0;
-  align-items: center;
-  position: relative;
-}
-
-.users-search.active {
-  width: calc(100vw - 42px);
-}
-
-header nav {
-  margin-left: calc(100vw - 136px);
-}
-
-#users-list {
-  top: 24px;
-  width: calc(100% - 32px);
-  z-index: 3;
-}
-
-
 }

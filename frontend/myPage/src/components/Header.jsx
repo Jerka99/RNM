@@ -4,8 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "./searchUsers/SearchBar";
 
 const Header = () => {
-  const { setUser, user, socket, setFriendsList } = useContextComp();
+  const { setUser, user, socket, setFriendsList, animation } = useContextComp();
   const navigate = useNavigate();
+
 
   const logOutFun = () => {
     fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
@@ -17,22 +18,27 @@ const Header = () => {
         console.log(data), setUser(""), navigate("/");
       })
       .catch((err) => console.error(err))
-      .finally(() => {setFriendsList({}),socket.disconnect()});
+      .finally(() => {
+        setFriendsList({}), socket.disconnect();
+      });
   };
 
-
   return (
-    <header>
-      {user.email && (<SearchBar/>)}
+    <header id={user.email ? "loggedin-header" : "login-header"}>
+      {user.email && <SearchBar />}
       {!user.email && <div></div>}
-      <nav>
+      <nav
+        className={
+          user.email ? "nav-loggedin" : `nav-login ${animation ? "active" : ""}`
+        }
+      >
         {!user.email && (
-          <li>
+          <li >
             <Link to="/login">Log in</Link>
           </li>
         )}
         {!user.email && (
-          <li>
+          <li >
             <Link to="/signup">Register</Link>
           </li>
         )}

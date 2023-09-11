@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useContextComp } from "../MyContext";
 
 
 const SignUp = () => {
+const { animation, setAnimation } = useContextComp();
 
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -20,9 +22,9 @@ const SignUp = () => {
   });
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   getInfo();
-  // }, []);
+  useEffect(() => {
+    setAnimation(true)
+  }, []);
 
   // const getInfo = () => {
   //   fetch("http://localhost:4000/users")
@@ -127,10 +129,10 @@ const SignUp = () => {
   };
 
   return (
-    <div id="register">
+    <div id="register" className={animation ? "active" : ""}>
       <div className="form-holder">
         <h3>Register</h3>
-        <h3 onClick={()=>navigate('/')}>X</h3>
+        <h3 onClick={()=>{setAnimation(false),navigate('/')}}>X</h3>
 
         <form onSubmit={handleSubmit}>
           {Object.values(signUpObject).map((element) => {

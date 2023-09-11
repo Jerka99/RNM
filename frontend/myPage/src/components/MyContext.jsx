@@ -28,6 +28,7 @@ const MyContextComp = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [friendsList, setFriendsList] = useState({});
   const [toggleInput, setToggleInput] = useState(false);
+  const [animation, setAnimation] = useState(false)
 
   console.log("MyContext");
 
@@ -100,9 +101,6 @@ const MyContextComp = ({ children }) => {
   }, [socket]);
 
   
-  useEffect(() => {
-    location.href == `${import.meta.env.VITE_BASE_URL}/login` && setMessage("");
-  }, [location.href]);
 
   useEffect(() => {
     setLoading(true);
@@ -138,7 +136,8 @@ const MyContextComp = ({ children }) => {
               secondname: data[0].secondname,
               email: data[0].email,
             }),
-            navigate("/home"));
+            navigate("/home"),
+            setAnimation(false))
       })
       .catch((err) => console.error(err));
   };
@@ -157,7 +156,10 @@ const MyContextComp = ({ children }) => {
         getFriends,
         toggleInput,
         setToggleInput,
-        setFriendsList
+        setFriendsList,
+        setMessage,
+        animation,
+        setAnimation
       }}
     >
       {children}

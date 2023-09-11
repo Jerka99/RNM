@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useContextComp } from "../MyContext";
 
 const SignIn = () => {
 
-  const { logIn, message } = useContextComp();
+  const { logIn, message, setMessage, animation, setAnimation } = useContextComp();
   const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const navigate = useNavigate()
   // Axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+      setAnimation(true)
+  }, []);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,14 +21,15 @@ const SignIn = () => {
 
   const inputFun = (e) => {
     const { name, value } = e.target;
+    setMessage("");
     setUserInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <div id="login">
+    <div id="login" className={animation ? "active" : ""}>
       <div className="form-holder">
         <h3>Log in</h3>
-        <h3 onClick={()=>navigate('/')}>X</h3>
+        <h3 onClick={()=>{setAnimation(false), setMessage(""), navigate('/')}}>X</h3>
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">E-mail</label>
           <input
