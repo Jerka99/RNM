@@ -381,9 +381,7 @@ header nav li a {
 }
 
 #messages-list {
-  position: absolute;
-  top: 75px;
-  max-height: calc(100% - 113px);
+  max-height: calc(100% - 117px);
   overflow: auto;
   width: 100%;
   padding: 0 10px;
