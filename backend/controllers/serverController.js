@@ -19,8 +19,8 @@ const sessionMiddleware = session({
   cookie: {
     expires: 1000 * 60 * 60 * 24,
     httpOnly: false, //set false if you want to change the cookie using JavaScipt
-    secure: process.env.ORIGIN_URL == 'https://frontend-7vx8.onrender.com',
-    sameSite: process.env.ORIGIN_URL == 'https://frontend-7vx8.onrender.com' ? "None" : "Lax",
+    secure: process.env.ORIGIN_URL == 'https://backend-r07q.onrender.com',
+    sameSite: process.env.ORIGIN_URL == 'https://backend-r07q.onrender.com' ? "None" : "Lax",
     // maxAge: 100000,
   },
 });
