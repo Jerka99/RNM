@@ -333,7 +333,7 @@ header nav li a {
 
 #myChat {
   position: absolute;
-  top: 42px;
+  top: 41px;
   height: calc(100vh - 42px);
   width: 100%;
   box-shadow: 0px 0px 0px 1px black;
