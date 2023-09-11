@@ -9,7 +9,7 @@ const options = {
 };
 
 const sessionStore = new mysqlStore(options);
-console.log("EJ TI!", process.env.ORIGIN_URL == 'https://frontend-7vx8.onrender.com')
+
 const sessionMiddleware = session({
   key: "userId",
   secret: "mysecretkey",
@@ -19,8 +19,8 @@ const sessionMiddleware = session({
   cookie: {
     expires: 1000 * 60 * 60 * 24,
     httpOnly: false, //set false if you want to change the cookie using JavaScipt
-    secure: true,
-    sameSite: "None"
+    secure: process.env.ORIGIN_URL == 'https://frontend-7vx8.onrender.com',
+    sameSite: process.env.ORIGIN_URL == 'https://frontend-7vx8.onrender.com' ? "None" : "Lax",
     // maxAge: 100000,
   },
 });
