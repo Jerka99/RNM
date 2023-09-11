@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import { useContextComp } from "../MyContext";
-import { AiOutlineClose } from "react-icons/ai";
+import { BsArrowLeft } from "react-icons/bs";
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
 
@@ -114,7 +114,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           <small>online</small>
         )}
         <p id="close" onClick={() => setRecipient({ user: "", id: "" })}>
-          <AiOutlineClose />
+          <BsArrowLeft />
         </p>
       </div>
       <div id="messages-list">
