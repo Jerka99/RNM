@@ -70,19 +70,16 @@ io.on("connect", (socket) => {
   });
 
   socket.on("private message", (data) => {
-    console.log("data", data);
     socket
       .to(users[data.to]?.userId)
       .emit("private message", { msg: data.msg, sender: data.sender });
   });
 
   socket.on("invitation", (data) => {
-    console.log(users[data.receiver]?.userId, data);
     socket.to(users[data.receiver]?.userId).emit("invitation", data);
   });
 
   socket.on("typing", (data) => {
-    console.log("typinngm", data.to);
     socket.to(users[data.to]?.userId).emit("typing", data);
   });
 

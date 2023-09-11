@@ -12,9 +12,9 @@ router.post("/", (req, res) => {
   };
   const { sender, receiver, status, accepted } = req.body;
   const statusArr = [status, accepted];
-  console.log(sender, receiver, status);
+
   Object.values(sql).forEach((el, i) => {
-    console.log("EEE");
+
     connection.query(
       el,
       [sender, receiver, statusArr[i], accepted],
@@ -32,7 +32,7 @@ router.patch("/", (req, res) => {
 
   const { sender, receiver, status, accepted } = req.body;
   const sql = `UPDATE relations SET status = ?, accepted = ? WHERE (sender=? AND receiver=?) OR (receiver=? AND sender=?)`;
-  console.log(sender, receiver, status, accepted);
+
   connection.query(
     sql,
     [status, accepted, sender, receiver, sender, receiver],
@@ -47,7 +47,6 @@ router.patch("/", (req, res) => {
 });
 
 router.delete("/", (req, res) => {
-  console.log("delete", req.body);
 
   const { sender, receiver } = req.body;
   const sql = `DELETE FROM relations WHERE (sender=? AND receiver=?) OR (receiver=? AND sender=?)`;
