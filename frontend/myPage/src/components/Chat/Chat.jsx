@@ -129,7 +129,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
         onKeyDown={onEnterPress}
-        onTouchStart={()=>setNewHeight(window.visualViewport.height)}
+        // onTouchStart={()=>setNewHeight(window.visualViewport.height)}
         type="text"
         autoComplete="off"
         value={message}
