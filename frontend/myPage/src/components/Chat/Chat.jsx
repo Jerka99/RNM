@@ -124,7 +124,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
         <div ref={lastmsg} id="bottom"></div>
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
-      <textarea
+      <div><textarea
         onKeyDown={onEnterPress}
         type="text"
         autoComplete="off"
@@ -137,7 +137,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           setMessage(e.target.value);
         }}
       />
-      <button type="submit">Send</button>
+      <button type="submit">Send</button></div>
     </form>
   );
 };
