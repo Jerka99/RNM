@@ -556,7 +556,7 @@ header .nav-login {
 @media only screen and (max-width: 600px) {
 
   #chat-with {
-    position: fixed;
+    position: sticky;
     z-index: 1;
     top: 0;
   }
