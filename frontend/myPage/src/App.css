@@ -606,6 +606,7 @@ header .nav-login {
     top: -41px;
     right: 0;
     z-index: 2;
+    overflow-y: hidden;
   }
 
   #loggedin-header {
