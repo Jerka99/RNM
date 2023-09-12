@@ -27,8 +27,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     return message;
   };
   let resizeWindow = () => {
-      setNewHeight(window.visualViewport.height);
-    
+      setNewHeight(window.visualViewport.height);    
   };
 
   useEffect(()=>{
