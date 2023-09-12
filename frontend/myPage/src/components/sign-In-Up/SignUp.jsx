@@ -26,13 +26,6 @@ const { animation, setAnimation } = useContextComp();
     setAnimation(true)
   }, []);
 
-  // const getInfo = () => {
-  //   fetch("http://localhost:4000/users")
-  //     .then((response) => response.json())
-  //     .then((data) => console.log(data))
-  //     .catch((err) => console.error("EEEE", err));
-  // };
-
   const errorsHandler = (data) => {
     setErrors({
       email: "",
@@ -58,7 +51,7 @@ const { animation, setAnimation } = useContextComp();
       .then((response) => response.json())
       .then((data) => {
         errorsHandler(data);
-        !data.errors && navigate("/");
+        !data.errors && (navigate("/"), setAnimation(false));
       })
       .catch((err) => console.error(err));
   };
@@ -149,7 +142,8 @@ const { animation, setAnimation } = useContextComp();
           })}
           <button type="submit">Submit</button>
         </form>
-        <Link to="/login">Sign In</Link>
+        <p>Already have an account? 
+        <Link to="/login">Sign In</Link></p>
       </div>
     </div>
   );

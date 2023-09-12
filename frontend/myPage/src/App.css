@@ -151,22 +151,37 @@ header nav li a {
   cursor: pointer;
 }
 
-.form-holder a {
-  position: absolute;
-  right: 15px;
-  bottom: 15px;
-  color: white;
+.form-holder p {
+  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 16px;
+  gap: 8px;
 }
 
- .form-holder button,
- .form-holder button {
+.form-holder p a {
+  border: solid 1px white;
+  font-size: 15px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}
+
+.form-holder button, .form-holder button {
   background: white;
   color: cornflowerblue;
-  width: 65px;
+  width: 75px;
+  height: 30px;
   border-radius: 10px;
-  border: solid 2px cornflowerblue;
-  box-shadow: 0px 0px 1px 1px white;
-  cursor: pointer;
+  border: 1px solid cornflowerblue;
+  box-shadow: 0px 0px 0px 0px white;  cursor: pointer;
+}
+
+.form-holder button:hover, .form-holder button:hover {
+  border: 1px solid cornflowerblue;
+  box-shadow: 0px 0px 6px 1px white;
 }
 
 #search-button {
@@ -191,27 +206,27 @@ header nav li a {
   opacity: 1;
 }
 
-#register form div {
+#register form div, #login form div {
   display: grid;
   position: relative;
   margin: 0 0 20px;
 }
 
-#register form div span {
+#register form div span, #login form div span {
   color: white;
   background: red;
   border-radius: 6px;
   padding: 2px 4px;
   position: absolute;
   width: 175px;
-  left: 335px;
+  left: calc(100% + 9px);
   top: 20px;
   font-family: system-ui;
   font-size: 14px;
 }
 
 
-#register form div span::after {
+#register form div span::after, #login form div span::after {
   content: "";
   display: block;
   position: absolute;
@@ -228,7 +243,7 @@ header nav li a {
 
 #login,
 #register {
-  width: 300px;
+  width: 360px;
   height: 100%;
   position: absolute;
   top: -100%;
@@ -248,16 +263,11 @@ header nav li a {
 }
 
 #login .form-holder {
-  height: 320px;
   color: white;
   max-width: 300px;
   width: 100%;
 }
 
-#login form {
-  display: flex;
-  flex-direction: column;
-}
 
 #login h1 {
   position: absolute;
@@ -267,9 +277,6 @@ header nav li a {
   bottom: 30px;
 }
 
-#login form input {
-  margin-bottom: 25px;
-}
 
 #spinner-holder {
   position: fixed;
@@ -334,10 +341,9 @@ header nav li a {
 
 #myChat {
   position: absolute;
-  top: 41px;
+  top: 42px;
   height: -webkit-fill-available;
   width: 100%;
-  box-shadow: 0px 0px 0px 1px black;
 }
 
 #chat-with {
@@ -523,7 +529,7 @@ header nav li a {
   margin: 10px 0;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1100px) {
   header .nav-login {
     font-size: 50px;
     gap: 35px 0;
@@ -531,7 +537,7 @@ header nav li a {
   .input.active {
     z-index: 1;
 }
-  #register form div span {
+  #register form div span, #login form div span {
     padding: 2px 4px 0;
     width: 100%;
     left: 0px;
@@ -539,7 +545,7 @@ header nav li a {
     z-index: 0;
 }
   
-  #register form div span::after {
+  #register form div span::after, #login form div span::after {
     display: none;
   }
 
@@ -573,7 +579,7 @@ header .nav-login {
   overflow: auto;
 }
 
-.form-holder a {
+.form-holder p {
   float: right;
   position: inherit;
 }
@@ -639,6 +645,9 @@ header .nav-login {
     height: 100%;
     width: 100%;
     max-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .form-holder{
   height: 100%;

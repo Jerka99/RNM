@@ -11,6 +11,7 @@ const SignIn = () => {
 
   useEffect(() => {
       setAnimation(true)
+      setMessage("")
   }, []);
 
 
@@ -31,8 +32,10 @@ const SignIn = () => {
         <h3>Log in</h3>
         <h3 onClick={()=>{setAnimation(false), setMessage(""), navigate('/')}}>X</h3>
         <form onSubmit={handleSubmit}>
+          <div>
           <label htmlFor="email">E-mail</label>
           <input
+            className={`input ${message ? "active" : ""}`}
             type="text"
             name="email"
             id="email"
@@ -41,18 +44,21 @@ const SignIn = () => {
             // pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
             onChange={inputFun}
           />
-          <label htmlFor="password">Password</label>
+          {message == "User doesn't exists" && <span>{message}</span>}</div>
+          <div><label htmlFor="password">Password</label>
           <input
+            className={`input ${message ? "active" : ""}`}
             type="password"
             name="password"
             id="password"
             value={userInfo.password}
             onChange={inputFun}
           />
+          {message == "Wrong password" && <span>{message}</span>}</div>
           <button type="submit">Submit</button>
         </form>
-        <h1>{message}</h1>
-        <Link to="/signup">Sign Up</Link>
+        <p>Need an account? 
+        <Link to="/signup">Sign Up</Link></p>
       </div>
     </div>
   );
