@@ -14,7 +14,6 @@ body {
 
 #root{
   height: -webkit-fill-available;
-  height: 100%;
   width: 100%;
   overflow: hidden;
 }
@@ -23,7 +22,6 @@ body {
   height: -webkit-fill-available;
   background: cornflowerblue;
   width: 100%;
-  height: 100%;
 }
 
 
