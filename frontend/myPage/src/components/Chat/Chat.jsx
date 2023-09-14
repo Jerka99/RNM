@@ -137,7 +137,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           messagesList.map((el, i) => {
             return (
               <Fragment key={parseInt(el.time) + i}>
-                <EpochToDateSticky time={el.time} recipient={recipient.user}/>
+                <EpochToDateSticky time={el.time} recipient={recipient.user} messagesList={messagesList}/>
                 <MessageLine el={el} i={i} />
               </Fragment>
             );

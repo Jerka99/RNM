@@ -17,8 +17,7 @@ const EpochToDate = ({ time, recipient }) => {
     tempYear = "";
   }, [recipient]);
 
-  console.log("NESTO", parseInt(day), tempDay);
-
+console.log("NEs")
   if (
     parseInt(day) != tempDay ||
     parseInt(month) != tempMonth ||
