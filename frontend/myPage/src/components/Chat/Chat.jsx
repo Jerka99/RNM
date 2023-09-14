@@ -137,7 +137,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           messagesList.map((el, i) => {
             return (
               <Fragment key={parseInt(el.time) + i}>
-                <EpochToDateSticky time={el.time} recipient={recipient.user} messagesList={messagesList}/>
+                <EpochToDateSticky time={el.time} recipient={recipient.user} messagesList={messagesList}/>{/*messagesList is added with the purpose of causing render on submit */}
                 <MessageLine el={el} i={i} />
               </Fragment>
             );
