@@ -1,13 +1,16 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { Fragment, memo, useEffect, useRef, useState } from "react";
 import { useContextComp } from "../MyContext";
 import { BsArrowLeft } from "react-icons/bs";
+import Loading from "../Loading"
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
+import EpochToDateSticky from "./EpochToDateSticky";
 
 const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({boolean:false, sender:""});
+  const [loading, setLoading] = useState(false)
   const [newHeight, setNewHeight] = useState(window.visualViewport.height)
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
@@ -38,6 +41,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
 
   useEffect(() => {
     setMessagesList([{}]);
+    setLoading(true)
     setMessage("")
     fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
       method: "POST",
@@ -48,7 +52,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => setMessagesList(data));
+      .then((data) => setMessagesList(data)).finally(()=>setLoading(false))
   }, [recipient.user]);
 
   useEffect(() => {
@@ -79,7 +83,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
 
   const sendMessage = (e) => {
     e.preventDefault();
-
     if (message.trim().length > 0) {
       fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
         method: "POST",
@@ -129,9 +132,12 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
         </p>
       </div>
       <div id="messages-list">
-        {messagesList.map((el, i) => {
-          return <MessageLine key={parseInt(el.time) + i} el={el} i={i} />;
-        })}{" "}
+        {loading ? <Loading /> : messagesList.map((el, i) => {
+          return <Fragment key={parseInt(el.time) + i}>
+          <EpochToDateSticky time={el.time} />
+          <MessageLine  el={el} i={i} />
+          </Fragment>;}
+        )}
         <div ref={lastmsg} id="bottom"></div>
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}

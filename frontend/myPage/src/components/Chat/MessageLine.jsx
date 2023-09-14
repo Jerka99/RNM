@@ -7,7 +7,7 @@ const MessageLine = ({el, i}) => {
 
     const [displayTime, setDisplayTime] = useState(false)
 
-    return (
+    return (<>          
         <div id={el.sender == user.email ? "sender" : "recipient"}>
           <p  onClick={() => setDisplayTime(prev=>!prev)}>
             {el.message}
@@ -15,7 +15,7 @@ const MessageLine = ({el, i}) => {
           <small className={`time ${displayTime ? "active" : ""} `}>
             {epochToDate(el.time)}
           </small>
-        </div>
+        </div></>
       );
 }
 
