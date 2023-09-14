@@ -7,7 +7,7 @@ const epochToDate = (epoch) =>{
         let minutes = ("0"+date.getMinutes()).substr(-2);
         let seconds = ("0"+date.getSeconds()).substr(-2);
 
-        return(minutes+":"+seconds) 
+        return(hour+":"+minutes) 
 }
 
 export default epochToDate

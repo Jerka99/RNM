@@ -1,7 +1,7 @@
 import React, { Fragment, memo, useEffect, useRef, useState } from "react";
 import { useContextComp } from "../MyContext";
 import { BsArrowLeft } from "react-icons/bs";
-import Loading from "../Loading"
+import Loading from "../Loading";
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
 import EpochToDateSticky from "./EpochToDateSticky";
@@ -9,12 +9,11 @@ import EpochToDateSticky from "./EpochToDateSticky";
 const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
-  const [typing, setTyping] = useState({boolean:false, sender:""});
-  const [loading, setLoading] = useState(false)
-  const [newHeight, setNewHeight] = useState(window.visualViewport.height)
+  const [typing, setTyping] = useState({ boolean: false, sender: "" });
+  const [loading, setLoading] = useState(false);
+  const [newHeight, setNewHeight] = useState(window.visualViewport.height);
   const lastmsg = useRef();
   const { socket, friendsList, user } = useContextComp();
-
 
   function toBottom() {
     lastmsg.current.scrollIntoView();
@@ -30,19 +29,19 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     return message;
   };
   let resizeWindow = () => {
-      setNewHeight(window.visualViewport.height);    
+    setNewHeight(window.visualViewport.height);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     resizeWindow();
     window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
-  },[])
+  }, []);
 
   useEffect(() => {
     setMessagesList([{}]);
-    setLoading(true)
-    setMessage("")
+    setLoading(true);
+    setMessage("");
     fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
@@ -52,30 +51,26 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => setMessagesList(data)).finally(()=>setLoading(false))
+      .then((data) => setMessagesList(data))
+      .finally(() => setLoading(false));
   }, [recipient.user]);
 
   useEffect(() => {
     const temp = recipient.user;
     socket.off("private message");
     socket.on("private message", (data) => {
-
       temp == data.sender &&
         setMessagesList((prev) => [...prev, createMessageBody(data)]);
     });
-    let idTimer
+    let idTimer;
     socket.on("typing", (data) => {
-      clearTimeout(idTimer)
-      setTyping({boolean:true, sender:data.sender});
+      clearTimeout(idTimer);
+      setTyping({ boolean: true, sender: data.sender });
       idTimer = setTimeout(() => {
-        setTyping({boolean:false, sender:data.sender});
+        setTyping({ boolean: false, sender: data.sender });
       }, 700);
-      
-      
-  });
-    
+    });
   }, [socket, recipient]);
-
 
   useEffect(() => {
     toBottom();
@@ -116,27 +111,37 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       sendMessage(e);
     }
   };
-  console.log(window.visualViewport.height)
+  console.log(window.visualViewport.height);
 
   return (
-    <form id="chat" style={{height:newHeight}} onSubmit={sendMessage}>
+    <form id="chat" style={{ height: newHeight }} onSubmit={sendMessage}>
       <div id="chat-with">
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
         )}`}</p>
-        {(recipient.user == typing.sender && typing.boolean) ? <small>typing...</small> : onlineUsers[recipient.user]?.userId != undefined && (
-          <small>online</small>
+        {recipient.user == typing.sender && typing.boolean ? (
+          <small>typing...</small>
+        ) : (
+          onlineUsers[recipient.user]?.userId != undefined && (
+            <small>online</small>
+          )
         )}
         <p id="close" onClick={() => setRecipient({ user: "", id: "" })}>
           <BsArrowLeft />
         </p>
       </div>
       <div id="messages-list">
-        {loading ? <Loading /> : messagesList.map((el, i) => {
-          return <Fragment key={parseInt(el.time) + i}>
-          <EpochToDateSticky time={el.time} />
-          <MessageLine  el={el} i={i} />
-          </Fragment>;}
+        {loading ? (
+          <Loading />
+        ) : (
+          messagesList.map((el, i) => {
+            return (
+              <Fragment key={parseInt(el.time) + i}>
+                <EpochToDateSticky time={el.time} recipient={recipient.user}/>
+                <MessageLine el={el} i={i} />
+              </Fragment>
+            );
+          })
         )}
         <div ref={lastmsg} id="bottom"></div>
       </div>
