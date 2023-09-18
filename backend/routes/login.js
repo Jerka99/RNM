@@ -28,7 +28,7 @@ router.get("/login", (req, res) => {
   console.log("CHECK SESSION", req.session.user)
 
   if(req.session.user){
-      res.send({loggedIn:true, user:req.session.user})
+      res.send({loggedIn:true, user:req.session})
     }
     else{
       res.send({loggedIn:false})
