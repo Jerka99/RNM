@@ -107,9 +107,9 @@ const MyContextComp = ({ children }) => {
       headers: { "Content-Type": "application/json" }, //important!
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.loggedIn == true) {
-          const { name, secondname, email } = data?.user[0];
+      .then((data) => {console.log(data)
+        if (data.loggedIn == true) {console.log(data.user?.user[0])
+          const { name, secondname, email } = data.user?.user[0];
           setUser({ name: name, secondname: secondname, email: email }),
             navigate("/home", { replace: true });
         }
