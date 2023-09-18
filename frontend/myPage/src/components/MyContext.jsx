@@ -55,7 +55,7 @@ const MyContextComp = ({ children }) => {
 
   useEffect(() => {
     user.email && socket.connect();
-    getFriends();
+    user.email && getFriends();
   }, [user]);
 
 
@@ -109,7 +109,7 @@ const MyContextComp = ({ children }) => {
       headers: { "Content-Type": "application/json" }, //important!
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((data) => {console.log(data)
         if (data.loggedIn == true) {
           const { name, secondname, email } = data?.user[0];
           setUser({ name: name, secondname: secondname, email: email }),
