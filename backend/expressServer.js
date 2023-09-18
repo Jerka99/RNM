@@ -8,6 +8,7 @@ const signupRoute = require("./routes/signup");
 const relationsRoute = require("./routes/relations");
 const friendsRoute = require("./routes/friends");
 const messagesRoute = require("./routes/messages");
+const checkServerRoute = require("./routes/checkServer")
 const { Server } = require("socket.io");
 const {
   sessionMiddleware,
@@ -18,7 +19,7 @@ const { email } = require("./expressValidationObject");
 const { authorizeUser } = require("./controllers/authorizeUser");
 
 // set port, listen for requests
-app.enable('trust proxy');
+app.enable('trust proxy', 1);
 
 const PORT = 4000;
 const server = app.listen(PORT, () => {
@@ -39,6 +40,7 @@ app.use("/signup", signupRoute);
 app.use("/relations", relationsRoute);
 app.use("/friends", friendsRoute);
 app.use("/messages", messagesRoute);
+app.use("/checkserver", checkServerRoute)
 
 io.use(wrap(sessionMiddleware));
 io.use(authorizeUser);

@@ -34,7 +34,8 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
 
   useEffect(() => {
     resizeWindow();
-    window.addEventListener("resize", resizeWindow);
+    window.visualViewport.width < 600 &&
+      window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
 
@@ -116,9 +117,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   return (
     <form id="chat" style={{ height: newHeight }} onSubmit={sendMessage}>
       <div id="chat-with">
-        <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
-          friendsList[recipient.user]?.secondname
-        )}`}</p>
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
         ) : (
@@ -126,6 +124,9 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
             <small>online</small>
           )
         )}
+        <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
+          friendsList[recipient.user]?.secondname
+        )}`}</p>
         <p id="close" onClick={() => setRecipient({ user: "", id: "" })}>
           <BsArrowLeft />
         </p>
@@ -137,7 +138,12 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           messagesList.map((el, i) => {
             return (
               <Fragment key={parseInt(el.time) + i}>
-                <EpochToDateSticky time={el.time} recipient={recipient.user} messagesList={messagesList}/>{/*messagesList is added with the purpose of causing render on submit */}
+                <EpochToDateSticky
+                  time={el.time}
+                  recipient={recipient.user}
+                  messagesList={messagesList}
+                />
+                {/*messagesList is added with the purpose of causing render on submit */}
                 <MessageLine el={el} i={i} />
               </Fragment>
             );

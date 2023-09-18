@@ -5,10 +5,10 @@ import Loading from './Loading'
 import ChatHolder from '../components/Chat/ChatHolder'
 
 const Protected = () => {
-  const {user, loading} = useContextComp()
+  const {user, loading, serverColdStart} = useContextComp()
   
   return (
-      loading ? <Loading /> : user.email ? (<><Outlet/><ChatHolder /></>) : <Navigate to="/login"/> 
+    serverColdStart ? <div id="server-connection-indicator"><Loading/></div> : loading ? <Loading /> : user.email ? (<><Outlet/><ChatHolder /></>) : <Navigate to="/login"/> 
   )
 }
 

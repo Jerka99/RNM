@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-html{
+html {
   height: -webkit-fill-available;
 }
 
@@ -12,7 +12,7 @@ body {
   font-family: system-ui;
 }
 
-#root{
+#root {
   height: -webkit-fill-available;
   width: 100%;
   overflow: hidden;
@@ -23,8 +23,6 @@ body {
   background: cornflowerblue;
   width: 100%;
 }
-
-
 
 #home {
   overflow: hidden;
@@ -38,9 +36,8 @@ header {
   align-items: center;
 }
 
-#login-header{
+#login-header {
   height: 100%;
-
 }
 
 #loggedin-header {
@@ -169,17 +166,20 @@ header nav li a {
   text-decoration: none;
 }
 
-.form-holder button, .form-holder button {
+.form-holder button,
+.form-holder button {
   background: white;
   color: cornflowerblue;
   width: 75px;
   height: 30px;
   border-radius: 10px;
   border: 1px solid cornflowerblue;
-  box-shadow: 0px 0px 0px 0px white;  cursor: pointer;
+  box-shadow: 0px 0px 0px 0px white;
+  cursor: pointer;
 }
 
-.form-holder button:hover, .form-holder button:hover {
+.form-holder button:hover,
+.form-holder button:hover {
   border: 1px solid cornflowerblue;
   box-shadow: 0px 0px 6px 1px white;
 }
@@ -206,13 +206,15 @@ header nav li a {
   opacity: 1;
 }
 
-#register form div, #login form div {
+#register form div,
+#login form div {
   display: grid;
   position: relative;
   margin: 0 0 20px;
 }
 
-#register form div span, #login form div span {
+#register form div span,
+#login form div span {
   color: white;
   background: red;
   border-radius: 6px;
@@ -225,8 +227,8 @@ header nav li a {
   font-size: 14px;
 }
 
-
-#register form div span::after, #login form div span::after {
+#register form div span::after,
+#login form div span::after {
   content: "";
   display: block;
   position: absolute;
@@ -268,7 +270,6 @@ header nav li a {
   width: 100%;
 }
 
-
 #login h1 {
   position: absolute;
   right: 15px;
@@ -277,6 +278,42 @@ header nav li a {
   bottom: 30px;
 }
 
+#server-connection-indicator{
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+#server-connection-indicator #spinner-holder::before {
+  content: "Server Cold Start";
+  display: block;
+  font-size: 30px;
+  width: inherit;
+  max-width: 360px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  color: cornflowerblue;
+  font-weight: bold;
+}
+#server-connection-indicator #spinner-holder::after {
+  content: "may take up to 1 minute";
+  display: block;
+  font-size: 30px;
+  width: inherit;
+  max-width: 360px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  color: cornflowerblue;
+  font-weight: bold;
+}
 
 #spinner-holder {
   position: absolute;
@@ -284,6 +321,7 @@ header nav li a {
   width: 100%;
   height: 100%;
   top: 0;
+  z-index: 2;
 }
 
 #spinner {
@@ -552,66 +590,68 @@ header nav li a {
   }
   .input.active {
     z-index: 1;
-}
-  #register form div span, #login form div span {
+  }
+  #register form div span,
+  #login form div span {
     padding: 2px 4px 0;
     width: 100%;
     left: 0px;
     top: 37px;
     z-index: 0;
-}
-  
-  #register form div span::after, #login form div span::after {
+  }
+
+  #register form div span::after,
+  #login form div span::after {
     display: none;
   }
 
-  #login form button, #register form button {
+  #login form button,
+  #register form button {
     position: relative;
     top: 2px;
-}
+  }
 }
 
 @media only screen and (max-width: 800px) {
+  #login-header {
+    overflow: hidden;
+  }
 
-#login-header {
-  overflow: hidden;
-}
+  #login,
+  #register {
+    transform: translate(-50%, 0px);
+    width: 100%;
+  }
 
-#login, #register {
-  transform: translate(-50%, 0px);
-  width: 100%;
-}
+  header .nav-login.active {
+    transform: translate(-50%, 100vh);
+  }
 
-header .nav-login.active {
-  transform: translate(-50%, 100vh);
-}
+  header .nav-login {
+    font-size: 30px;
+    gap: 35px 0;
+  }
 
-header .nav-login {
-  font-size: 30px;
-  gap: 35px 0;
-}
+  .form-holder {
+    overflow: auto;
+  }
 
-.form-holder {
-  overflow: auto;
-}
-
-.form-holder p {
-  float: right;
-  position: inherit;
-}
+  .form-holder p {
+    float: right;
+    position: inherit;
+  }
 }
 
 @media only screen and (max-width: 600px) {
-
   #chat-with {
     position: relative;
     z-index: 1;
     top: 0px;
-}
+  }
 
   #messages-list {
     height: calc(100% - 126px);
-}
+  }
 
   #friends-list {
     width: 100%;
@@ -630,7 +670,6 @@ header .nav-login {
   header {
     display: flex;
     justify-content: flex-start;
-    padding: 0 5px;
   }
 
   header form {
@@ -656,7 +695,7 @@ header .nav-login {
   }
 }
 
-@media only screen and (max-width: 400px){
+@media only screen and (max-width: 400px) {
   #login .form-holder {
     height: 100%;
     width: 100%;
@@ -664,10 +703,10 @@ header .nav-login {
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-.form-holder{
-  height: 100%;
-  width: 100%;
-  max-width: none;
-}
+  }
+  .form-holder {
+    height: 100%;
+    width: 100%;
+    max-width: none;
+  }
 }

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useContextComp } from "./MyContext";
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "./searchUsers/SearchBar";
+import Loading from "./Loading";
 
 const Header = () => {
-  const { setUser, user, socket, setFriendsList, animation } = useContextComp();
+  const { setUser, user, socket, setFriendsList, animation, serverColdStart } = useContextComp();
   const navigate = useNavigate();
 
 
@@ -27,6 +28,7 @@ const Header = () => {
     <header id={user.email ? "loggedin-header" : "login-header"}>
       {user.email && <SearchBar />}
       {!user.email && <div></div>}
+      {serverColdStart && <div id="server-connection-indicator"><Loading/></div>}
       <nav
         className={
           user.email ? "nav-loggedin" : `nav-login ${animation ? "active" : ""}`
@@ -34,7 +36,7 @@ const Header = () => {
       >
         {!user.email && (
           <li >
-            <Link to="/login">Log in</Link>
+            <Link to="/login" replace>Log in</Link>
           </li>
         )}
         {!user.email && (

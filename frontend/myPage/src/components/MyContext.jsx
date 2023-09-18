@@ -19,16 +19,17 @@ export function useContextComp() {
 }
 
 import React from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const MyContextComp = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", secondname: "", email: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [serverColdStart, setServerColdStart] = useState(false);
   const [friendsList, setFriendsList] = useState({});
   const [toggleInput, setToggleInput] = useState(false);
-  const [animation, setAnimation] = useState(false)
+  const [animation, setAnimation] = useState(false);
 
   console.log("MyContext");
 
@@ -57,7 +58,6 @@ const MyContextComp = ({ children }) => {
     user.email && socket.connect();
     user.email && getFriends();
   }, [user]);
-
 
   const updateFriendsList = (data, todo) => {
     const { email, name, secondname, user } = data;
@@ -100,24 +100,38 @@ const MyContextComp = ({ children }) => {
     });
   }, [socket]);
 
-  
-
-  useEffect(() => {
+  const loginFun = () => {
     setLoading(true);
     fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
       credentials: "include", // could also try 'same-origin'
       headers: { "Content-Type": "application/json" }, //important!
     })
       .then((response) => response.json())
-      .then((data) => {console.log(data)
+      .then((data) => {
         if (data.loggedIn == true) {
           const { name, secondname, email } = data?.user[0];
           setUser({ name: name, secondname: secondname, email: email }),
-            navigate("/home");
+            navigate("/home", { replace: true });
         }
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setServerColdStart(true);
+    }, 1000);
+
+    fetch(`${import.meta.env.VITE_BASE_URL}/checkserver`, {
+      headers: { "Content-Type": "application/json" }, //important!
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        clearTimeout(timer), console.log(data), loginFun();
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setServerColdStart(false));
   }, []);
 
   const logIn = (userInfo) => {
@@ -136,8 +150,8 @@ const MyContextComp = ({ children }) => {
               secondname: data[0].secondname,
               email: data[0].email,
             }),
-            navigate("/home"),
-            setAnimation(false))
+            navigate("/home", { replace: true }),
+            setAnimation(false));
       })
       .catch((err) => console.error(err));
   };
@@ -150,6 +164,7 @@ const MyContextComp = ({ children }) => {
         user,
         message,
         loading,
+        serverColdStart,
         socket,
         updateFriendsList,
         friendsList,
@@ -159,7 +174,7 @@ const MyContextComp = ({ children }) => {
         setFriendsList,
         setMessage,
         animation,
-        setAnimation
+        setAnimation,
       }}
     >
       {children}

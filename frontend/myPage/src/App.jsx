@@ -1,7 +1,7 @@
 import "./App.css";
 import SignIn from "./components/sign-In-Up/SignIn";
 import SignUp from "./components/sign-In-Up/SignUp";
-import { Route, Routes, BrowserRouter, Outlet } from "react-router-dom";
+import { Navigate, Route, Routes, BrowserRouter, Outlet } from "react-router-dom";
 import Home from "./components/Home";
 import MyContextComp, { useContextComp } from "./components/MyContext";
 import Protected from "./components/Protected";
@@ -28,6 +28,7 @@ function App() {
               <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
             </Route>
+            <Route path='*' element={<Navigate to='/home' />} />
           </Routes>
         </MyContextComp>
       </BrowserRouter>
