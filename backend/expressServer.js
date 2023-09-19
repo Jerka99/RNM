@@ -15,11 +15,10 @@ const {
   wrap,
   corsConfig,
 } = require("./controllers/serverController");
-const { email } = require("./expressValidationObject");
 const { authorizeUser } = require("./controllers/authorizeUser");
 
 // set port, listen for requests
-app.enable('trust proxy', 1);
+// app.enable('trust proxy', 1);
 
 const PORT = 4000;
 const server = app.listen(PORT, () => {
