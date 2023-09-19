@@ -41,57 +41,57 @@ app.use("/friends", friendsRoute);
 app.use("/messages", messagesRoute);
 app.use("/checkserver", checkServerRoute)
 
-io.engine.use(sessionMiddleware);
-io.use(authorizeUser);
+// io.engine.use(sessionMiddleware);
+// io.use(authorizeUser);
 
-const users = {};
+// const users = {};
 
-io.on("connect", (socket) => {
-  for (let [id, user] of io.of("/").sockets) {
-    //finds all online on server
-    let boolean = Object.values(users).find((el) => {
-      return el.email == user.user.email;
-    }); //to avoid same object in array if already logged in
-    let unique = user.user.email;
-    if (!boolean) {
-      users[unique] = {
-        userId: id,
-        name: socket.user.name,
-        secondname: socket.user.secondname,
-        email: user.user.email,
-      };
-    }
-  }
-  socket.emit("users", users);
+// io.on("connect", (socket) => {
+//   for (let [id, user] of io.of("/").sockets) {
+//     //finds all online on server
+//     let boolean = Object.values(users).find((el) => {
+//       return el.email == user.user.email;
+//     }); //to avoid same object in array if already logged in
+//     let unique = user.user.email;
+//     if (!boolean) {
+//       users[unique] = {
+//         userId: id,
+//         name: socket.user.name,
+//         secondname: socket.user.secondname,
+//         email: user.user.email,
+//       };
+//     }
+//   }
+//   socket.emit("users", users);
 
-  console.log(users, socket.id);
+//   console.log(users, socket.id);
 
-  socket.broadcast.emit("user connected", {
-    userId: socket.id,
-    user: socket.user.name + " " + socket.user.secondname,
-    email: socket.user.email,
-  });
+//   socket.broadcast.emit("user connected", {
+//     userId: socket.id,
+//     user: socket.user.name + " " + socket.user.secondname,
+//     email: socket.user.email,
+//   });
 
-  socket.on("private message", (data) => {
-    socket
-      .to(users[data.to]?.userId)
-      .emit("private message", { msg: data.msg, sender: data.sender });
-  });
+//   socket.on("private message", (data) => {
+//     socket
+//       .to(users[data.to]?.userId)
+//       .emit("private message", { msg: data.msg, sender: data.sender });
+//   });
 
-  socket.on("invitation", (data) => {
-    socket.to(users[data.receiver]?.userId).emit("invitation", data);
-  });
+//   socket.on("invitation", (data) => {
+//     socket.to(users[data.receiver]?.userId).emit("invitation", data);
+//   });
 
-  socket.on("typing", (data) => {
-    socket.to(users[data.to]?.userId).emit("typing", data);
-  });
+//   socket.on("typing", (data) => {
+//     socket.to(users[data.to]?.userId).emit("typing", data);
+//   });
 
-  socket.on("disconnect", () => {
-    io.emit("remove user", socket.id);
-    Object.values(users).forEach((el) => {
-      console.log(el, socket.id);
-      if (el.userId == socket.id) delete users[el.email];
-    });
-    console.log("user disconnected", socket.id);
-  });
-});
+//   socket.on("disconnect", () => {
+//     io.emit("remove user", socket.id);
+//     Object.values(users).forEach((el) => {
+//       console.log(el, socket.id);
+//       if (el.userId == socket.id) delete users[el.email];
+//     });
+//     console.log("user disconnected", socket.id);
+//   });
+// });
