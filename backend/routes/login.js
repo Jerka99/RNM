@@ -25,7 +25,7 @@ router.get("/logout", (req, res)=>{
 })
 
 router.get("/login", (req, res) => {
-  console.log("CHECK SESSION", req.session.user)
+  console.log("CHECK SESSION", req.session)
 
   if(req.session.user){
       res.send({loggedIn:true, user:req.session.user})
@@ -36,7 +36,6 @@ router.get("/login", (req, res) => {
   });
   
   router.post("/login", (req, res) => {
-
     const [email, password] = Object.values(req.body);
     const sql = `SELECT * FROM userstable WHERE email = "${email}";`;
   

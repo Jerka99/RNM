@@ -131,7 +131,7 @@ const MyContextComp = ({ children }) => {
         clearTimeout(timer), console.log(data), loginFun();
       })
       .catch((error) => console.error(error))
-      .finally(() => setServerColdStart(false));
+      .finally(() => setServerColdStart(true));
   }, []);
 
   const logIn = (userInfo) => {
