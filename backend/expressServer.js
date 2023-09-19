@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+// set port, listen for requests
+app.enable('trust proxy', 1);
+
 require("dotenv").config();
 const userRoute = require("./routes/users");
 const loginRoute = require("./routes/login");
@@ -16,9 +19,6 @@ const {
   corsConfig,
 } = require("./controllers/serverController");
 const { authorizeUser } = require("./controllers/authorizeUser");
-
-// set port, listen for requests
-// app.enable('trust proxy', 1);
 
 const PORT = 4000;
 const server = app.listen(PORT, () => {
