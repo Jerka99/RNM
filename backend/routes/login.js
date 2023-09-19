@@ -3,12 +3,6 @@ const router = express.Router();
 
 const bcrypt = require("bcrypt");
 const connection = require("../database");
-const bodyParser = require("body-parser");
-
-const cookieParser = require("cookie-parser");
-
-router.use(cookieParser());
-router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/logout", (req, res)=>{
 
