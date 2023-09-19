@@ -33,9 +33,9 @@ const sessionMiddleware = session({
 // Most existing Express middleware modules should be compatible
 // with Socket.IO, you just need a little wrapper
 // function to make the method signatures match
-const wrap = (expressMiddleware) => (socket, next) => {
-  expressMiddleware(socket.request, {}, next);
-};
+// const wrap = (expressMiddleware) => (socket, next) => {
+//   expressMiddleware(socket.request, {}, next);
+// };
 
 const corsConfig = {
   origin: [process.env.ORIGIN_URL],
@@ -43,4 +43,4 @@ const corsConfig = {
   credentials: true,
 };
 
-module.exports = { sessionMiddleware, wrap, corsConfig };
+module.exports = { sessionMiddleware, corsConfig };

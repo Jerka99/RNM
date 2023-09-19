@@ -41,7 +41,7 @@ app.use("/friends", friendsRoute);
 app.use("/messages", messagesRoute);
 app.use("/checkserver", checkServerRoute)
 
-io.use(wrap(sessionMiddleware));
+io.engine.use(sessionMiddleware);
 io.use(authorizeUser);
 
 const users = {};
