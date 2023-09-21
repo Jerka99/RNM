@@ -10,6 +10,7 @@ body {
   height: -webkit-fill-available;
   margin: 0;
   font-family: system-ui;
+  overflow: hidden;
 }
 
 #root {
