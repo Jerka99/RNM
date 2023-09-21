@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
   connection.query(sql, (err, data) => {
     if (err) console.log(err);
 
-    return res.send(uniqueUsersFun(data));
+    return data && res.send(uniqueUsersFun(data));
   });
 });
 
