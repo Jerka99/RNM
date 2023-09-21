@@ -286,31 +286,20 @@ header nav li a {
   top: 0;
 }
 
-#server-connection-indicator #spinner-holder::before {
+#server-connection-indicator #spinner-holder::before{
   content: "Server Cold Start";
-  display: block;
-  font-size: 30px;
-  width: inherit;
-  max-width: 360px;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  color: cornflowerblue;
-  font-weight: bold;
 }
-#server-connection-indicator #spinner-holder::after {
+
+#server-connection-indicator #spinner-holder::after{
   content: "may take up to 1 minute";
+}
+
+#server-connection-indicator #spinner-holder::after, #server-connection-indicator #spinner-holder::before {
   display: block;
   font-size: 30px;
   width: inherit;
   max-width: 360px;
   text-align: center;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 62%;
-  left: 50%;
   color: cornflowerblue;
   font-weight: bold;
 }
@@ -322,6 +311,10 @@ header nav li a {
   height: 100%;
   top: 0;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #spinner {
@@ -333,7 +326,6 @@ header nav li a {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translate(0%, 100%);
 }
 
 #spinner div {

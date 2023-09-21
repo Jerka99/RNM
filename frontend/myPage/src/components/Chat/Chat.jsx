@@ -34,8 +34,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
 
   useEffect(() => {
     resizeWindow();
-    window.visualViewport.width < 600 &&
-      window.addEventListener("resize", resizeWindow);
+    window.addEventListener("resize", resizeWindow);
     return () => window.removeEventListener("resize", resizeWindow);
   }, []);
 
@@ -112,10 +111,9 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       sendMessage(e);
     }
   };
-  console.log(window.visualViewport.height);
 
   return (
-    <form id="chat" style={{ height: newHeight }} onSubmit={sendMessage}>
+    <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
       <div id="chat-with">
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
