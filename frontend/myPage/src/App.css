@@ -251,7 +251,7 @@ header nav li a {
   top: -100%;
   transform: translate(-10%, 0px);
   margin: 0 50%;
-  z-index: 1;
+  z-index: 0;
   transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -470,7 +470,7 @@ header nav li a {
   border-radius: 5px;
   width: 100px;
   text-align: center;
-  margin: 60px auto 0px;
+  margin: 60px auto 10px;
 }
 
 #messages-list div p {
@@ -682,6 +682,7 @@ header nav li a {
 
   .users-search.active {
     width: calc(100vw - 42px);
+    margin-left: 5px;
   }
 
   header .nav-loggedin {
@@ -700,13 +701,13 @@ header nav li a {
     height: 100%;
     width: 100%;
     max-width: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
   .form-holder {
     height: 100%;
     width: 100%;
     max-width: none;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 }
