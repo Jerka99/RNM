@@ -133,8 +133,16 @@ const MyContextComp = ({ children }) => {
       .catch((error) => console.error(error))
       .finally(() => setServerColdStart(false));
   }, []);
+
   if(navigator.userAgent.match(/SAMSUNG|Samsung|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L/i)) {
-    console.log(document.hasStorageAccess())
+    let promise = document.hasStorageAccess()
+
+    promise.then(hasAccess => {
+      console.log(hasAccess)
+    },
+    reason => {
+      console.log(reason)
+    })
     // your code for Samsung Smartphones goes here...
 }
   
