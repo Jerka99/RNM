@@ -133,6 +133,11 @@ const MyContextComp = ({ children }) => {
       .catch((error) => console.error(error))
       .finally(() => setServerColdStart(false));
   }, []);
+  if(navigator.userAgent.match(/SAMSUNG|Samsung|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L/i)) {
+    console.log(document.hasStorageAccess())
+    // your code for Samsung Smartphones goes here...
+}
+  
 
   const logIn = (userInfo) => {
     fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
