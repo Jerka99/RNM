@@ -2,13 +2,13 @@ const express = require('express')
 const router = express.Router();
 
 const bcrypt = require("bcrypt");
-const connection = require("../database");
+const pool = require("../database");
 
 router.get("/logout", (req, res)=>{
 
   const sql = `DELETE FROM sessions WHERE session_id = '${req.sessionID}';`;
   res.clearCookie("userId");
-  connection.query(sql, (err, data) => {
+  pool.query(sql, (err, data) => {
     if(err){
       res.send({ err: err });
     }
@@ -33,7 +33,7 @@ router.get("/login", (req, res) => {
     const [email, password] = Object.values(req.body);
     const sql = `SELECT * FROM userstable WHERE email = "${email}";`;
   
-    connection.query(sql, (err, data) => {
+    pool.query(sql, (err, data) => {
       if (err) {
         res.send({ err: err });
       } else {

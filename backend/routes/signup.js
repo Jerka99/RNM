@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { validationResult } = require("express-validator");
 const expressvalidation = require("../expressValidationObject");
-const connection = require("../database");
+const pool = require("../database");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -21,7 +21,7 @@ router.post("/", Object.values(expressvalidation), (req, res) => {
       if (!errors.isEmpty()) {
         return res.send({ errors: errors.array() });
       } else {
-        connection.query(sql, [values], (err, data) => {
+        pool.query(sql, [values], (err, data) => {
           if (err) {
             if (err.errno == 1062) {
               return res.send({errors:[{msg:"E-mail already in use", path:'email'}]});

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const connection = require("../database");
+const pool = require("../database");
 
 router.post("/", (req, res) => {
 
@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
       "INSERT INTO messages (`sender`, `receiver`, `message`, `time`) VALUES (?, ?, ?, ?)";
   }
 
-  connection.query(sql, VALUES, (err, data) => {
+  pool.query(sql, VALUES, (err, data) => {
     if (err) console.log(err);
 // console.log(data)
     return res.send(data);

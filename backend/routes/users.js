@@ -3,7 +3,7 @@ const router = express.Router();
 // SELECT name, secondname, email, receiver, sender, status
 //   FROM relations JOIN userstable ON userstable.email = relations.receiver WHERE (name LIKE "%${req.body[0]}%" OR secondname LIKE "%${req.body[0]}%") AND (sender = '${req.body[1]}' OR receiver = '${req.body[1]}')
 //    UNION SELECT name, secondname, email, receiver, sender, status FROM userstable LEFT JOIN relations ON userstable.email = relations.sender WHERE (name LIKE "%${req.body[0]}%" OR secondname LIKE "%${req.body[0]}%") AND email != '${req.body[1]}' AND sender IS NULL 
-const connection = require("../database");
+const pool = require("../database");
 
 const uniqueUsersFun = (arr) => {
   const uniqueEl = [];
@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
   UNION
   SELECT * FROM userstable 
   LEFT JOIN previous_query ON userstable.email = previous_query.sender)as a WHERE (name LIKE "%${req.body[0]}%" OR secondname LIKE "%${req.body[0]}%") AND email != '${req.body[1]}'`;
-  connection.query(sql, (err, data) => {
+  pool.query(sql, (err, data) => {
     if (err) console.log(err);
 
     return data && res.send(uniqueUsersFun(data));
