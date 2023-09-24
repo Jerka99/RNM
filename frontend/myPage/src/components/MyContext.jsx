@@ -135,7 +135,7 @@ const MyContextComp = ({ children }) => {
   }, []);
 
   if(navigator.userAgent.match(/SAMSUNG|Samsung|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L/i)) {
-    let promise = document.hasStorageAccess()
+    let promise = document.requestStorageAccess()
 
     promise.then(hasAccess => {
       console.log(hasAccess)
