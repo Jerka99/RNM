@@ -117,7 +117,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       sendMessage(e);
     }
   };
-  console.log(window.scrollY)
 
   return (
     <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
@@ -158,7 +157,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
-      onFocus={() => {window.scrollY = 0}}
       ref={textareaRef}
         onKeyDown={onEnterPress}
         type="text"

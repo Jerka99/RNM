@@ -7,8 +7,8 @@ const ChatHolder = () => {
   const { friendsList, setToggleInput, toggleInput, socket } = useContextComp();
   const [recipient, setRecipient] = useState({ user: "", id: "" });
   const [onlineUsers, setOnlineUsers] = useState({});
-
-
+  
+  
   useEffect(() => {
     socket.on("remove user", (data) => {
       setOnlineUsers((prev) => {
