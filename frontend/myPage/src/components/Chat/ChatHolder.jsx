@@ -2,13 +2,22 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { useContextComp } from "../MyContext";
 import FriendFromListInChat from "./FriendFromListInChat";
 import Chat from "./Chat";
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 const ChatHolder = () => {
   const { friendsList, setToggleInput, toggleInput, socket } = useContextComp();
   const [recipient, setRecipient] = useState({ user: "", id: "" });
   const [onlineUsers, setOnlineUsers] = useState({});
+  const locker = useRef()
 
-
+  const enableBodyScrollFun =() =>{
+    enableBodyScroll(locker)
+    console.log("sad")
+  }
+  const disableBodyScrollFun =() =>{
+    disableBodyScroll(locker)
+    console.log("sadaaa")
+  }
   useEffect(() => {
     socket.on("remove user", (data) => {
       setOnlineUsers((prev) => {
@@ -34,7 +43,7 @@ const ChatHolder = () => {
   }, [socket]);
 
   return (
-    <div id="myChat" onClick={() => toggleInput && setToggleInput(false)}>
+    <div id="myChat" ref={locker} onClick={() => toggleInput && setToggleInput(false)}>
       <div id="friends-list">
         <h1>Friends list</h1>
         {Object.values(friendsList).map((el) => {
@@ -53,6 +62,8 @@ const ChatHolder = () => {
       </div>
       {recipient.user && (
         <Chat
+        disableBodyScrollFun={disableBodyScrollFun}
+        enableBodyScrollFun={enableBodyScrollFun}
           recipient={recipient}
           setRecipient={setRecipient}
           onlineUsers={onlineUsers}

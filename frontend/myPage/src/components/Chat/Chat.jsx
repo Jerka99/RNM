@@ -6,7 +6,7 @@ import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
 import EpochToDateSticky from "./EpochToDateSticky";
 
-const Chat = ({ recipient, setRecipient, onlineUsers }) => {
+const Chat = ({ recipient, setRecipient, onlineUsers, disableBodyScrollFun, enableBodyScrollFun }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({ boolean: false, sender: "" });
@@ -157,6 +157,8 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
+      onFocus={disableBodyScrollFun}
+      onBlur={enableBodyScrollFun}
       ref={textareaRef}
         onKeyDown={onEnterPress}
         type="text"
