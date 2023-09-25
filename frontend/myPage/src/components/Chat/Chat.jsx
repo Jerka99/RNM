@@ -13,10 +13,15 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [loading, setLoading] = useState(false);
   const [newHeight, setNewHeight] = useState(window.visualViewport.height);
   const lastmsg = useRef();
+  const textareaRef = useRef(null);
   const { socket, friendsList, user } = useContextComp();
 
   function toBottom() {
     lastmsg.current.scrollIntoView();
+  }
+
+  function textAreaFocus(){
+    textareaRef.current.focus();
   }
 
   const createMessageBody = ({ sender, msg }) => {
@@ -78,6 +83,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
 
   const sendMessage = (e) => {
     e.preventDefault();
+    textAreaFocus();
     if (message.trim().length > 0) {
       fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
         method: "POST",
@@ -151,6 +157,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
+      ref={textareaRef}
         onKeyDown={onEnterPress}
         type="text"
         autoComplete="off"

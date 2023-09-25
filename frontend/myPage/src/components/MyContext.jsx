@@ -138,10 +138,10 @@ const MyContextComp = ({ children }) => {
     let promise = document.requestStorageAccess()
 
     promise.then(hasAccess => {
-      console.log(hasAccess)
+      console.log("allowed",hasAccess)
     },
     reason => {
-      console.log(reason)
+      console.log("denied",reason)
     })
     // your code for Samsung Smartphones goes here...
 }
