@@ -6,7 +6,7 @@ import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
 import EpochToDateSticky from "./EpochToDateSticky";
 
-const Chat = ({ recipient, setRecipient, onlineUsers, disableBodyScrollFun, enableBodyScrollFun }) => {
+const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({ boolean: false, sender: "" });
@@ -117,6 +117,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers, disableBodyScrollFun, enab
       sendMessage(e);
     }
   };
+  console.log(window.scrollY)
 
   return (
     <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
@@ -157,8 +158,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers, disableBodyScrollFun, enab
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <textarea
-      onFocus={disableBodyScrollFun}
-      onBlur={enableBodyScrollFun}
+      onFocus={() => {window.scrollY = 0}}
       ref={textareaRef}
         onKeyDown={onEnterPress}
         type="text"
