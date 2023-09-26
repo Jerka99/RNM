@@ -637,6 +637,9 @@ header nav li a {
 }
 
 @media only screen and (max-width: 600px) {
+  #chat{
+    height: calc(100% + 41px);
+  }
   #chat-with {
     position: relative;
     z-index: 1;

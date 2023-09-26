@@ -119,7 +119,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
 
   return (
-    <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
+    <form id="chat" onSubmit={sendMessage}>
       <div id="chat-with">
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
