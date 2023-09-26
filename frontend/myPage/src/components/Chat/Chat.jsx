@@ -47,7 +47,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     setMessagesList([{}]);
     setLoading(true);
     setMessage("");
-    fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify({
@@ -85,7 +85,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     e.preventDefault();
     textAreaFocus();
     if (message.trim().length > 0) {
-      fetch(`${import.meta.env.VITE_BASE_URL}/messages`, {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }, //important!
         body: JSON.stringify({

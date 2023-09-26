@@ -1,14 +1,12 @@
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { io } from "socket.io-client";
 
-const socket = io(`${import.meta.env.VITE_BASE_URL}`, {
+const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
   autoConnect: false,
   withCredentials: true, // bez ovoga u sessionu ne mogu naci usera
 });
@@ -34,7 +32,7 @@ const MyContextComp = ({ children }) => {
   console.log("MyContext");
 
   const getFriends = () => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/friends`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/friends`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify([user.email]),
@@ -102,7 +100,7 @@ const MyContextComp = ({ children }) => {
 
   const loginFun = () => {
     setLoading(true);
-    fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
       credentials: "include", // could also try 'same-origin'
       headers: { "Content-Type": "application/json" }, //important!
     })
@@ -123,7 +121,7 @@ const MyContextComp = ({ children }) => {
       setServerColdStart(true);
     }, 1000);
 
-    fetch(`${import.meta.env.VITE_BASE_URL}/checkserver`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/checkserver`, {
       headers: { "Content-Type": "application/json" }, //important!
     })
       .then((response) => response.json())
@@ -148,7 +146,7 @@ const MyContextComp = ({ children }) => {
   
 
   const logIn = (userInfo) => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
       credentials: "include", // could also try 'same-origin'
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!

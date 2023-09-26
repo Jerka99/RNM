@@ -10,7 +10,7 @@ const Header = () => {
 
 
   const logOutFun = () => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
       credentials: "include", // could also try 'same-origin'
       headers: { "Content-Type": "application/json" }, //important!
     })

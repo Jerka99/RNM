@@ -43,7 +43,7 @@ const { animation, setAnimation } = useContextComp();
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`${import.meta.env.VITE_BASE_URL}/signup`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify(userInfo),

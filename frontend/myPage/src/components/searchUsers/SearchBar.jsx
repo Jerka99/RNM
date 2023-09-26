@@ -12,7 +12,7 @@ const SearchBar = () => {
   const searchUsers = () => {
     userName.trim() == "" && setUsersList([]);
     userName.trim() &&
-      fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }, //important!
         body: JSON.stringify([userName.trim(), user.email]),

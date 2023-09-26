@@ -27,7 +27,7 @@ const UserInList = ({ element, user }) => {
   console.log('invitation',invitation , element.email, element.status)
 
   const addFriendFun = (accepted, status, friendsListUpdate) => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/relations`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/relations`, {
       method: invitation == null ? "POST" : "PATCH",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify({
@@ -51,7 +51,7 @@ const UserInList = ({ element, user }) => {
   };
 
   const deleteFriendReqInv = (friendsListUpdate) => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/relations`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/relations`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify({
