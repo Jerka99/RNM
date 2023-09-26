@@ -7,7 +7,7 @@ const pool = require("../database");
 router.get("/logout", (req, res)=>{
 
   const sql = `DELETE FROM sessions WHERE session_id = '${req.sessionID}';`;
-  res.clearCookie("userId", {domain: process.env.BACKEND_DOMAIN, path: '/'});
+  res.clearCookie("userId", {domain: process.env.BACKEND_DOMAIN, path: '/', sameSite:'none', secure:true});
   pool.query(sql, (err, data) => {
     if(err){
       res.send({ err: err });
