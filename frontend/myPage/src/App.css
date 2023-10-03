@@ -30,6 +30,13 @@ body {
   height: -webkit-fill-available;
 }
 
+#cookie-consent{
+  z-index: 2;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
