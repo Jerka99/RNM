@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
@@ -132,18 +127,21 @@ const MyContextComp = ({ children }) => {
       .finally(() => setServerColdStart(false));
   }, []);
 
-  if(navigator.userAgent.match(/SAMSUNG|Samsung|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L/i)) {
-    let promise = document.requestStorageAccess()
-
-    promise.then(hasAccess => {
-      console.log("allowed",hasAccess)
-    },
-    reason => {
-      console.log("denied",reason)
-    })
-    // your code for Samsung Smartphones goes here...
-}
-  
+  if (
+    navigator.userAgent.match(
+      /SAMSUNG|Samsung|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L/i
+    )
+  ) {
+    var promise = document.hasStorageAccess();
+    promise.then(
+      function (hasAccess) {
+        // Boolean hasAccess says whether the document has access or not.
+      },
+      function (reason) {
+        // Promise was rejected for some reason.
+      }
+    );
+  }
 
   const logIn = (userInfo) => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
