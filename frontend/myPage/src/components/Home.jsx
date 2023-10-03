@@ -28,7 +28,7 @@ const Home = () => {
       <h3>Home</h3>
       <h1>Welcome {capitalize(user.name)}</h1>
       <div id="cookie-consent">
-        <button onClick={makeRequestWithUserGesture()}>Accept</button>
+        <button onClick={()=>makeRequestWithUserGesture()}>Accept</button>
       </div>
     </div>
   );
