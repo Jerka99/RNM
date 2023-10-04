@@ -23,7 +23,7 @@ const sessionMiddleware = session({
   store: sessionStore,
   cookie: {
     expires: 1000 * 60 * 60 * 24,
-    httpOnly: false, //set false if you want to change the cookie using JavaScipt
+    httpOnly: true, //set false if you want to change the cookie using JavaScipt
     secure: cookieOptions.secure,
     sameSite: cookieOptions.sameSite,
     domain: process.env.BACKEND_DOMAIN
