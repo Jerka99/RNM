@@ -6,7 +6,6 @@ import Home from "./components/Home";
 import MyContextComp, { useContextComp } from "./components/MyContext";
 import Protected from "./components/Protected";
 import Header from "./components/Header";
-import {Helmet} from 'react-helmet'
 
 function App() {
   function Dashboard() {
@@ -19,10 +18,6 @@ function App() {
   }
   return (
     <div>
-    <Helmet>
-    <script type="text/javascript"
-     charset="UTF-8" src="//cdn.cookie-script.com/s/7297c2735a9c7d28a19722efe83f98aa.js"></script>
-    </Helmet>
       <BrowserRouter>
         <MyContextComp>
           <Routes>
