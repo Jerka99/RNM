@@ -26,8 +26,9 @@ const sessionMiddleware = session({
     httpOnly: true, //set false if you want to change the cookie using JavaScipt
     secure: cookieOptions.secure,
     sameSite: cookieOptions.sameSite,
-    domain: process.env.BACKEND_DOMAIN,
-    path:'/'
+    // domain: process.env.BACKEND_DOMAIN,
+    path:'/',
+    samesite: 'Lax'
     // maxAge: 100000,
   },
 });
