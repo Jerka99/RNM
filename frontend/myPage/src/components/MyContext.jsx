@@ -155,9 +155,9 @@ const MyContextComp = ({ children }) => {
         data.message
           ? setMessage(data.message)
           : (setUser({
-              name: data[0].name,
-              secondname: data[0].secondname,
-              email: data[0].email,
+              name: data.name,
+              secondname: data.secondname,
+              email: data.email,
             }),
             navigate("/home", { replace: true }),
             setAnimation(false));
