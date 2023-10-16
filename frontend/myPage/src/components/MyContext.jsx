@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import UniversalCookie from 'universal-cookie';
+
+const cookies = new UniversalCookie();
 
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
   autoConnect: false,
@@ -159,6 +162,7 @@ const MyContextComp = ({ children }) => {
               secondname: data.secondname,
               email: data.email,
             }),
+            cookies.set('token', data.token, { path: '/' }),
             navigate("/home", { replace: true }),
             setAnimation(false));
       })

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "universal-cookie": "^6.1.1"
   }
 }

@@ -54,10 +54,11 @@ router.post("/login", (req, res) => {
           if (response) {
             console.log("CHECK SESSION ON LOGIN", data);
             req.session.user = data;
+            console.log("CHECK SESSION", req.session);
             const {id, password, ...rest} = data[0]
             const token = jwt.sign({...rest}, secretKey, { expiresIn: '1h' });
             console.log('token',token)
-            res.send({...rest});
+            res.send({...rest, token});
           } else {
             res.send({ message: "Wrong password" });
           }
