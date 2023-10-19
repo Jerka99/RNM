@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
         bcrypt.compare(password, data[0].password, (herror, response) => {
           if (response) {
             const { id, password, ...rest } = data[0];
-            const token = jwt.sign({ ...rest }, secretKey, { expiresIn: "1m" });
+            const token = jwt.sign({ ...rest }, secretKey, { expiresIn: "24h" });
 
             res.send({token});
           } else {
