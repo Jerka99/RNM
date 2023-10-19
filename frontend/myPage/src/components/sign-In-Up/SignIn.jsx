@@ -44,7 +44,7 @@ const SignIn = () => {
             // pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
             onChange={inputFun}
           />
-          {message == "User doesn't exists" && <span>{message}</span>}</div>
+          {message == "User doesn't exist" && <span>{message}</span>}</div>
           <div><label htmlFor="password">Password</label>
           <input
             className={`input ${message ? "active" : ""}`}
