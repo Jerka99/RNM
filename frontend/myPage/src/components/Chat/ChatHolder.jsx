@@ -22,17 +22,17 @@ const ChatHolder = () => {
       });
     });
 
-    socket.on("users", (data) => {
+    socket.on("users", (data) => {console.log('users',data)
       //gets users logged before you
       setOnlineUsers(data);
     });
 
-    socket.on("user connected", (data) => {
+    socket.on("user connected", (data) => {console.log('user connected',data)
       //on refresh and login user gets new socket id and this is trigered
       setOnlineUsers((prev) => ({ ...prev, [data.email]: data }));
     });
   }, [socket]);
-
+console.log('onlineUsers',onlineUsers)
   return (
     <div id="myChat" onClick={() => toggleInput && setToggleInput(false)}>
       <div id="friends-list">

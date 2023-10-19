@@ -36,7 +36,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   let resizeWindow = () => {
     setNewHeight(window.visualViewport.height - 1);
   };
-
+console.log('socket',socket)
   useEffect(() => {
     resizeWindow();
     window.addEventListener("resize", resizeWindow);
@@ -67,11 +67,11 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       temp == data.sender &&
         setMessagesList((prev) => [...prev, createMessageBody(data)]);
     });
-    let idTimer;
+    let myTimer;
     socket.on("typing", (data) => {
-      clearTimeout(idTimer);
+      clearTimeout(myTimer);
       setTyping({ boolean: true, sender: data.sender });
-      idTimer = setTimeout(() => {
+      myTimer = setTimeout(() => {
         setTyping({ boolean: false, sender: data.sender });
       }, 700);
     });

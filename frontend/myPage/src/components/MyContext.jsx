@@ -1,13 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import UniversalCookie from 'universal-cookie';
+import UniversalCookie from "universal-cookie";
 
 const cookies = new UniversalCookie();
 
-const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
-  autoConnect: false,
-  withCredentials: true, // bez ovoga u sessionu ne mogu naci usera
-});
 const MyContext = createContext();
 
 export function useContextComp() {
@@ -26,10 +22,11 @@ const MyContextComp = ({ children }) => {
   const [friendsList, setFriendsList] = useState({});
   const [toggleInput, setToggleInput] = useState(false);
   const [animation, setAnimation] = useState(false);
+  const [socket, setSocket] = useState("");
 
-  console.log("MyContext");
+  console.log("MyContext", user);
 
-  const getFriends = () => {
+  const getFriends = (user) => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/friends`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
@@ -50,10 +47,7 @@ const MyContextComp = ({ children }) => {
       });
   };
 
-  useEffect(() => {
-    user.email && socket.connect();
-    user.email && getFriends();
-  }, [user]);
+  console.log("socket", socket);
 
   const updateFriendsList = (data, todo) => {
     const { email, name, secondname, user } = data;
@@ -76,43 +70,26 @@ const MyContextComp = ({ children }) => {
   };
 
   useEffect(() => {
-    socket.on("invitation", (data) => {
-      data.friendsListUpdate == "delete" &&
-        setFriendsList((prev) => {
-          const obj = { ...prev };
-          delete obj[data.user];
-          return obj;
-        });
+    user.email &&
+      socket.on("invitation", (data) => {
+        data.friendsListUpdate == "delete" &&
+          setFriendsList((prev) => {
+            const obj = { ...prev };
+            delete obj[data.user];
+            return obj;
+          });
 
-      data.friendsListUpdate == "accept" &&
-        setFriendsList((prev) => ({
-          ...prev,
-          [data.user]: {
-            name: data.name,
-            secondname: data.secondname,
-            email: data.user,
-          },
-        }));
-    });
+        data.friendsListUpdate == "accept" &&
+          setFriendsList((prev) => ({
+            ...prev,
+            [data.user]: {
+              name: data.name,
+              secondname: data.secondname,
+              email: data.user,
+            },
+          }));
+      });
   }, [socket]);
-
-  const loginFun = () => {
-    setLoading(true);
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
-      credentials: "include", // could also try 'same-origin'
-      headers: { "Content-Type": "application/json" }, //important!
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.loggedIn == true) {
-          const { name, secondname, email } = data?.user[0];
-          setUser({ name: name, secondname: secondname, email: email }),
-            navigate("/home", { replace: true });
-        }
-      })
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
-  };
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -124,31 +101,48 @@ const MyContextComp = ({ children }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        clearTimeout(timer), console.log(data), loginFun();
+        clearTimeout(timer),
+          console.log(data),
+          cookies.get("token") && fetchUserInfo(cookies.get("token"));
       })
       .catch((error) => console.error(error))
       .finally(() => setServerColdStart(false));
   }, []);
 
-  if (
-    navigator.userAgent.match(
-      /SAMSUNG|Samsung|SGH-[I|N|T]|GT-[I|N]|SM-[A|N|P|T|Z]|SHV-E|SCH-[I|J|R|S]|SPH-L/i
-    )
-  ) {
-    var promise = document.hasStorageAccess();
-    promise.then(
-      function (hasAccess) {
-        // Boolean hasAccess says whether the document has access or not.
+  const fetchUserInfo = (token) => {
+    console.log("fetchUserInfo", token);
+    setLoading(true);
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
+      credentials: "omit", //"include" could also try 'same-origin'
+      headers: {
+        Authorization: token,
       },
-      function (reason) {
-        // Promise was rejected for some reason.
-      }
-    );
-  }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { name, secondname, email } = data;
+        setUser({ name: name, secondname: secondname, email: email });
+        navigate("/home", { replace: true });
+        getFriends(data);
+        console.log("!!!", socket);
+        if (!socket.connected) {
+          const InitSocket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
+            withCredentials: true, // bez ovoga u sessionu ne mogu naci usera
+            query: {
+              token: cookies.get("token"),
+            },
+          });
+
+          setSocket(InitSocket);
+        }
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
 
   const logIn = (userInfo) => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
-      credentials: "include", // could also try 'same-origin'
+      credentials: "omit", // for 3rd party cookie use 'include' u can also try 'same-origin'
       method: "POST",
       headers: { "Content-Type": "application/json" }, //important!
       body: JSON.stringify(userInfo),
@@ -157,12 +151,8 @@ const MyContextComp = ({ children }) => {
       .then((data) => {
         data.message
           ? setMessage(data.message)
-          : (setUser({
-              name: data.name,
-              secondname: data.secondname,
-              email: data.email,
-            }),
-            cookies.set('token', data.token, { path: '/' }),
+          : (cookies.set("token", data.token, { path: "/" }),
+            fetchUserInfo(data.token),
             navigate("/home", { replace: true }),
             setAnimation(false));
       })

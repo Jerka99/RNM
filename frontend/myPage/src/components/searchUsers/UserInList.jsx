@@ -7,13 +7,13 @@ const UserInList = ({ element, user }) => {
   const { socket, updateFriendsList } = useContextComp();
 
   useEffect(() => {
-    socket.on("invitation", (data) => {
+    socket.on("invitation", (data) => {console.log('daaataaaa',data)
       element.email == data.user && toggleInvitation(data.msg);
     });
   }, [socket]);
+console.log('socket',socket)
 
-
-  const Broadcast = (message, friendsListUpdate, receiver) => {
+  const Broadcast = (message, friendsListUpdate, receiver) => {console.log('broadcast',message, friendsListUpdate, receiver)
     socket.emit("invitation", {
       friendsListUpdate: friendsListUpdate,
       user: user.email,
