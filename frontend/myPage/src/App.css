@@ -659,7 +659,7 @@ header nav li a {
   #myChat {
     position: absolute;
     width: 100%;
-    height: fit-content;
+    height: inherit;
 }
 #messages-list {
   /* max-height: calc(100% - 117px); */
