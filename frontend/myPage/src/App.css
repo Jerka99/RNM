@@ -435,7 +435,7 @@ header nav li a {
 #textarea-button {
   display: flex;
   position: sticky;
-  bottom: 0;
+  bottom: 1px;
   width: 100%;
   z-index: 3;
 }
@@ -659,8 +659,8 @@ header nav li a {
   #myChat {
     position: absolute;
     width: 100%;
-    height: initial;
-  }
+    height: calc(100% - 42px);
+}
   #messages-list {
     position: relative;
     overflow-y: unset;
