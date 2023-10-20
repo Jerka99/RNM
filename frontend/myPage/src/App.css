@@ -24,7 +24,7 @@ body {
   height: 100%;
 }
 
-#cookie-consent{
+#cookie-consent {
   z-index: 2;
   position: fixed;
   bottom: 30px;
@@ -279,7 +279,7 @@ header nav li a {
   bottom: 30px;
 }
 
-#server-connection-indicator{
+#server-connection-indicator {
   position: absolute;
   z-index: 1;
   width: 100%;
@@ -287,15 +287,16 @@ header nav li a {
   top: 0;
 }
 
-#server-connection-indicator #spinner-holder::before{
+#server-connection-indicator #spinner-holder::before {
   content: "Server Cold Start";
 }
 
-#server-connection-indicator #spinner-holder::after{
+#server-connection-indicator #spinner-holder::after {
   content: "may take up to 1 minute";
 }
 
-#server-connection-indicator #spinner-holder::after, #server-connection-indicator #spinner-holder::before {
+#server-connection-indicator #spinner-holder::after,
+#server-connection-indicator #spinner-holder::before {
   display: block;
   font-size: 30px;
   width: inherit;
@@ -372,12 +373,12 @@ header nav li a {
 
 #myChat {
   position: absolute;
-  top: 0;
+  top: 42px;
+  height: calc(100% - 42px);
   width: max-content;
   right: 0;
   display: flex;
   flex-direction: row-reverse;
-  height: calc(100% - 0px);
   align-items: flex-end;
 }
 
@@ -415,7 +416,7 @@ header nav li a {
   position: relative;
   width: calc(100vw - 250px);
   border: solid 1px black;
-  height: calc(100% - 42px);
+  height: 100%;
   bottom: 0;
   align-items: flex-end;
   gap: 5px;
@@ -431,7 +432,7 @@ header nav li a {
   font-size: 18px;
 }
 
-#textarea-button{
+#textarea-button {
   display: flex;
   position: sticky;
   bottom: 0;
@@ -456,7 +457,6 @@ header nav li a {
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
-  height: inherit;
   padding: 0 10px;
 }
 
@@ -540,8 +540,8 @@ header nav li a {
 #friends-list {
   width: 250px;
   float: right;
-  height: calc(100% - 42px);
-  bottom: 0;
+  top: 0;
+  height: 100%;
   right: 0;
   position: relative;
   overflow-y: auto;
@@ -645,48 +645,40 @@ header nav li a {
 @media only screen and (max-width: 600px) {
   #chat {
     width: 100%;
-    top: -41px;
+    top: -42px;
     right: 0;
     z-index: 2;
-    height: 100%;
+    height: fit-content;
+    position: absolute;
 }
-#chat-with {
-  position: sticky;
-  z-index: 1;
-  top: 0;
-}
+  #chat-with {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+  }
   #myChat {
     position: absolute;
     width: 100%;
-    height: unset;
+    height: initial;
+  }
+  #messages-list {
+    position: relative;
+    overflow-y: unset;
+    overflow-x: unset;
+    max-height: unset;
+    width: 100%;
+    padding: 0 10px;
+    min-height: calc(100vh - 121px);
 }
-#messages-list {
-  /* max-height: calc(100% - 117px); */
-  position: relative;
-  overflow-y: unset; 
-  overflow-x: unset;
-  max-height: unset;
-  width: 100%;
-  height: 100% !important;
-  padding: 0 10px;
-}
-#messages-list h5 {
-  top: 95px;
-}
+  #messages-list h5 {
+    top: 95px;
+  }
 
   #friends-list {
     position: absolute;
     width: 100%;
     z-index: 1;
     height: calc(100vh - 42px);
-    top: 42px;
-
-  }
-  #chat {
-    width: 100%;
-    top: 0;
-    right: 0;
-    z-index: 2;
   }
 
   #loggedin-header {
@@ -734,5 +726,5 @@ header nav li a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+  }
 }
