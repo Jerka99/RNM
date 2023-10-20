@@ -644,21 +644,44 @@ header nav li a {
 }
 
 @media only screen and (max-width: 600px) {
-  #chat{
-    height: calc(100% + 41px);
-  }
-  #chat-with {
-    position: relative;
-    z-index: 1;
-    top: 0px;
-  }
+  #chat {
+    width: 100%;
+    top: -41px;
+    right: 0;
+    z-index: 2;
+    height: 100% !important;
+}
+#chat-with {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+}
   #myChat {
     position: absolute;
     width: 100%;
+    height: fit-content;
 }
-  #messages-list {
-    height: calc(100% - 126px);
-  }
+#messages-list {
+  /* max-height: calc(100% - 117px); */
+  position: relative;
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
+  width: 100%;
+  height: 100% !important;
+  padding: 0 10px;
+}
+#messages-list h5 {
+  top: 95px;
+}
+#chat textarea {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+}
+#chat textarea+button {
+  position: sticky;
+  bottom: 0;
+}
 
   #friends-list {
     position: absolute;

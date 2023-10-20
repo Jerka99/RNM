@@ -151,7 +151,7 @@ const MyContextComp = ({ children }) => {
       .then((data) => {
         data.message
           ? setMessage(data.message)
-          : (cookies.set("token", data.token, { path: "/", maxAge: '86400' }),
+          : (cookies.set("token", data.token, { path: "/", maxAge : '86400' }),
             fetchUserInfo(data.token),
             navigate("/home", { replace: true }),
             setAnimation(false));
