@@ -40,7 +40,6 @@ const MyContextComp = ({ children }) => {
             ...prev,
             [element.email]: {
               ...element,
-              // userId: onlineUsers[element.email]?.userId ?? "offline",
             },
           }));
         });
