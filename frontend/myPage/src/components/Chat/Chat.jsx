@@ -47,9 +47,9 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     window.visualViewport.addEventListener("blur", onScroll);
     window.addEventListener("resize", resizeWindow);
     return () => {
-      window.visualViewport.removeEventListener("resize", resizeWindow);
-      window.visualViewport.removeEventListener("blur", resizeWindow);
-      window.removeEventListener("scroll", onScroll);
+      window.visualViewport.removeEventListener("scroll", onScroll);
+      window.visualViewport.removeEventListener("blur", onScroll);
+      window.removeEventListener("resize", resizeWindow);
     };
   }, []);
 
