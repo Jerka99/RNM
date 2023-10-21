@@ -37,7 +37,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     setNewHeight(window.visualViewport.height - 1);
   };
   let onScroll = () =>{
-    console.log('scrroooolll', window.visualViewport.offsetTop)
+    window.visualViewport.offsetTop = 0;
   }
   console.log("socket", socket);
   useEffect(() => {
