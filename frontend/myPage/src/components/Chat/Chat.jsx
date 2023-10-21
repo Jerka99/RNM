@@ -11,7 +11,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [messagesList, setMessagesList] = useState([{}]);
   const [typing, setTyping] = useState({ boolean: false, sender: "" });
   const [loading, setLoading] = useState(false);
-  // const [newHeight, setNewHeight] = useState(window.visualViewport.height - 1);
+  const [newHeight, setNewHeight] = useState(window.visualViewport.height - 1);
   const lastmsg = useRef();
   const textareaRef = useRef(null);
   const { socket, friendsList, user } = useContextComp();
@@ -33,15 +33,15 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     };
     return message;
   };
-  // let resizeWindow = () => {
-  //   setNewHeight(window.visualViewport.height - 1);
-  // };
-// console.log('socket',socket)
-//   useEffect(() => {
-//     resizeWindow();
-//     window.addEventListener("resize", resizeWindow);
-//     return () => window.removeEventListener("resize", resizeWindow);
-//   }, []);
+  let resizeWindow = () => {
+    setNewHeight(window.visualViewport.height - 1);
+  };
+console.log('socket',socket)
+  useEffect(() => {
+    resizeWindow();
+    window.addEventListener("resize", resizeWindow);
+    return () => window.removeEventListener("resize", resizeWindow);
+  }, []);
 
   useEffect(() => {
     setMessagesList([{}]);
@@ -119,8 +119,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
 
   return (
-    // <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
-    <form id="chat" onSubmit={sendMessage}>
+    <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
       <div id="chat-with">
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
