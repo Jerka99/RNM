@@ -39,16 +39,17 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
   let onScroll = () =>{
     top.current.scrollIntoView({ behavior: "instant"})
+    setTimeout(() => {
+      top.current.scrollIntoView({ behavior: "instant"})
+    }, 200);
   }
   console.log("socket", socket);
   useEffect(() => {
     resizeWindow();
     window.visualViewport.addEventListener("scroll", onScroll);
-    window.addEventListener("blur", ()=>console.log('blur'));
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.visualViewport.removeEventListener("scroll", onScroll);
-      window.removeEventListener("blur",  ()=>console.log('blur'));
       window.removeEventListener("resize", resizeWindow);
     };
   }, []);
