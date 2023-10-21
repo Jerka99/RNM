@@ -38,16 +38,17 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     setNewHeight(window.visualViewport.height - 1);
   };
   let onScroll = () =>{
-    window.scrollTo(0, 0);
-    document.body.scrollTop = 0;
+    top.current.scrollIntoView({ behavior: "instant"})
   }
   console.log("socket", socket);
   useEffect(() => {
     resizeWindow();
     window.visualViewport.addEventListener("scroll", onScroll);
+    window.visualViewport.addEventListener("blur", onScroll);
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.visualViewport.removeEventListener("resize", resizeWindow);
+      window.visualViewport.removeEventListener("blur", resizeWindow);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
