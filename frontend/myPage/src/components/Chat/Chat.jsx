@@ -39,7 +39,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
   let onScroll = () =>{
     console.log(window.visualViewport.offsetTop);
-    top.current.scrollIntoView({ behavior: "smooth"})
+    top.current.scrollIntoView({ behavior: "instant"})
   }
   console.log("socket", socket);
   useEffect(() => {
