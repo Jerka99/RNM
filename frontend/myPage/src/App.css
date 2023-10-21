@@ -671,7 +671,7 @@ header nav li a {
     min-height: calc(100% - 121px);
 }
   #messages-list h5 {
-    top: 95px;
+    top: 20px;
   }
 
   #friends-list {
