@@ -44,7 +44,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   useEffect(() => {
     resizeWindow();
     window.visualViewport.addEventListener("scroll", onScroll);
-    window.visualViewport.addEventListener("touchend", (event) => {console.log('endend')});
+    window.addEventListener("touchend", (event) => {console.log('endend')});
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.visualViewport.removeEventListener("scroll", onScroll);
