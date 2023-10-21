@@ -668,6 +668,7 @@ header nav li a {
     max-height: unset;
     width: 100%;
     padding: 0 10px;
+    min-height: calc(100% - 121px);
 }
   #messages-list h5 {
     top: 95px;
