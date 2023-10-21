@@ -42,7 +42,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   console.log("socket", socket);
   useEffect(() => {
     resizeWindow();
-    window.visualViewport.addEventListener.addEventListener("scroll", onScroll);
+    window.visualViewport.addEventListener("scroll", onScroll);
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.visualViewport.removeEventListener("resize", resizeWindow);
