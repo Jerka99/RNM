@@ -648,7 +648,7 @@ header nav li a {
     top: -42px;
     right: 0;
     z-index: 2;
-    height: fit-content;
+    height: -webkit-fill-available;
     position: absolute;
 }
   #chat-with {
@@ -664,11 +664,10 @@ header nav li a {
   #messages-list {
     position: relative;
     overflow-y: unset;
-    overflow-x: unset;
+    overflow-x: hidden;
     max-height: unset;
     width: 100%;
     padding: 0 10px;
-    min-height: calc(100vh - 121px);
 }
   #messages-list h5 {
     top: 95px;
