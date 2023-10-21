@@ -15,7 +15,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const lastmsg = useRef();
   const top = useRef()
   const textareaRef = useRef(null);
-  const refMessages = useRef()
   const { socket, friendsList, user } = useContextComp();
 
   function toBottom() {
@@ -40,17 +39,16 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
   let onScroll = () =>{
     top.current.scrollIntoView({ behavior: "instant"})
-    refMessages.current.focus();
   }
   console.log("socket", socket);
   useEffect(() => {
     resizeWindow();
     window.visualViewport.addEventListener("scroll", onScroll);
-    window.visualViewport.addEventListener("blur", ()=>console.log('blur'));
+    window.addEventListener("blur", ()=>console.log('blur'));
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.visualViewport.removeEventListener("scroll", onScroll);
-      window.visualViewport.removeEventListener("blur", ()=>console.log('blur'));
+      window.removeEventListener("blur",  ()=>console.log('blur'));
       window.removeEventListener("resize", resizeWindow);
     };
   }, []);
@@ -156,7 +154,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
           <BsArrowLeft />
         </p>
       </div>
-      <div ref={refMessages} id="messages-list">
+      <div id="messages-list">
         {loading ? (
           <Loading />
         ) : (
