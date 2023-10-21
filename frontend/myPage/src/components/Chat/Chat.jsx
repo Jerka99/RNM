@@ -13,6 +13,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [loading, setLoading] = useState(false);
   const [newHeight, setNewHeight] = useState(window.visualViewport.height - 1);
   const lastmsg = useRef();
+  const top = useRef()
   const textareaRef = useRef(null);
   const { socket, friendsList, user } = useContextComp();
 
@@ -37,7 +38,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     setNewHeight(window.visualViewport.height - 1);
   };
   let onScroll = () =>{
-    window.visualViewport.offsetTop = 0;
+    top.current.scrollIntoView()
   }
   console.log("socket", socket);
   useEffect(() => {
@@ -136,7 +137,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       }}
       onSubmit={sendMessage}
     >
-      <div id="chat-with">
+      <div ref={top} id="chat-with">
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
         ) : (
