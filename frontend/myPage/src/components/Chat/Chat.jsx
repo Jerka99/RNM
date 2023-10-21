@@ -20,7 +20,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     lastmsg.current.scrollIntoView();
   }
 
-  function textAreaFocus(){
+  function textAreaFocus() {
     textareaRef.current.focus();
   }
 
@@ -36,11 +36,18 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   let resizeWindow = () => {
     setNewHeight(window.visualViewport.height - 1);
   };
-console.log('socket',socket)
+  let onScroll = () =>{
+    console.log('scrroooolll')
+  }
+  console.log("socket", socket);
   useEffect(() => {
     resizeWindow();
+    window.addEventListener("scroll", onScroll);
     window.addEventListener("resize", resizeWindow);
-    return () => window.removeEventListener("resize", resizeWindow);
+    return () => {
+      window.removeEventListener("resize", resizeWindow);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -119,7 +126,16 @@ console.log('socket',socket)
   };
 
   return (
-    <form id="chat" style={{ height: window.visualViewport.width < 600 ? newHeight : '-webkit-fill-available'}} onSubmit={sendMessage}>
+    <form
+      id="chat"
+      style={{
+        height:
+          window.visualViewport.width < 600
+            ? newHeight
+            : "-webkit-fill-available",
+      }}
+      onSubmit={sendMessage}
+    >
       <div id="chat-with">
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
@@ -157,21 +173,22 @@ console.log('socket',socket)
       </div>
       {/* <p>{`${recipient.user} ${friendsList[recipient.user]?.userId}`}</p> */}
       <div id="textarea-button">
-      <textarea
-      ref={textareaRef}
-        onKeyDown={onEnterPress}
-        type="text"
-        autoComplete="off"
-        value={message}
-        onChange={(e) => {
-          socket.emit("typing", {
-            sender: user.email,
-            to: friendsList[recipient.user].email,
-          });
-          setMessage(e.target.value);
-        }}
-      />
-      <button type="submit">Send</button></div>
+        <textarea
+          ref={textareaRef}
+          onKeyDown={onEnterPress}
+          type="text"
+          autoComplete="off"
+          value={message}
+          onChange={(e) => {
+            socket.emit("typing", {
+              sender: user.email,
+              to: friendsList[recipient.user].email,
+            });
+            setMessage(e.target.value);
+          }}
+        />
+        <button type="submit">Send</button>
+      </div>
     </form>
   );
 };
