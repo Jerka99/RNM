@@ -132,6 +132,8 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   return (
     <FingeredDiv 
     onFingerUp = { event=>console.log('onFingerUp') }
+    onSwipe = { event=>console.log('onSwipe') }
+    onFingerCancel = { event=>console.log('onFingerCancel') }
     > 
     <form
       id="chat"
