@@ -40,7 +40,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   let onScroll = () =>{
     console.log(window.visualViewport.offsetTop);
     top.current.scrollIntoView({ behavior: "instant"})
-    top.current.scrollIntoView({ behavior: "instant"})
   }
   console.log("socket", socket);
   useEffect(() => {
@@ -52,6 +51,10 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  useEffect(()=>{
+    top.current.scrollIntoView({ behavior: "instant"})
+  },[window.visualViewport.offsetTop])
 
   useEffect(() => {
     setMessagesList([{}]);
