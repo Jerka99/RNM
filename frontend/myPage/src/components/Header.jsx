@@ -8,13 +8,14 @@ import UniversalCookie from "universal-cookie";
 const cookies = new UniversalCookie();
 
 const Header = () => {
-  const { setUser, user, socket, setFriendsList, animation, serverColdStart } =
+  const { setUser, user, socket, setFriendsList, animation, setAnimation, serverColdStart } =
     useContextComp();
   const navigate = useNavigate();
 
   const logOutFun = () => {
     setUser("");
     navigate("/");
+    setAnimation(false)
     cookies.remove("token");
     setFriendsList({});
     socket.disconnect();

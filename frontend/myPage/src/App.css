@@ -15,7 +15,7 @@ body {
 #root > div {
   background: cornflowerblue;
   width: 100%;
-  height: 100vh;
+  height: -webkit-fill-available;
 }
 
 #home {
@@ -38,7 +38,7 @@ header {
 }
 
 #login-header {
-  height: 100%;
+  height: 100vh;
 }
 
 #loggedin-header {
@@ -678,7 +678,7 @@ header nav li a {
     position: absolute;
     width: 100%;
     z-index: 1;
-    height: calc(100vh - 42px);
+    height: -webkit-fill-available;
   }
 
   #loggedin-header {
