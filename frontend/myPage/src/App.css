@@ -435,7 +435,7 @@ header nav li a {
 #textarea-button {
   display: flex;
   position: sticky;
-  bottom: 1px;
+  bottom: 0px;
   width: 100%;
   z-index: 3;
 }
@@ -643,6 +643,10 @@ header nav li a {
 }
 
 @media only screen and (max-width: 600px) {
+  #login-header {
+    height: -webkit-fill-available;
+    min-height: calc(100vh - 60px);
+  }
   #chat {
     width: 100%;
     top: -42px;
@@ -650,7 +654,7 @@ header nav li a {
     z-index: 2;
     height: -webkit-fill-available;
     position: absolute;
-}
+  }
   #chat-with {
     position: sticky;
     z-index: 1;
@@ -660,7 +664,7 @@ header nav li a {
     position: absolute;
     width: 100%;
     height: -webkit-fill-available;
-}
+  }
   #messages-list {
     position: relative;
     overflow-y: unset;
@@ -669,7 +673,7 @@ header nav li a {
     width: 100%;
     padding: 0 10px;
     min-height: calc(100% - 121px);
-}
+  }
   #messages-list h5 {
     top: 20px;
   }
