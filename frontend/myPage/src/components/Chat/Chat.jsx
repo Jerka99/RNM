@@ -5,8 +5,6 @@ import Loading from "../Loading";
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
 import EpochToDateSticky from "./EpochToDateSticky";
-import { Finger } from "react-finger";
-
 
 const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const [message, setMessage] = useState("");
@@ -18,7 +16,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   const top = useRef()
   const textareaRef = useRef(null);
   const { socket, friendsList, user } = useContextComp();
-  const FingeredDiv = Finger("div");
 
   function toBottom() {
     lastmsg.current.scrollIntoView();
@@ -130,11 +127,6 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
 
   return (
-    <FingeredDiv 
-    onFingerUp = { event=>console.log('onFingerUp') }
-    onSwipe = { event=>console.log('onSwipe') }
-    onFingerCancel = { event=>console.log('onFingerCancel') }
-    > 
     <form
       id="chat"
       style={{
@@ -198,8 +190,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
         />
         <button type="submit">Send</button>
       </div>
-    </form></FingeredDiv>
-
+    </form>
   );
 };
 
