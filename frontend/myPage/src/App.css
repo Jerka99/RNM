@@ -645,8 +645,14 @@ header nav li a {
 @media only screen and (max-width: 600px) {
   #login-header {
     height: -webkit-fill-available;
-    min-height: calc(100vh - 60px);
-  }
+    position: absolute;
+    top: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: cornflowerblue;
+}
   #chat {
     width: 100%;
     top: -42px;

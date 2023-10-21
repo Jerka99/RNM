@@ -17,14 +17,14 @@ const MyContextComp = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", secondname: "", email: "" });
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [serverColdStart, setServerColdStart] = useState(false);
   const [friendsList, setFriendsList] = useState({});
   const [toggleInput, setToggleInput] = useState(false);
   const [animation, setAnimation] = useState(false);
   const [socket, setSocket] = useState("");
 
-  console.log("MyContext", loading);
+  console.log("MyContext", user, loading);
 
   const getFriends = (user) => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/friends`, {
@@ -110,7 +110,7 @@ const MyContextComp = ({ children }) => {
   }, []);
 
   const fetchUserInfo = (token) => {
-
+    console.log('fetchuseringo')
     setLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
       credentials: "omit", //"include" could also try 'same-origin'
