@@ -42,10 +42,10 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   console.log("socket", socket);
   useEffect(() => {
     resizeWindow();
-    window.addEventListener("scroll", onScroll);
+    window.visualViewport.addEventListener.addEventListener("scroll", onScroll);
     window.addEventListener("resize", resizeWindow);
     return () => {
-      window.removeEventListener("resize", resizeWindow);
+      window.visualViewport.removeEventListener("resize", resizeWindow);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
