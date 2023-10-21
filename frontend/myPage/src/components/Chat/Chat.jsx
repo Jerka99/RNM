@@ -39,6 +39,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   };
   let onScroll = () =>{
     window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
   }
   console.log("socket", socket);
   useEffect(() => {
