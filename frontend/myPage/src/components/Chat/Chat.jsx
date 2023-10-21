@@ -44,12 +44,12 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   useEffect(() => {
     resizeWindow();
     window.visualViewport.addEventListener("scroll", onScroll);
-    window.addEventListener("touchend", (event) => onScroll);
+    window.addEventListener("touchend", onScroll);
     window.addEventListener("resize", resizeWindow);
     return () => {
       window.visualViewport.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", resizeWindow);
-      window.removeEventListener("touchend", (event) => onScroll);
+      window.removeEventListener("touchend", onScroll);
     };
   }, []);
 
