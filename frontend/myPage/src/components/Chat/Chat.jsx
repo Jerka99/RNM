@@ -38,10 +38,7 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     setNewHeight(window.visualViewport.height - 1);
   };
   let onScroll = () =>{
-    top.current.scrollIntoView({ behavior: "instant"})
-    setTimeout(() => {
-      top.current.scrollIntoView({ behavior: "instant"})
-    }, 200);
+    top.current.scrollIntoView()
   }
   console.log("socket", socket);
   useEffect(() => {

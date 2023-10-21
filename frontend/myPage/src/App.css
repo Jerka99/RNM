@@ -452,7 +452,7 @@ header nav li a {
 }
 
 #messages-list {
-  max-height: calc(100% - 117px);
+  height: calc(100% - 117px);
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
