@@ -102,7 +102,7 @@ const MyContextComp = ({ children }) => {
       .then((data) => {
         clearTimeout(timer),
           console.log(data),
-          cookies.get("token") && fetchUserInfo(cookies.get("token"));
+          cookies.get("token") ? fetchUserInfo(cookies.get("token")) : navigate('/');
       })
       .catch((error) => console.error(error))
       .finally(() => setServerColdStart(false));
