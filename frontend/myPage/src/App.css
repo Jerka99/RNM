@@ -21,7 +21,7 @@ body {
 #home {
   overflow: hidden;
   background: white;
-  height: 100%;
+  height: calc(100vh - 44px);
 }
 
 #cookie-consent {
