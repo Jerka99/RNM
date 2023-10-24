@@ -10,6 +10,14 @@ body {
 #root {
   width: 100%;
   overflow: hidden;
+  height: -webkit-fill-available;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #root > div {
@@ -21,7 +29,6 @@ body {
 #home {
   overflow: hidden;
   background: white;
-  height: calc(100vh - 44px);
 }
 
 #cookie-consent {
@@ -54,7 +61,7 @@ header form {
 #users-list {
   background: white;
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   width: 300px;
   max-height: 250px;
   overflow-y: auto;
@@ -652,7 +659,7 @@ header nav li a {
     right: 0;
     bottom: 0;
     background: cornflowerblue;
-}
+  }
   #chat {
     width: 100%;
     top: -42px;
@@ -720,6 +727,7 @@ header nav li a {
     top: 24px;
     width: calc(100% - 32px);
     z-index: 3;
+    left: 5px;
   }
 }
 
