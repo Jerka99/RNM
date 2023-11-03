@@ -5,17 +5,25 @@ import Loading from "../Loading";
 import capitalize from "../../functions/capitalize";
 import MessageLine from "./MessageLine";
 import EpochToDateSticky from "./EpochToDateSticky";
+import epochToDate from "../../functions/epochToDate";
 
-const Chat = ({ recipient, setRecipient, onlineUsers }) => {
+const Chat = ({
+  recipient,
+  setRecipient,
+  onlineUsers,
+  createMessageBody,
+  messagesList,
+  setMessagesList,
+  lastActivity,
+}) => {
   const [message, setMessage] = useState("");
-  const [messagesList, setMessagesList] = useState([{}]);
-  const [typing, setTyping] = useState({ boolean: false, sender: "" });
   const [loading, setLoading] = useState(false);
   const [newHeight, setNewHeight] = useState(window.visualViewport.height - 1);
   const lastmsg = useRef();
-  const top = useRef()
+  const top = useRef();
   const textareaRef = useRef(null);
   const { socket, friendsList, user } = useContextComp();
+  const [typing, setTyping] = useState({ boolean: false, sender: "" });
 
   function toBottom() {
     lastmsg.current.scrollIntoView();
@@ -25,22 +33,13 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
     textareaRef.current.focus();
   }
 
-  const createMessageBody = ({ sender, msg }) => {
-    const message = {
-      time: Math.floor(Date.now() / 1000),
-      message: msg,
-      receiver: recipient.user,
-      sender: sender,
-    };
-    return message;
-  };
   let resizeWindow = () => {
     setNewHeight(window.visualViewport.height - 1);
   };
-  let onScroll = () =>{
-    top.current.scrollIntoView({behavior:'instant'})
-  }
-  console.log("socket", socket);
+  let onScroll = () => {
+    top.current.scrollIntoView({ behavior: "instant" });
+  };
+
   useEffect(() => {
     resizeWindow();
     window.visualViewport.addEventListener("scroll", onScroll);
@@ -54,7 +53,28 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
   }, []);
 
   useEffect(() => {
-    setMessagesList([{}]);
+    toBottom();
+  }, [messagesList]);
+
+  console.log("CHAT", socket);
+
+  useEffect(() => {
+    let myTimer;
+    socket.off("typing");
+    socket.on("typing", (data) => {
+      if (recipient.user == data.sender) {
+        clearTimeout(myTimer);
+        setTyping({ boolean: true, sender: data.sender });
+        myTimer = setTimeout(() => {
+          setTyping({ boolean: false, sender: data.sender });
+        }, 700);
+      }
+    });
+  }, [socket]);
+
+  console.log("socket", socket);
+
+  useEffect(() => {
     setLoading(true);
     setMessage("");
     fetch(`${import.meta.env.VITE_BACKEND_URL}/messages`, {
@@ -66,30 +86,17 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => setMessagesList(data))
+      .then((data) => {
+        setMessagesList(data);
+        socket.emit("seen", {
+          //seen when enter chat
+          sender: user.email,
+          to: recipient.user,
+          time: Math.floor(Date.now() / 1000),
+        });
+      })
       .finally(() => setLoading(false));
   }, [recipient.user]);
-
-  useEffect(() => {
-    const temp = recipient.user;
-    socket.off("private message");
-    socket.on("private message", (data) => {
-      temp == data.sender &&
-        setMessagesList((prev) => [...prev, createMessageBody(data)]);
-    });
-    let myTimer;
-    socket.on("typing", (data) => {
-      clearTimeout(myTimer);
-      setTyping({ boolean: true, sender: data.sender });
-      myTimer = setTimeout(() => {
-        setTyping({ boolean: false, sender: data.sender });
-      }, 700);
-    });
-  }, [socket, recipient]);
-
-  useEffect(() => {
-    toBottom();
-  }, [messagesList]);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -142,15 +149,22 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
       <div ref={top} id="chat-with">
         {recipient.user == typing.sender && typing.boolean ? (
           <small>typing...</small>
+        ) : onlineUsers[recipient.user]?.userId != undefined ? (
+          <small>online</small>
         ) : (
-          onlineUsers[recipient.user]?.userId != undefined && (
-            <small>online</small>
-          )
+          <small>
+            last activity: {lastActivity != null && epochToDate(lastActivity, true)}
+          </small>
         )}
         <p>{`${capitalize(friendsList[recipient.user]?.name)} ${capitalize(
           friendsList[recipient.user]?.secondname
         )}`}</p>
-        <p id="close" onClick={() => setRecipient({ user: "", id: "" })}>
+        <p
+          id="close"
+          onClick={() => {
+            setRecipient({ user: "", id: "" });
+          }}
+        >
           <BsArrowLeft />
         </p>
       </div>
@@ -165,6 +179,8 @@ const Chat = ({ recipient, setRecipient, onlineUsers }) => {
                   time={el.time}
                   recipient={recipient.user}
                   messagesList={messagesList}
+                  status={el.status}
+                  sender={el.sender}
                 />
                 {/*messagesList is added with the purpose of causing render on submit */}
                 <MessageLine el={el} i={i} />

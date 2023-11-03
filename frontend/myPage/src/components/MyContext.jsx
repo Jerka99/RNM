@@ -102,14 +102,13 @@ const MyContextComp = ({ children }) => {
       .then((data) => {
         clearTimeout(timer),
           console.log(data),
-          cookies.get("token") ? fetchUserInfo(cookies.get("token")) : navigate('/');
+          cookies.get("token") && fetchUserInfo(cookies.get("token"));
       })
       .catch((error) => console.error(error))
       .finally(() => setServerColdStart(false));
   }, []);
 
   const fetchUserInfo = (token) => {
-    console.log('fetchuseringo')
     setLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
       credentials: "omit", //"include" could also try 'same-origin'
@@ -123,7 +122,6 @@ const MyContextComp = ({ children }) => {
         setUser({ name: name, secondname: secondname, email: email });
         navigate("/home", { replace: true });
         getFriends(data);
-        console.log("!!!", socket);
         if (!socket.connected) {
           const InitSocket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
             withCredentials: true, // bez ovoga u sessionu ne mogu naci usera

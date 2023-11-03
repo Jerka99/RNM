@@ -37,4 +37,18 @@ router.post("/", (req, res) => {
   });
 });
 
+router.patch("/", (req, res) => {
+
+  const { email, lastActivity } = req.body;
+    const sql =
+    "UPDATE userstable SET lastActivity =? WHERE email=?";
+    pool.query(sql, [lastActivity, email], (err, data) => {
+      if (err) res.send(err);
+
+      return res.send(data);
+    });
+
+});
+
+
 module.exports = router;

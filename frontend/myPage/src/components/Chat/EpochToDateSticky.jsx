@@ -3,8 +3,9 @@ import { memo, useEffect } from "react";
 let tempDay = "";
 let tempMonth = "";
 let tempYear = "";
+let tempStatus = "";
 
-const EpochToDate = ({ time, recipient }) => {
+const EpochToDate = ({ time, recipient, status, sender }) => {
   let date = new Date(time * 1000);
   let year = date.getFullYear();
   let month = ("0" + (date.getMonth() + 1)).substr(-2);
@@ -15,9 +16,16 @@ const EpochToDate = ({ time, recipient }) => {
     tempDay = "";
     tempMonth = "";
     tempYear = "";
+    tempStatus = "";
   }, [recipient]);
 
-console.log("NEs")
+
+  if (tempStatus != null && tempStatus != 1) {
+    if ((status == 1 || status == null) && recipient == sender) {
+      tempStatus = status;
+      return <h5>New messages</h5>;
+    }
+  }
   if (
     parseInt(day) != tempDay ||
     parseInt(month) != tempMonth ||

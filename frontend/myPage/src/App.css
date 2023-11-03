@@ -29,6 +29,7 @@ body {
 #home {
   overflow: hidden;
   background: white;
+  height: 100%;
 }
 
 #cookie-consent {
@@ -390,7 +391,10 @@ header nav li a {
 }
 
 #chat-with {
-  display: flex;
+  display: grid;
+  grid-template-rows: 26px 26px;
+  grid-template-columns: min-content auto auto;
+  gap: 0 20px;
   width: 100%;
   font-weight: 400;
   font-size: 16px;
@@ -399,11 +403,19 @@ header nav li a {
   background: cornflowerblue;
   border-bottom: solid 2px black;
   height: 73px;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 20px;
   padding-left: 18px;
+  align-items: center;
+}
+#chat-with :nth-child(1) {
+  grid-column-start: 2;
+  grid-row-start: 2;
+}
+
+#chat-with :nth-child(1) + p {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  margin: 10px 0 0 0;
+  font-size: 18px;
 }
 
 #chat-with p + small {
@@ -411,10 +423,15 @@ header nav li a {
 }
 
 #chat-with #close {
-  font-size: 22px;
   cursor: pointer;
   position: relative;
   top: 2px;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+}
+
+#chat-with #close svg {
+  font-size: 22px;
 }
 
 #chat {
@@ -494,13 +511,16 @@ header nav li a {
   margin: 2px 0 2px auto;
   position: relative;
   border-radius: 5px 0px 5px 5px;
+  padding: 5px 20px 5px 7px;
 }
 
-#messages-list #sender small {
+#messages-list #sender p + small {
   right: 0;
-  margin: 2px 0 2px auto;
+  margin: 2px 0 8px auto;
   position: relative;
   width: fit-content;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .time {
@@ -508,7 +528,7 @@ header nav li a {
 }
 
 .time.active {
-  display: block;
+  display: flex;
 }
 
 #messages-list #sender p::after {
@@ -564,7 +584,7 @@ header nav li a {
 }
 
 .friend.online {
-  background: green;
+  background: lime;
 }
 
 #friends-list > div {
@@ -588,6 +608,50 @@ header nav li a {
 
 #friends-list > div p {
   margin: 10px 0;
+}
+
+#seen::before,
+#seen::after {
+  background: blue;
+}
+
+#sent::before,
+#sent::after {
+  background: #393939;
+}
+
+#received::before,
+#received::after {
+  background: #393939;
+}
+
+#sender p small:nth-child(2) {
+  bottom: 3px;
+}
+
+#sender p small {
+  position: absolute;
+  bottom: 7px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+
+#sender p small::before {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 1px;
+  transform: rotate(320deg) translate(-2px, 6px);
+}
+
+#sender p small::after {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 1px;
+  transform: rotate(31deg) translate(4px, 5px);
 }
 
 @media only screen and (max-width: 1100px) {
