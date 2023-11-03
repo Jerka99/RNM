@@ -59,7 +59,6 @@ const ChatHolder = () => {
       .then((response) => response.json())
       .then((data) => {
         data.forEach((element) => {
-          console.log("element", element);
           setMessageOutOfRoom((prev) => ({
             ...prev,
             [element.email]: {

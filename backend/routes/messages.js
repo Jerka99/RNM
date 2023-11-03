@@ -52,10 +52,10 @@ router.patch("/messages", (req, res) => {
 
 router.post("/messagesnumber", (req, res) => {
   sql =
-      `WITH query1 as (SELECT email, lastActivity FROM users.relations 
-        JOIN users.userstable ON relations.receiver = userstable.email
+      `WITH query1 as (SELECT email, lastActivity FROM relations 
+        JOIN userstable ON relations.receiver = userstable.email
          WHERE accepted = 1 AND sender = '${req.body.receiver}' ORDER BY userstable.name ASC),
-         query2 as (SELECT sender, COUNT(*) as "unreadMessages" FROM users.messages
+         query2 as (SELECT sender, COUNT(*) as "unreadMessages" FROM messages
          WHERE receiver = '${req.body.receiver}' AND (status IS NULL OR status = 1) GROUP BY sender)
         
         SELECT email, unreadMessages, lastActivity FROM query1 LEFT JOIN query2 ON query1.email = query2.sender;

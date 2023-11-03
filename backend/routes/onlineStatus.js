@@ -17,7 +17,7 @@ router.post("/leftchat", (req, res) => {
 router.post("/messagesnumber", (req, res) => {
 
   sql =
-      `SELECT sender, COUNT(*) FROM users.messages WHERE receiver = '${req.body[0]}' GROUP BY sender;`
+      `SELECT sender, COUNT(*) FROM messages WHERE receiver = '${req.body[0]}' GROUP BY sender;`
 
   pool.query(sql, (err, data) => {
     if (err) console.log(err);
