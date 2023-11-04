@@ -49,19 +49,25 @@ router.post("/", Object.values(expressvalidation), (req, res) => {
               recipientEmail: rest.email,
               sender: "test@gmail.com",
             };
+            const postData3 = {
+              email: "test@gmail.com",
+              lastActivity: Math.floor(Date.now() / 1000),
+            }
 
 
 
-            const [response1, response2] = await Promise.all([
+            const [response1, response2, response3] = await Promise.all([
               axios.post(`${process.env.BACKEND_URL}/relations`, postData1),
               axios.post(`${process.env.BACKEND_URL}/messages`, postData2),
+              axios.patch(`${process.env.BACKEND_URL}/users`, postData3),
             ]);
 
 
-            if (response1.status === 200 && response2.status === 200) {
+            if (response1.status === 200 && response2.status === 200 && response3.status === 200) {
               const data1 = response1.data;
               const data2 = response2.data;
-              console.log({ data1, data2 });
+              const data3 = response3.data;
+              console.log({ data1, data2, data3 });
             } else {
               // Handle errors here
               console.log({ error: "Failed to fetch data" });
