@@ -523,6 +523,37 @@ header nav li a {
   align-items: flex-end;
 }
 
+#new-messages {
+  height: 100%;
+  position: absolute;
+  right: 40px;
+  width: 35px;
+}
+
+#new-messages svg {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  color: cornflowerblue;
+}
+#new-messages svg + div {
+  height: 14px;
+  width: 13px;
+  border-radius: 50%;
+  position: absolute;
+  top: 13px;
+  right: 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 17px;
+  color: cornflowerblue;
+}
+
 .time {
   display: none;
 }
@@ -594,6 +625,7 @@ header nav li a {
   justify-content: space-between;
   padding: 0px 7px;
   cursor: pointer;
+  position: relative;
 }
 
 #friends-list h1 {
