@@ -42,7 +42,7 @@ const ChatHolder = () => {
     setMessageOutOfRoom((prev) => ({
       ...prev,
       [sender]: {
-        lastActivity: prev[sender].lastActivity,
+        lastActivity: prev[sender]?.lastActivity,
         unreadMessages: (prev[sender]?.unreadMessages ?? 0) + 1,
       },
     }));
@@ -57,13 +57,13 @@ const ChatHolder = () => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((data) => {console.log(data)
         data.forEach((element) => {
           setMessageOutOfRoom((prev) => ({
             ...prev,
             [element.email]: {
               unreadMessages: element.unreadMessages,
-              lastActivity: element.lastActivity,
+              lastActivity: element.lastActivity ?? "",
             },
           }));
         });
@@ -145,7 +145,7 @@ const ChatHolder = () => {
                 setMessageOutOfRoom((prev) => ({
                   ...prev,
                   [el.email]: {
-                    lastActivity: prev[el.email].lastActivity,
+                    lastActivity: prev[el.email]?.lastActivity ?? '',
                     unreadMessages: 0,
                   },
                 }));
@@ -168,7 +168,7 @@ const ChatHolder = () => {
           createMessageBody={createMessageBody}
           sendSeenToBase={sendSeenToBase}
           setMessageOutOfRoomFun={setMessageOutOfRoomFun}
-          lastActivity={messageOutOfRoom[recipient.user].lastActivity}
+          lastActivity={messageOutOfRoom[recipient.user]?.lastActivity}
           messagesList={messagesList}
           setMessagesList={setMessagesList}
         />
