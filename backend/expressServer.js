@@ -5,8 +5,8 @@ const app = express();
 app.enable("trust proxy", 1);
 
 require("dotenv").config();
-const {handleConnection} = require('./socketFunctions')
-const axios = require('axios')
+const { handleConnection } = require("./socketFunctions");
+const axios = require("axios");
 const userRoute = require("./routes/users");
 const loginRoute = require("./routes/login");
 const signupRoute = require("./routes/signup");
@@ -49,14 +49,18 @@ app.use("/checkserver", checkServerRoute);
 io.use(authorizeUser);
 
 io.on("connect", (socket) => {
-  axios.patch(`${process.env.BACKEND_URL}/messages`, {receiver:socket.user.email, status:1})
-    .then(response => {
+  axios
+    .patch(`${process.env.BACKEND_URL}/messages`, {
+      receiver: socket.user.email,
+      status: 1,
+    })
+    .then((response) => {
       // console.log(response.data.message);
     })
-    .catch(error => {
-      console.error('Error:', error);
-      console.log({ error: 'Could not save data' });
+    .catch((error) => {
+      console.error("Error:", error);
+      console.log({ error: "Could not save data" });
     });
 
-  handleConnection(socket, io)
+  handleConnection(socket, io);
 });

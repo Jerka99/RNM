@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require("axios");
 const users = {};
 const handleConnection = (socket, io) => {
   for (let [id, user] of io.of("/").sockets) {
@@ -24,7 +24,8 @@ const handleConnection = (socket, io) => {
     email: socket.user.email,
   });
 
-  socket.on("private message", (data) => {console.log('privaate message',data.to, data.sender )
+  socket.on("private message", (data) => {
+    console.log("privaate message", data.to, data.sender);
     socket
       .to(users[data.to]?.userId)
       .emit("private message", { msg: data.msg, sender: data.sender });
@@ -44,7 +45,10 @@ const handleConnection = (socket, io) => {
   });
 
   socket.on("disconnect", () => {
-    io.emit("remove user", {user:socket.user.email, time:Math.floor(Date.now() / 1000)});
+    io.emit("remove user", {
+      user: socket.user.email,
+      time: Math.floor(Date.now() / 1000),
+    });
     delete users[socket.user.email];
     axios
       .patch(`${process.env.BACKEND_URL}/users`, {

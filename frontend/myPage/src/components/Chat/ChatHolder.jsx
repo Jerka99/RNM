@@ -109,7 +109,7 @@ const ChatHolder = () => {
         sendSeenToBase(recipient.user);
         setMessagesList((prev) => [...prev, createMessageBody(data)]);
         socket.emit("seen", {
-          //seen when send message if in same room
+          //seen when sends message if in the same room
           sender: user.email,
           to: recipient.user,
           time: Math.floor(Date.now() / 1000),
